@@ -1,12 +1,9 @@
-package PersistanceLayer;
+package PersistenceLayer;
 
 import BusinessLayer.Edition.Edition;
 import BusinessLayer.Trials.Trials;
-import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
-import com.opencsv.exceptions.CsvException;
 
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;

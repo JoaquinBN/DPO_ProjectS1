@@ -4,7 +4,7 @@ import BusinessLayer.Edition.EditionManager;
 import BusinessLayer.Trials.PaperSubmission;
 import BusinessLayer.Trials.TrialManager;
 import BusinessLayer.Trials.Trials;
-import PersistanceLayer.EditionFileManager;
+import PersistenceLayer.EditionFileManager;
 import PresentationLayer.Views.ComposerView;
 
 import java.io.IOException;
