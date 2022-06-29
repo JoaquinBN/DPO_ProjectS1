@@ -2,6 +2,7 @@ package BusinessLayer.Edition;
 
 import BusinessLayer.Trials.Trials;
 import PersistenceLayer.EditionFileManager;
+import com.opencsv.exceptions.CsvException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,17 +36,16 @@ public class EditionManager {
     public void duplicateEditions(int year, int numberOfPlayers, int indexEdition) {
         int i = 0;
         editions.add(new Edition(year, numberOfPlayers, editions.get(indexEdition).getNumberOfTrials()));
-        for(Trials trial: editions.get(indexEdition).getTrials()) {
-            editions.get(editions.size() - 1).addTrial(trial, i);
+        for(String trialName: editions.get(indexEdition).getTrials()) {
+            editions.get(editions.size() - 1).addTrial(trialName, i);
             i++;
         }
     }
 
-    public void addTrialToEdition(Trials trial, int indexTrial) {
-        editions.get(editions.size() - 1).addTrial(trial, indexTrial);
+    public void addTrialToEdition(String trialName, int indexTrial) {
+        editions.get(editions.size() - 1).addTrial(trialName, indexTrial);
     }
 
-    public void addTrialByName()
     public boolean checkUniqueYear(int year) {
         for (Edition edition : editions) {
             if (edition.getYear() == year) {
@@ -71,9 +71,14 @@ public class EditionManager {
         editionFileManager.writeEditions(editions);
     }
 
-    public void readEditions() {
+    public void readEditions() throws IOException, CsvException {
         List<String[]> editionsString = editionFileManager.readEditions();
-
+        for (String[] edition : editionsString) {
+            editions.add(new Edition(Integer.parseInt(edition[0]), Integer.parseInt(edition[1]), edition.length-2));
+            for(int i = 3; i < edition.length; i++) {
+                editions.get(editions.size() - 1).addTrial(edition[i], i-3);
+            }
+        }
     }
 
 }

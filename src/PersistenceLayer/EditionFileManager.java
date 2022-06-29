@@ -24,8 +24,8 @@ public class EditionFileManager {
         for (Edition edition : Editions) {
             String[] line = new String[edition.getNumberOfTrials()];
             int i = 0;
-            for(Trials trial : edition.getTrials()) {
-                line[i] = trial.getTrialName();
+            for(String trialName : edition.getTrials()) {
+                line[i] = trialName;
                 i++;
             }
             String[] data = {String.valueOf(edition.getYear()), String.valueOf(edition.getNumberOfPlayers())};

@@ -34,6 +34,24 @@ public class TrialManager {
         return trials.get(index);
     }
 
+    public Trials getTrialByName(String name){
+        for(Trials trial: trials){
+            if(trial.getTrialName().equals(name)){
+                return trial;
+            }
+        }
+        return null;
+    }
+
+    public String getTrialTypeByName(String name){
+        for(Trials trial: trials){
+            if(trial.getTrialName().equals(name)){
+                return trial.getTypeOfTrial();
+            }
+        }
+        return null;
+    }
+
     public boolean checkUniqueName(String trialName) {
         for (Trials trial : trials) {
             if (trial.getTrialName().equals(trialName)) {
@@ -51,8 +69,8 @@ public class TrialManager {
         return quartile.equals("Q1") || quartile.equals("Q2") || quartile.equals("Q3") || quartile.equals("Q4");
     }
 
-    public boolean checkProbability(String probability) {
-        return Integer.parseInt(probability) >= 0 && Integer.parseInt(probability) <= 100;
+    public boolean checkProbability(int probability) {
+        return probability >= 0 && probability <= 100;
     }
 
     public boolean checkSumProbabilities(int sumProbabilities) {

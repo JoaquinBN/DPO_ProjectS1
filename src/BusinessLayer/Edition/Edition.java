@@ -5,12 +5,12 @@ import BusinessLayer.Trials.Trials;
 public class Edition {
     private int year;
     private int numberOfPlayers;
-    private Trials[] trials;
+    private String[] trials;
 
     public Edition(int year, int numberOfPlayers, int numberOfTrials) {
         this.year = year;
         this.numberOfPlayers = numberOfPlayers;
-        this.trials = new Trials[numberOfTrials];
+        this.trials = new String[numberOfTrials];
     }
 
     //Getters
@@ -25,7 +25,7 @@ public class Edition {
     public int getNumberOfTrials() {
         return trials.length;
     }
-    public Trials[] getTrials() {
+    public String[] getTrials() {
         return trials;
     }
 
@@ -38,7 +38,7 @@ public class Edition {
         this.numberOfPlayers = numberOfPlayers;
     }
 
-    public void addTrial(Trials trial, int position) {
-        this.trials[position] = trial;
+    public void addTrial(String trialName, int position) {
+        this.trials[position] = trialName;
     }
 }

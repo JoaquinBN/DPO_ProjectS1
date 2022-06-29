@@ -10,25 +10,32 @@ import PresentationLayer.Views.ComposerView;
 import com.opencsv.exceptions.CsvException;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class ComposerController {
     private final EditionManager editionManager;
     private final TrialManager trialManager;
     private final ComposerView composerView;
-
+    private boolean readFiles;
 
     public ComposerController(EditionManager editionManager, TrialManager trialManager, ComposerView composerView) {
         this.editionManager = editionManager;
         this.trialManager = trialManager;
         this.composerView = composerView;
+        readFiles = true;
     }
 
     public void managementMode(){
         String option;
-        try {
-            this.trialManager.readTrials();
-        } catch (IOException | CsvException e) {
-            composerView.showError("Error reading trials file");
+        if(readFiles){
+            try {
+                editionManager.readEditions();
+                trialManager.readTrials();
+                readFiles = false;
+            } catch (IOException | CsvException e) {
+                composerView.showError("Error reading trials file");
+            }
         }
 
         option = composerView.managementMenu();
@@ -58,92 +65,104 @@ public class ComposerController {
         }
     }
 
-    private String getTrialAttribute(String attributeType){
-        String attribute = "";
-        boolean condition = true, condition2 = true;
-        boolean wrongInput = false;
-        do{
-            if(wrongInput){
-                if(attributeType.equals("name") && !condition)
-                    composerView.showError("\nThis trial name already exists. Please try again:");
-                else if(attributeType.equals("name") && !condition2)
-                    composerView.showError("\nThe name of the trial cannot be empty. Please try again:");
-                switch (attributeType) {
-                    case "type" -> composerView.showError("\nThe type of the trial cannot be empty. Please try again:");
-                    case "quartile" -> composerView.showError("\nThe quartile of the publication must be one of the following values: Q1, Q2, Q3, Q4. Please try again:");
-                    case "accept" -> composerView.showError("\nThe acceptance probability must be between 0 and 100. Please try again:");
-                    case "revision" -> composerView.showError("\nThe revision probability must be between 0 and 100. Please try again:");
-                    case "reject" -> composerView.showError("\nThe rejection probability must be between 0 and 100. Please try again:");
-                }
+    private String getTrialAttribute(int attributeType){
+        String probability, attribute;
 
-            }
-            switch(attributeType){
-                case "name" -> attribute = composerView.readTrialName();
-                case "type" -> attribute = composerView.readPaperName();
-                case "quartile" -> attribute = composerView.readQuartile();
-                case "accept" -> attribute = composerView.readAccept();
-                case "revision" -> attribute = composerView.readRevision();
-                case "reject" -> attribute = composerView.readReject();
-                default -> attribute = "";
-            }
-            wrongInput = true;
-            switch(attributeType){
-                case "name" -> condition = trialManager.checkUniqueName(attribute);
-                case "type" -> condition = trialManager.checkEmptyString(attribute);
-                case "quartile" -> condition = trialManager.checkQuartile(attribute);
-                case "accept", "revision", "reject" -> condition = trialManager.checkProbability(attribute);
-                default -> condition = false;
-            }
-            if(attributeType.equals("name"))
-                condition2 = trialManager.checkEmptyString(attribute);
-            else
-                condition2 = true;
-        }while(!condition || !condition2);
+        switch(attributeType){
+            case 4 -> probability = "acceptance";
+            case 5 -> probability = "revision";
+            case 6 -> probability = "rejection";
+            default -> probability = "";
+        }
+
+        switch(attributeType){
+            case 0:
+                attribute = composerView.getTrialTypeInput();
+                if(!attribute.equals("1") && !attribute.equals("-1")) {
+                    composerView.showError("\nThe trial has to be an existing type.");
+                    attribute = "";
+                }
+                break;
+            case 1:
+                attribute = composerView.readTrialName();
+                if(!trialManager.checkUniqueName(attribute)){
+                    composerView.showError("\nTrial name already exists.");
+                    attribute = "";
+                }else if(!trialManager.checkEmptyString(attribute)){
+                    composerView.showError("\nTrial name cannot be empty.");
+                    attribute = "";
+                }
+                break;
+            case 2:
+                attribute = composerView.readPaperName();
+                if(!trialManager.checkEmptyString(attribute)){
+                    composerView.showError("\nName of the publication cannot be empty.");
+                    attribute = "";
+                }
+                break;
+            case 3:
+                attribute = composerView.readQuartile();
+                if(!trialManager.checkQuartile(attribute)){
+                    composerView.showError("\nWrong quartile.");
+                    attribute = "";
+                }
+                break;
+            case 4, 5, 6:
+                attribute = composerView.readProbability(probability);
+                if(!trialManager.checkProbability(Integer.parseInt(attribute)) && !attribute.equals("-1")){
+                    composerView.showError("\nThe " + probability + " probability must be between 0 and 100.");
+                    attribute = "";
+                }
+                break;
+            default:
+                attribute = "";
+                break;
+        }
         return attribute;
     }
 
     private void createTrial(){
         String[] attributes = new String[7];
-        int error;
-        error = 0;
+        boolean errorInput = false;
+        int i;
         composerView.showTrialTypes();
-        do {
-            if(error == 1)
-                composerView.showError("\nThe trial has to be an existing type. Please try again:");
-            attributes[1] = composerView.getTrialTypeInput();
-            error = 1;
-        } while (!attributes[1].equals("1"));
-
-        attributes[0] = getTrialAttribute("name");
-        attributes[2] = getTrialAttribute("type");
-        attributes[3] = getTrialAttribute("quartile");
-
-        error = 0;
-        do {
-            if(error == 1)
-                composerView.showError("\nThe probability of the paper publication must add up to 100. Please try again:");
-
-            do {
-                if (error == 2)
-                    composerView.showError("\nThe sum of the acceptance and revision probabilities cannot be over 100. Please try again:");
-                attributes[4] = getTrialAttribute("accept");
-                attributes[5] = getTrialAttribute("revision");
-                error = 2;
-            } while (trialManager.checkLimitProbabilities(Integer.parseInt(attributes[4]) + Integer.parseInt(attributes[5])));
-
-            attributes[6] = getTrialAttribute("reject");
-            error = 1;
-        } while (!trialManager.checkSumProbabilities(Integer.parseInt(attributes[4])  + Integer.parseInt(attributes[5])  + Integer.parseInt(attributes[6])));
-        trialManager.addTrial(attributes);
-        composerView.createTrialSuccess();
+        i = 0;
+        while(!errorInput && i < 7) {
+            attributes[i] = getTrialAttribute(i);
+            if (attributes[i].equals("") || attributes[i].equals("-1"))
+                errorInput = true;
+            else if (i == 5 && trialManager.checkLimitProbabilities(Integer.parseInt(attributes[4]) + Integer.parseInt(attributes[5]))){
+                composerView.showError("\nThe acceptance and revision probabilities sum cannot be greater than 100.");
+                errorInput = true;
+            }else if(i == 6 && !trialManager.checkSumProbabilities(Integer.parseInt(attributes[4])  + Integer.parseInt(attributes[5])  + Integer.parseInt(attributes[6]))) {
+                composerView.showError("\nThe acceptance, revision and rejection probabilities sum cannot be greater than 100.");
+                errorInput = true;
+            }
+            i++;
+        }
+        if(!errorInput) {
+            Collections.swap(Arrays.asList(attributes), 0, 1);
+            trialManager.addTrial(attributes);
+            composerView.createTrialSuccess();
+        }
+        composerView.showMessage("\nRedirecting to previous menu...\n");
         manageTrials();
     }
 
     private void listTrials(){
         int trialIndex;
+        boolean errorDisplay;
         showAllTrials();
         composerView.showBack(trialManager.getNumberOfTrials() + 1);
-        trialIndex = composerView.getIndexInput(trialManager.getNumberOfTrials() + 1);
+        errorDisplay = false;
+        do {
+            if(errorDisplay){
+                composerView.showError("\nThe index entered must be between 1 and " + trialManager.getNumberOfTrials() + ". Please try again:");
+            }
+            trialIndex = composerView.getIndexInput(trialManager.getNumberOfTrials() + 1);
+            errorDisplay = true;
+        } while (trialIndex < 0 || trialIndex > trialManager.getNumberOfTrials());
+
         if(trialIndex != trialManager.getNumberOfTrials()){
             if(trialManager.getTrial(trialIndex) instanceof PaperSubmission){
                 composerView.showMessage(trialManager.getTrial(trialIndex).displayTrialInfo());
@@ -154,9 +173,19 @@ public class ComposerController {
 
     private void deleteTrial(){
         int trialIndex;
+        boolean errorDisplay;
         showAllTrials();
         composerView.showBack(trialManager.getNumberOfTrials() + 1);
-        trialIndex = composerView.getIndexInput(trialManager.getNumberOfTrials() + 1);
+
+        errorDisplay = false;
+        do {
+            if(errorDisplay){
+                composerView.showError("\nThe index entered must be between 1 and " + trialManager.getNumberOfTrials() + ". Please try again:");
+            }
+            trialIndex = composerView.getIndexInput(trialManager.getNumberOfTrials() + 1);
+            errorDisplay = true;
+        } while (trialIndex < 0 || trialIndex > trialManager.getNumberOfTrials());
+
         if(trialIndex != trialManager.getNumberOfTrials()){
             trialManager.removeTrial(trialIndex);
             composerView.deleteTrialSuccess();
@@ -168,6 +197,7 @@ public class ComposerController {
         for(int i = 0; i < trialManager.getNumberOfTrials(); i++){
             composerView.listTrials(i + 1, trialManager.getTrial(i).getTrialName());
         }
+        composerView.showMessage("\n");
     }
 
     private void manageEditions(){
@@ -222,7 +252,7 @@ public class ComposerController {
             do{
                 trialIndex = composerView.pickTrial(numberOfTrials, j + 1) - 1;
             }while(trialIndex < 0 || trialIndex >= trialManager.getNumberOfTrials());
-            editionManager.addTrialToEdition(trialManager.getTrial(trialIndex), j);
+            editionManager.addTrialToEdition(trialManager.getTrial(trialIndex).getTrialName(), j);
         }
         composerView.createEditionSuccess();
         manageEditions();
@@ -235,8 +265,8 @@ public class ComposerController {
         if(editionIndex != editionManager.getNumberOfEditions()){
             composerView.showEdition(editionManager.getEditionByIndex(editionIndex).getYear(), editionManager.getEditionByIndex(editionIndex).getNumberOfPlayers());
             k = 1;
-            for(Trials trial : editionManager.getEditionByIndex(editionIndex).getTrials()){
-                composerView.listEditionTrials(k, trial.getTrialName(), trial.getTypeOfTrial());
+            for(String trialName : editionManager.getEditionByIndex(editionIndex).getTrials()){
+                composerView.listEditionTrials(k, trialName, trialManager.getTrialTypeByName(trialName));
                 k++;
             }
         }
