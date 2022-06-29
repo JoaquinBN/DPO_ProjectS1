@@ -151,45 +151,50 @@ public class ComposerController {
 
     private void listTrials(){
         int trialIndex;
-        boolean errorDisplay;
-        showAllTrials();
-        composerView.showBack(trialManager.getNumberOfTrials() + 1);
-        errorDisplay = false;
-        do {
-            if(errorDisplay){
-                composerView.showError("\nThe index entered must be between 1 and " + trialManager.getNumberOfTrials() + ". Please try again:");
-            }
-            trialIndex = composerView.getIndexInput(trialManager.getNumberOfTrials() + 1);
-            errorDisplay = true;
-        } while (trialIndex < 0 || trialIndex > trialManager.getNumberOfTrials());
+        boolean errorInput = false;
 
-        if(trialIndex != trialManager.getNumberOfTrials()){
-            if(trialManager.getTrial(trialIndex) instanceof PaperSubmission){
-                composerView.showMessage(trialManager.getTrial(trialIndex).displayTrialInfo());
+        if(trialManager.getNumberOfTrials() == 0){
+            composerView.showError("\nThere are no trials to display.");
+        }else {
+            showAllTrials();
+            composerView.showBack(trialManager.getNumberOfTrials() + 1);
+
+            trialIndex = composerView.getIndexInput();
+            if (trialIndex < 0 || trialIndex > trialManager.getNumberOfTrials()) {
+                composerView.showError("\nThe index entered must be an integer between 1 and " + trialManager.getNumberOfTrials() + ".");
+                errorInput = true;
             }
+
+            if (trialIndex != trialManager.getNumberOfTrials() && !errorInput)
+                composerView.showMessage(trialManager.getTrial(trialIndex).displayTrialInfo());
         }
+
+        composerView.showMessage("\nRedirecting to previous menu...\n");
         manageTrials();
     }
 
     private void deleteTrial(){
         int trialIndex;
-        boolean errorDisplay;
-        showAllTrials();
-        composerView.showBack(trialManager.getNumberOfTrials() + 1);
+        boolean errorInput = false;
 
-        errorDisplay = false;
-        do {
-            if(errorDisplay){
-                composerView.showError("\nThe index entered must be between 1 and " + trialManager.getNumberOfTrials() + ". Please try again:");
+        if(trialManager.getNumberOfTrials() == 0) {
+            composerView.showError("\nThere are no trials to delete.");
+        }else {
+            showAllTrials();
+            composerView.showBack(trialManager.getNumberOfTrials() + 1);
+
+            trialIndex = composerView.getIndexInput();
+            if (trialIndex < 0 || trialIndex > trialManager.getNumberOfTrials()) {
+                composerView.showError("\nThe index entered must be between 1 and " + trialManager.getNumberOfTrials() + ".");
+                errorInput = true;
             }
-            trialIndex = composerView.getIndexInput(trialManager.getNumberOfTrials() + 1);
-            errorDisplay = true;
-        } while (trialIndex < 0 || trialIndex > trialManager.getNumberOfTrials());
 
-        if(trialIndex != trialManager.getNumberOfTrials()){
-            trialManager.removeTrial(trialIndex);
-            composerView.deleteTrialSuccess();
+            if (trialIndex != trialManager.getNumberOfTrials() && !errorInput) {
+                trialManager.removeTrial(trialIndex);
+                composerView.deleteTrialSuccess();
+            }
         }
+        composerView.showMessage("\nRedirecting to previous menu...\n");
         manageTrials();
     }
 
@@ -210,7 +215,7 @@ public class ComposerController {
             case "d" -> this.deleteEdition();
             case "e" -> this.managementMode();
             default -> {
-                composerView.showError("\nWrong option. Please try again:");
+                composerView.showError("\nWrong option.");
                 manageEditions();
             }
         }
@@ -221,9 +226,9 @@ public class ComposerController {
         boolean errorDisplay = false;
         do {
             if(errorDisplay && !editionManager.checkUniqueYear(year))
-                composerView.showError("\nThis edition already exists. Please try again:");
+                composerView.showError("\nThis edition already exists.");
             else if(errorDisplay && !editionManager.checkValidYear(year))
-                composerView.showError("\nThe year of the edition must equal or greater than the current year (2022). Please try again:");
+                composerView.showError("\nThe year of the edition must equal or greater than the current year (2022).");
             year = composerView.readEditionYear();
             errorDisplay = true;
         }while (!editionManager.checkUniqueYear(year) || !editionManager.checkValidYear(year));
@@ -231,7 +236,7 @@ public class ComposerController {
         errorDisplay = false;
         do {
             if(errorDisplay)
-                composerView.showError("\nThe number of players must be between 1 and 5. Please try again:");
+                composerView.showError("\nThe number of players must be between 1 and 5.");
             numberOfPlayers = composerView.readEditionPlayer();
             errorDisplay = true;
         }while(!editionManager.checkPlayersRange(numberOfPlayers));
@@ -239,7 +244,7 @@ public class ComposerController {
         errorDisplay = false;
         do {
             if(errorDisplay)
-                composerView.showError("\nThe number of trials must be between 3 and 12. Please try again:");
+                composerView.showError("\nThe number of trials must be between 3 and 12.");
             numberOfTrials = composerView.readEditionTrials();
             errorDisplay = true;
         }while(!editionManager.checkTrialsRange(numberOfTrials));
@@ -302,7 +307,7 @@ public class ComposerController {
             composerView.listEditions(i + 1, editionManager.getEditionByIndex(i).getYear());
         }
         composerView.showBack(trialManager.getNumberOfTrials() + 1);
-        return composerView.getIndexInput(trialManager.getNumberOfTrials() + 1);
+        return composerView.getIndexInput();
     }
 
     private void exitProgram(){

@@ -42,7 +42,7 @@ public class ComposerView {
     }
 
     public String readProbability(String probability) {
-        return String.valueOf(checkForExceptions("Enter the "+ probability + " probability: ", "\nThe "+ probability + " probability must be a number between 0 and 100. Please try again:\n"));
+        return String.valueOf(checkForExceptions("Enter the "+ probability + " probability: ", "\nThe "+ probability + " probability must be an integer between 0 and 100. Please try again:\n"));
     }
 
     public void createTrialSuccess() {
@@ -61,9 +61,7 @@ public class ComposerView {
         System.out.print("\n\t" + index + ") Back\n");
     }
 
-    public int getIndexInput(int index){
-        return Integer.parseInt(checkInputMismatchException("\nEnter an option: ", "\nThe index must be an integer. Please try again:\n"))- 1;
-    }
+    public int getIndexInput(){ return checkForExceptions("\nEnter an option: ", "\nThe index must be an integer. \n") - 1;}
 
     public String manageEditionsMenu() {
         System.out.println("\n\ta) Create Edition");
@@ -76,19 +74,19 @@ public class ComposerView {
     }
 
     public int readEditionYear() {
-        return checkForExceptions("Enter the edition's year: ", "\nThe edition's year must be a number. Please try again:\n");
+        return checkForExceptions("Enter the edition's year: ", "\nThe edition's year must be a number.\n");
     }
 
     public int readEditionPlayer() {
-        return checkForExceptions("Enter the initial number of players: ", "\nThe number of players must be an integer. Please try again:\n");
+        return checkForExceptions("Enter the initial number of players: ", "\nThe number of players must be an integer.\n");
     }
 
     public int readEditionTrials() {
-        return checkForExceptions("\nEnter the number of trials: ", "\nThe number of trials must be an integer. Please try again:\n");
+        return checkForExceptions("\nEnter the number of trials: ", "\nThe number of trials must be an integer.\n");
     }
 
     public int pickTrial(int totalTrials, int index){
-        return checkForExceptions("Pick a trial (" + index + "/" + totalTrials + "): ","\nThe number of the trial must be an integer. Please try again:\n");
+        return checkForExceptions("Pick a trial (" + index + "/" + totalTrials + "): ","\nThe number of the trial must be an integer.\n");
     }
 
     public int checkForExceptions(String message, String errorMessage) {
@@ -103,17 +101,6 @@ public class ComposerView {
         return -1;
     }
 
-    public String checkInputMismatchException(String message, String errorMessage){
-        try{
-            System.out.print(message);
-            return String.valueOf(sc.nextInt());
-        } catch (InputMismatchException exception) {
-            System.out.print(errorMessage);
-        }finally {
-            sc.nextLine();
-        }
-        return "";
-    }
     public void createEditionSuccess() {
         System.out.println("\nThe edition was created successfully!");
     }
