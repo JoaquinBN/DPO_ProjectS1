@@ -222,7 +222,7 @@ public class ComposerController {
     }
 
     private void createEdition(){
-        int year = 0, numberOfPlayers, numberOfTrials;
+        int year, numberOfPlayers, numberOfTrials;
         boolean errorDisplay = false;
 
         year = composerView.readEditionYear();
