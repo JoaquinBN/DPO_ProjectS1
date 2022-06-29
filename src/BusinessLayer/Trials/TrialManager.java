@@ -1,17 +1,22 @@
 package BusinessLayer.Trials;
 
+import PersistenceLayer.TrialsFileManager;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class TrialManager {
     private ArrayList<Trials> trials;
+    private TrialsFileManager trialsFileManager;
 
-    public TrialManager() {
-        trials = new ArrayList<Trials>();
+    public TrialManager(TrialsFileManager trialsFileManager) {
+        this.trials = new ArrayList<>();
+        this.trialsFileManager = trialsFileManager;
     }
 
-    public void addTrial(int trialType, String trialName, String paperName, String quartile, int acceptProbability, int revisionProbability, int rejectProbability) {
-        switch(trialType) {
-            case 1 -> trials.add(new PaperSubmission(trialName, paperName, quartile, acceptProbability, revisionProbability, rejectProbability));
+    public void addTrial(String[] trialInfo){
+        switch(trialInfo[1]) {
+            case "1" -> trials.add(new PaperSubmission(trialInfo[0], trialInfo[2], trialInfo[3], Integer.parseInt(trialInfo[4]), Integer.parseInt(trialInfo[5]), Integer.parseInt(trialInfo[6])));
         }
     }
 
@@ -56,8 +61,8 @@ public class TrialManager {
         return limitProbabilities > 100;
     }
 
-    public ArrayList<Trials> getTrialsArrayList(){
-        return trials;
+    public void writeTrials() throws IOException {
+        trialsFileManager.writeTrials(trials);
     }
 
     public void setTrialsArrayList(ArrayList<Trials> trials){

@@ -65,10 +65,12 @@ public class ComposerView {
         System.out.print("\n\t" + i + ") " + trialName);
     }
 
-    public int showBackAndOption(int index) {
+    public void showBack(int index) {
         System.out.print("\n\t" + index + ") Back\n");
-        System.out.print("\nEnter an option: ");
-        return Integer.parseInt(sc.nextLine()) - 1;
+    }
+
+    public int getIndexInput(int index){
+        return Integer.parseInt(checkInputMismatchException("\nEnter an option: ", "\nThe index must be a number between 1 and " + index+ ". Please try again:\n"))- 1;
     }
 
     public String manageEditionsMenu() {
@@ -167,8 +169,8 @@ public class ComposerView {
         System.out.print(message);
     }
 
-    public int getTrialTypeInput() {
-        return Integer.parseInt(checkInputMismatchException("Enter the trial's type: ", "\nThe trial's type must be an integer. Please try again:\n"));
+    public String getTrialTypeInput() {
+        return checkInputMismatchException("Enter the trial's type: ", "\nThe trial's type must be an integer. Please try again:\n");
     }
 
     public void showTrialTypes() {

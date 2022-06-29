@@ -1,14 +1,18 @@
 package BusinessLayer.Edition;
 
 import BusinessLayer.Trials.Trials;
+import PersistenceLayer.EditionFileManager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class EditionManager {
     private ArrayList<Edition> editions;
+    private EditionFileManager editionFileManager;
 
-    public EditionManager() {
+    public EditionManager(EditionFileManager editionFileManager) {
         editions = new ArrayList<>();
+        this.editionFileManager = editionFileManager;
     }
 
     public void addEdition(int year, int numberOfPlayers, int numberOfTrials) {
@@ -61,8 +65,12 @@ public class EditionManager {
         return numberOfTrials >= 3 && numberOfTrials <= 12;
     }
 
-    public ArrayList<Edition> getEditions() {
-        return editions;
+    public void writeEditions() throws IOException {
+        editionFileManager.writeEditions(editions);
+    }
+
+    public void setEditions(ArrayList<Edition> editions) {
+        this.editions = editions;
     }
 
 }

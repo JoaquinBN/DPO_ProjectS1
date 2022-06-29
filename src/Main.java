@@ -9,10 +9,10 @@ public class Main {
     public static void main(String[] args) {
         EditionFileManager editionFileManager = new EditionFileManager();
         TrialsFileManager trialsFileManager = new TrialsFileManager();
-        TrialManager trialManager = new TrialManager();
-        EditionManager editionManager = new EditionManager();
+        TrialManager trialManager = new TrialManager(trialsFileManager);
+        EditionManager editionManager = new EditionManager(editionFileManager);
         ComposerView composerView = new ComposerView();
-        ComposerController composerController = new ComposerController(editionManager, trialManager, composerView, editionFileManager, trialsFileManager);
+        ComposerController composerController = new ComposerController(editionManager, trialManager, composerView);
         composerController.managementMode();
     }
 }

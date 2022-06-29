@@ -14,16 +14,12 @@ public class ComposerController {
     private final EditionManager editionManager;
     private final TrialManager trialManager;
     private final ComposerView composerView;
-    private final EditionFileManager editionFileManager;
-    private final TrialsFileManager trialsFileManager;
 
 
-    public ComposerController(EditionManager editionManager, TrialManager trialManager, ComposerView composerView, EditionFileManager editionFileManager, TrialsFileManager trialsFileManager) {
+    public ComposerController(EditionManager editionManager, TrialManager trialManager, ComposerView composerView) {
         this.editionManager = editionManager;
         this.trialManager = trialManager;
         this.composerView = composerView;
-        this.editionFileManager = editionFileManager;
-        this.trialsFileManager = trialsFileManager;
     }
 
     public void managementMode(){
@@ -100,20 +96,20 @@ public class ComposerController {
     }
 
     private void createTrial(){
-        String trialName, paperName, quartile;
-        int acceptProbability, revisionProbability, rejectProbability, error, trialType;
+        String[] attributes = new String[7];
+        int error;
         error = 0;
         composerView.showTrialTypes();
         do {
             if(error == 1)
                 composerView.showError("\nThe trial has to be an existing type. Please try again:");
-            trialType = composerView.getTrialTypeInput();
+            attributes[1] = composerView.getTrialTypeInput();
             error = 1;
-        } while (trialType != 1);
+        } while (!attributes[1].equals("1"));
 
-        trialName = getTrialAttribute("name");
-        paperName = getTrialAttribute("type");
-        quartile = getTrialAttribute("quartile");
+        attributes[0] = getTrialAttribute("name");
+        attributes[2] = getTrialAttribute("type");
+        attributes[3] = getTrialAttribute("quartile");
 
         error = 0;
         do {
@@ -123,15 +119,15 @@ public class ComposerController {
             do {
                 if (error == 2)
                     composerView.showError("\nThe sum of the acceptance and revision probabilities cannot be over 100. Please try again:");
-                acceptProbability = Integer.parseInt(getTrialAttribute("accept"));
-                revisionProbability = Integer.parseInt(getTrialAttribute("revision"));
+                attributes[4] = getTrialAttribute("accept");
+                attributes[5] = getTrialAttribute("revision");
                 error = 2;
-            } while (trialManager.checkLimitProbabilities(acceptProbability + revisionProbability));
+            } while (trialManager.checkLimitProbabilities(Integer.parseInt(attributes[4]) + Integer.parseInt(attributes[5])));
 
-            rejectProbability = Integer.parseInt(getTrialAttribute("reject"));
+            attributes[6] = getTrialAttribute("reject");
             error = 1;
-        } while (!trialManager.checkSumProbabilities(acceptProbability + revisionProbability + rejectProbability));
-        trialManager.addTrial(trialType, trialName, paperName, quartile, acceptProbability, revisionProbability, rejectProbability);
+        } while (!trialManager.checkSumProbabilities(Integer.parseInt(attributes[4])  + Integer.parseInt(attributes[5])  + Integer.parseInt(attributes[6])));
+        trialManager.addTrial(attributes);
         composerView.createTrialSuccess();
         manageTrials();
     }
@@ -139,7 +135,8 @@ public class ComposerController {
     private void listTrials(){
         int trialIndex;
         showAllTrials();
-        trialIndex = composerView.showBackAndOption(trialManager.getNumberOfTrials() + 1);
+        composerView.showBack(trialManager.getNumberOfTrials() + 1);
+        trialIndex = composerView.getIndexInput(trialManager.getNumberOfTrials() + 1);
         if(trialIndex != trialManager.getNumberOfTrials()){
             if(trialManager.getTrial(trialIndex) instanceof PaperSubmission){
                 composerView.showMessage(trialManager.getTrial(trialIndex).displayTrialInfo());
@@ -151,7 +148,8 @@ public class ComposerController {
     private void deleteTrial(){
         int trialIndex;
         showAllTrials();
-        trialIndex = composerView.showBackAndOption(trialManager.getNumberOfTrials() + 1);
+        composerView.showBack(trialManager.getNumberOfTrials() + 1);
+        trialIndex = composerView.getIndexInput(trialManager.getNumberOfTrials() + 1);
         if(trialIndex != trialManager.getNumberOfTrials()){
             trialManager.removeTrial(trialIndex);
             composerView.deleteTrialSuccess();
@@ -266,20 +264,16 @@ public class ComposerController {
         for(int i = 0; i < editionManager.getNumberOfEditions(); i++){
             composerView.listEditions(i + 1, editionManager.getEditionByIndex(i).getYear());
         }
-        return composerView.showBackAndOption(editionManager.getNumberOfEditions() + 1);
+        composerView.showBack(trialManager.getNumberOfTrials() + 1);
+        return composerView.getIndexInput(trialManager.getNumberOfTrials() + 1);
     }
 
     private void exitProgram(){
         try {
-            editionFileManager.writeEditions(editionManager.getEditions());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            trialsFileManager.writeTrials(trialManager.getTrialsArrayList());
-        }catch (IOException e) {
-            e.printStackTrace();
+            trialManager.writeTrials();
+            editionManager.writeEditions();
+        }catch(IOException e){
+            composerView.showError("\nError writing data to file.");
         }
         composerView.exitProgram();
     }
