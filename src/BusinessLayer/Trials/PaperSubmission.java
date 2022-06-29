@@ -1,5 +1,7 @@
 package BusinessLayer.Trials;
 
+import java.util.Random;
+
 public class PaperSubmission extends Trials {
     private final String publicationName;
     private final String quartile;
@@ -79,5 +81,18 @@ public class PaperSubmission extends Trials {
         dataToWrite[5] = Integer.toString(revisionProbability);
         dataToWrite[6] = Integer.toString(rejectProbability);
         return dataToWrite;
+    }
+
+    @Override
+    public int hasWonTrial() {
+        Random random = new Random();
+        int randomNumber = random.nextInt(100);
+        if (randomNumber <= acceptProbability) {
+            return 1;
+        } else if (randomNumber <= acceptProbability + revisionProbability) {
+            return 2;
+        } else {
+            return 0;
+        }
     }
 }

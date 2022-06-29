@@ -45,4 +45,5 @@ public abstract class Trials{
 
     public abstract String[] getDataToWrite();
 
+    public abstract int hasWonTrial();
 }
