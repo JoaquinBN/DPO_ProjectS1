@@ -1,6 +1,6 @@
 package BusinessLayer.Trials;
 
-public class PaperSubmission extends Trials{
+public class PaperSubmission extends Trials {
     private final String publicationName;
     private final String quartile;
     private final int acceptProbability;
@@ -21,13 +21,27 @@ public class PaperSubmission extends Trials{
 
 
     //Getters
-    public String getPublicationName(){ return publicationName; }
-    public String getQuartile(){ return quartile; }
-    public int getAcceptProbability(){ return acceptProbability;}
-    public int getRejectProbability(){ return rejectProbability; }
-    public int getRevisionProbability(){ return revisionProbability;}
+    public String getPublicationName() {
+        return publicationName;
+    }
 
-    private int calculateRewardIP(){
+    public String getQuartile() {
+        return quartile;
+    }
+
+    public int getAcceptProbability() {
+        return acceptProbability;
+    }
+
+    public int getRejectProbability() {
+        return rejectProbability;
+    }
+
+    public int getRevisionProbability() {
+        return revisionProbability;
+    }
+
+    private int calculateRewardIP() {
         return switch (quartile) {
             case "Q1" -> 4;
             case "Q2" -> 3;
@@ -38,7 +52,7 @@ public class PaperSubmission extends Trials{
 
     }
 
-    private int calculatePenalizationIP(){
+    private int calculatePenalizationIP() {
         return switch (quartile) {
             case "Q1" -> -5;
             case "Q2" -> -4;
@@ -46,5 +60,11 @@ public class PaperSubmission extends Trials{
             case "Q4" -> -2;
             default -> 0;
         };
+    }
+
+    @Override
+    public String getTrialInfo() {
+        return  "Journal: " + publicationName + " (" + quartile + ")\n" +
+                "Chances: " + acceptProbability + "% acceptance, " + revisionProbability + "% revision, " + rejectProbability + "% rejection\n\n";
     }
 }

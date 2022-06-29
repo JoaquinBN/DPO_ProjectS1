@@ -61,13 +61,13 @@ public class mainMenuView {
 
                switch (mt1) {
                    case 'a':
-                       manageTrialsViews.createTrial();
+                       //manageTrialsViews.createTrial();
                        break;
                    case 'b':
-                       manageTrialsViews.listTrial();
+                       //manageTrialsViews.listTrial();
                        break;
                    case 'c':
-                       manageTrialsViews.trialDeletion();
+                       //manageTrialsViews.trialDeletion();
                        break;
                    case 'd':
                        break;

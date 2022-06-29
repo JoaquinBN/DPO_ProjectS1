@@ -9,7 +9,7 @@ public class ComposerView {
     }
 
     public String managementMenu() {
-        System.out.println("\t1) Manage Trial");
+        System.out.println("\n\t1) Manage Trial");
         System.out.println("\t2) Manage Editions");
         System.out.println("\n\t3) Exit");
         System.out.print("\nEnter an option: ");
@@ -17,7 +17,7 @@ public class ComposerView {
     }
 
     public String manageTrialsMenu() {
-        System.out.println("\ta) Create Trial");
+        System.out.println("\n\ta) Create Trial");
         System.out.println("\tb) List Trials");
         System.out.println("\tc) Delete Trial");
         System.out.println("\n\td) Back");
@@ -56,31 +56,25 @@ public class ComposerView {
     }
 
     public void createTrialSuccess() {
-        System.out.println("\nThe trial was created successfully!\n");
-    }
-
-    public void listPaperSubmission(String trialName, String trialType, String paperName, String quartile, int acceptProbability, int revisionProbability, int rejectProbability) {
-        System.out.println("\nTrial: " + trialName + " (" + trialType + ")");
-        System.out.println("Journal: " + paperName + " (" + quartile + ")");
-        System.out.println("Chances: " + acceptProbability + "% acceptance, " + revisionProbability + "% revision, " + rejectProbability + "% rejection");
+        System.out.println("\nThe trial was created successfully!");
     }
 
     public void deleteTrialSuccess() {
-        System.out.println("\nThe trial was deleted successfully!\n");
+        System.out.println("\nThe trial was deleted successfully!");
     }
 
     public void listTrials(int i, String trialName) {
-        System.out.println("\t" + i + ") " + trialName);
+        System.out.print("\n\t" + i + ") " + trialName);
     }
 
     public int showBackAndOption(int index) {
-        System.out.println("\n\t" + index + ") Back\n");
+        System.out.print("\n\t" + index + ") Back\n");
         System.out.print("\nEnter an option: ");
         return Integer.parseInt(sc.nextLine()) - 1;
     }
 
     public String manageEditionsMenu() {
-        System.out.println("\ta) Create Edition");
+        System.out.println("\n\ta) Create Edition");
         System.out.println("\tb) List Editions");
         System.out.println("\tc) Duplicate Edition");
         System.out.println("\td) Delete Edition");
@@ -110,7 +104,7 @@ public class ComposerView {
     }
 
     public void createEditionSuccess() {
-        System.out.println("\nThe edition was created successfully!\n");
+        System.out.println("\nThe edition was created successfully!");
     }
 
     public void showEdition(int year, int numberOfPlayers) {
@@ -119,7 +113,7 @@ public class ComposerView {
         System.out.println("Trials:");
     }
     public void listEditionTrials(int k, String trialName, String typeOfTrial) {
-        System.out.println("\n\t" + k + "- " + trialName + " (" + typeOfTrial + ")");
+        System.out.print("\t" + k + "- " + trialName + " (" + typeOfTrial + ")\n");
     }
 
     public int readNewEditionYear() {
@@ -133,15 +127,15 @@ public class ComposerView {
     }
 
     public void duplicateEditionSuccess() {
-        System.out.println("\nThe edition was cloned successfully!\n");
+        System.out.println("\nThe edition was cloned successfully!");
     }
 
     public void deleteEditionSuccess() {
-        System.out.println("\nThe edition was deleted successfully!\n");
+        System.out.println("\nThe edition was deleted successfully!");
     }
 
     public void listEditions(int i, int year) {
-        System.out.print("\n\t" + i + ") The Trials " + year);
+        System.out.println("\t" + i + ") The Trials " + year);
     }
 
     public void exitProgram() {
@@ -150,5 +144,9 @@ public class ComposerView {
 
     public void showError(String error) {
         System.out.println("\n" + error + "\n");
+    }
+
+    public void showMessage(String message) {
+        System.out.print(message);
     }
 }

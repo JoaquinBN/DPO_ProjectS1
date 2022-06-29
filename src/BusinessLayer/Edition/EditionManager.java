@@ -15,8 +15,8 @@ public class EditionManager {
         editions.add(new Edition(year, numberOfPlayers, numberOfTrials));
     }
 
-    public void removeEdition(int year) {
-        editions.removeIf(edition -> edition.getYear() == year);
+    public void removeEdition(int indexEdition) {
+        editions.remove(indexEdition);
     }
 
     public Edition getEditionByIndex(int index) {

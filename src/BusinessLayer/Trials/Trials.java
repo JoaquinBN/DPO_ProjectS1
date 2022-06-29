@@ -36,4 +36,11 @@ public abstract class Trials{
     public void setPenalizationIP(int penalizationIP){
         this.penalizationIP = penalizationIP;
     }
+
+    public String displayTrialInfo(){
+        return "\nTrial: " + getTrialName() + " (" + getTypeOfTrial() + ")\n" + getTrialInfo();
+    }
+
+    public abstract String getTrialInfo();
+
 }

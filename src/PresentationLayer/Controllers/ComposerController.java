@@ -26,7 +26,7 @@ public class ComposerController {
             case "2" -> this.manageEditions();
             case "3" -> this.exitProgram();
             default -> {
-                composerView.showError("Wrong option");
+                composerView.showError("Wrong option. Please try again.");
                 managementMode();
             }
         }
@@ -41,7 +41,7 @@ public class ComposerController {
             case "c" -> this.deleteTrial();
             case "d" -> this.managementMode();
             default -> {
-                composerView.showError("Wrong option");
+                composerView.showError("Wrong option. Please try again.");
                 manageTrials();
             }
         }
@@ -49,13 +49,66 @@ public class ComposerController {
 
     private void createTrial(){
         String trialName, paperName, quartile;
-        int acceptProbability, revisionProbability, rejectProbability;
-        trialName = composerView.readTrialName();
-        paperName = composerView.readPaperName();
-        quartile = composerView.readQuartile();
-        acceptProbability = composerView.readAccept();
-        revisionProbability = composerView.readRevision();
-        rejectProbability = composerView.readReject();
+        int acceptProbability, revisionProbability, rejectProbability, error;
+        error = 0;
+        do {
+            if(error == 1)
+                composerView.showError("This");
+            error = 1;
+            trialName = composerView.readTrialName();
+        }while(!trialManager.checkTrialName(trialName));
+
+        error = 0;
+        do {
+            if(error == 1)
+                composerView.showError("The name of the publication cannot be empty. Please try again.");
+            error = 1;
+            paperName = composerView.readPaperName();
+        }while(!trialManager.checkTrialType(paperName));
+
+        error = 0;
+        do {
+            if(error == 1)
+                composerView.showError("The quartile of the publication must be one of the following values: Q1, Q2, Q3, Q4. Please try again.");
+            error = 1;
+            quartile = composerView.readQuartile();
+        }while(!trialManager.checkQuartile(quartile));
+
+        error = 0;
+        do {
+            if(error == 1)
+                composerView.showError("The probability of the paper publication must add up to 100. Please try again.");
+            error = 1;
+            do {
+                if (error == 2)
+                    composerView.showError("The sum of the acceptance and revision probabilities cannot be over 100. Please try again.");
+                error = 2;
+                do {
+                    if (error == 3)
+                        composerView.showError("The acceptance probability must be between 0 and 100. Please try again.");
+                    error = 3;
+                    acceptProbability = composerView.readAccept();
+                } while (!trialManager.checkProbability(acceptProbability));
+
+                error = 2;
+                do {
+                    if (error == 3)
+                        composerView.showError("The revision probability must be between 0 and 100. Please try again.");
+                    error = 3;
+                    revisionProbability = composerView.readRevision();
+                } while (!trialManager.checkProbability(revisionProbability));
+                error = 2;
+            } while (!trialManager.checkLimitProbabilities(acceptProbability + revisionProbability));
+
+            error = 1;
+            do {
+                if(error == 2)
+                    composerView.showError("The rejection probability must be between 0 and 100. Please try again.");
+                error = 2;
+                rejectProbability = composerView.readReject();
+            } while (!trialManager.checkProbability(rejectProbability));
+            error = 1;
+        } while (!trialManager.checkSumProbabilities(acceptProbability + revisionProbability + rejectProbability));
         trialManager.addTrial(trialName, paperName, quartile, acceptProbability, revisionProbability, rejectProbability);
         composerView.createTrialSuccess();
         manageTrials();
@@ -63,17 +116,11 @@ public class ComposerController {
 
     private void listTrials(){
         int trialIndex;
-        trialIndex = showAllTrials();
+        showAllTrials();
+        trialIndex = composerView.showBackAndOption(trialManager.getNumberOfTrials() + 1);
         if(trialIndex != trialManager.getNumberOfTrials()){
             if(trialManager.getTrial(trialIndex) instanceof PaperSubmission){
-                String trialName = trialManager.getTrial(trialIndex).getTrialName();
-                String trialType = "Paper Submission";
-                String paperName = ((PaperSubmission)trialManager.getTrial(trialIndex)).getPublicationName();
-                String quartile = ((PaperSubmission)trialManager.getTrial(trialIndex)).getQuartile();
-                int acceptProbability = ((PaperSubmission)trialManager.getTrial(trialIndex)).getAcceptProbability();
-                int revisionProbability = ((PaperSubmission)trialManager.getTrial(trialIndex)).getRevisionProbability();
-                int rejectProbability = ((PaperSubmission)trialManager.getTrial(trialIndex)).getRejectProbability();
-                composerView.listPaperSubmission(trialName, trialType, paperName, quartile, acceptProbability, revisionProbability, rejectProbability);
+                composerView.showMessage(trialManager.getTrial(trialIndex).displayTrialInfo());
             }
         }
         manageTrials();
@@ -81,7 +128,8 @@ public class ComposerController {
 
     private void deleteTrial(){
         int trialIndex;
-        trialIndex = showAllTrials();
+        showAllTrials();
+        trialIndex = composerView.showBackAndOption(trialManager.getNumberOfTrials() + 1);
         if(trialIndex != trialManager.getNumberOfTrials()){
             trialManager.removeTrial(trialIndex);
             composerView.deleteTrialSuccess();
@@ -89,11 +137,10 @@ public class ComposerController {
         manageTrials();
     }
 
-    private int showAllTrials(){
+    private void showAllTrials(){
         for(int i = 0; i < trialManager.getNumberOfTrials(); i++){
             composerView.listTrials(i + 1, trialManager.getTrial(i).getTrialName());
         }
-        return composerView.showBackAndOption(trialManager.getNumberOfTrials() + 1);
     }
 
     private void manageEditions(){
@@ -102,11 +149,11 @@ public class ComposerController {
         switch (option) {
             case "a" -> this.createEdition();
             case "b" -> this.listEditions();
-            case "c" -> this.deleteEdition();
-            case "d" -> this.duplicateEdition();
+            case "c" -> this.duplicateEdition();
+            case "d" -> this.deleteEdition();
             case "e" -> this.managementMode();
             default -> {
-                composerView.showError("Wrong option");
+                composerView.showError("Wrong option. Please try again.");
                 manageEditions();
             }
         }
@@ -118,9 +165,9 @@ public class ComposerController {
         numberOfPlayers = composerView.readEditionPlayer();
         numberOfTrials = composerView.readEditionTrials();
         editionManager.addEdition(year, numberOfPlayers, numberOfTrials);
-        for(int i = 0; i < trialManager.getNumberOfTrials(); i++){
-            composerView.listTrials(i + 1, trialManager.getTrial(i).getTrialName());
-        }
+        composerView.showMessage("\n\t--- Trials ---\n");
+        showAllTrials();
+        composerView.showMessage("\n\n");
         int trialIndex;
         for(int j = 0; j < numberOfTrials; j++){
             trialIndex = composerView.pickTrial(numberOfTrials, j + 1) - 1;
@@ -131,13 +178,12 @@ public class ComposerController {
     }
 
     private void listEditions(){
-        int editionIndex;
+        int editionIndex, k;
+        composerView.showMessage("\nHere are the current editions, do you want to see more details or go back?\n\n");
         editionIndex = showAllEditions();
         if(editionIndex != editionManager.getNumberOfEditions()){
-            int year = editionManager.getEditionByIndex(editionIndex).getYear();
-            int numberOfPlayers = editionManager.getEditionByIndex(editionIndex).getNumberOfPlayers();
-            composerView.showEdition(year, numberOfPlayers);
-            int k = 1;
+            composerView.showEdition(editionManager.getEditionByIndex(editionIndex).getYear(), editionManager.getEditionByIndex(editionIndex).getNumberOfPlayers());
+            k = 1;
             for(Trials trial : editionManager.getEditionByIndex(editionIndex).getTrials()){
                 composerView.listEditionTrials(k, trial.getTrialName(), trial.getTypeOfTrial());
                 k++;
@@ -148,6 +194,7 @@ public class ComposerController {
 
     private void duplicateEdition(){
         int editionIndex, year, numberOfPlayers;
+        composerView.showMessage("\nWhich edition do you want to clone?\n\n");
         editionIndex = showAllEditions();
         if(editionIndex != editionManager.getNumberOfEditions()) {
             year = composerView.readNewEditionYear();
@@ -160,6 +207,7 @@ public class ComposerController {
 
     private void deleteEdition(){
         int editionIndex;
+        composerView.showMessage("\nWhich edition do you want to delete?\n\n");
         editionIndex = showAllEditions();
         if(editionIndex != editionManager.getNumberOfEditions()) {
             editionManager.removeEdition(editionIndex);
