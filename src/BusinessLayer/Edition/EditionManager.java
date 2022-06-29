@@ -39,4 +39,27 @@ public class EditionManager {
     public void addTrialToEdition(Trials trial, int indexTrial) {
         editions.get(editions.size() - 1).addTrial(trial, indexTrial);
     }
+
+    public boolean checkUniqueYear(int year) {
+        for (Edition edition : editions) {
+            if (edition.getYear() == year) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean checkValidYear(int year) {
+        return year >= 2022;
+    }
+
+    public boolean checkPlayersRange(int numberOfPlayers) {
+        return numberOfPlayers >= 1 && numberOfPlayers <= 5;
+    }
+
+    public boolean checkTrialsRange(int numberOfTrials) {
+        return numberOfTrials >= 3 && numberOfTrials <= 12;
+    }
+
+
 }

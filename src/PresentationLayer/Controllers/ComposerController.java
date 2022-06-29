@@ -47,66 +47,70 @@ public class ComposerController {
         }
     }
 
+    private String getInput(String attributeType){
+        String attribute = "";
+        boolean condition = true, condition2 = true;
+        boolean wrongInput = false;
+        do{
+            if(wrongInput){
+                if(attributeType.equals("name") && !condition)
+                    composerView.showError("\nThis trial name already exists. Please try again.");
+                else if(attributeType.equals("name") && !condition2)
+                    composerView.showError("\nThe name of the trial cannot be empty. Please try again.\n");
+                switch (attributeType) {
+                    case "type" -> composerView.showError("\nThe type of the trial cannot be empty. Please try again.\n");
+                    case "quartile" -> composerView.showError("\nThe quartile of the publication must be one of the following values: Q1, Q2, Q3, Q4. Please try again.\n");
+                    case "accept" -> composerView.showError("\nThe acceptance probability must be between 0 and 100. Please try again.\n");
+                    case "revision" -> composerView.showError("\nThe revision probability must be between 0 and 100. Please try again.\n");
+                    case "reject" -> composerView.showError("\nThe rejection probability must be between 0 and 100. Please try again.\n");
+                }
+
+            }
+            switch(attributeType){
+                case "name" -> attribute = composerView.readTrialName();
+                case "type" -> attribute = composerView.readPaperName();
+                case "quartile" -> attribute = composerView.readQuartile();
+                case "accept" -> attribute = composerView.readAccept();
+                case "revision" -> attribute = composerView.readRevision();
+                case "reject" -> attribute = composerView.readReject();
+                default -> attribute = "";
+            }
+            wrongInput = true;
+            switch(attributeType){
+                case "name" -> condition = trialManager.checkUniqueName(attribute);
+                case "type" -> condition = trialManager.checkEmptyString(attribute);
+                case "quartile" -> condition = trialManager.checkQuartile(attribute);
+                case "accept", "revision", "reject" -> condition = trialManager.checkProbability(attribute);
+                default -> condition = false;
+            }
+            if(attributeType.equals("name"))
+                condition2 = trialManager.checkEmptyString(attribute);
+            else
+                condition2 = true;
+        }while(!condition || !condition2);
+        return attribute;
+    }
+
     private void createTrial(){
         String trialName, paperName, quartile;
         int acceptProbability, revisionProbability, rejectProbability, error;
-        error = 0;
-        do {
-            if(error == 1)
-                composerView.showError("This");
-            error = 1;
-            trialName = composerView.readTrialName();
-        }while(!trialManager.checkTrialName(trialName));
-
-        error = 0;
-        do {
-            if(error == 1)
-                composerView.showError("The name of the publication cannot be empty. Please try again.");
-            error = 1;
-            paperName = composerView.readPaperName();
-        }while(!trialManager.checkTrialType(paperName));
-
-        error = 0;
-        do {
-            if(error == 1)
-                composerView.showError("The quartile of the publication must be one of the following values: Q1, Q2, Q3, Q4. Please try again.");
-            error = 1;
-            quartile = composerView.readQuartile();
-        }while(!trialManager.checkQuartile(quartile));
-
+        trialName = getInput("name");
+        paperName = getInput("type");
+        quartile = getInput("quartile");
         error = 0;
         do {
             if(error == 1)
                 composerView.showError("The probability of the paper publication must add up to 100. Please try again.");
-            error = 1;
+
             do {
                 if (error == 2)
                     composerView.showError("The sum of the acceptance and revision probabilities cannot be over 100. Please try again.");
+                acceptProbability = Integer.parseInt(getInput("accept"));
+                revisionProbability = Integer.parseInt(getInput("revision"));
                 error = 2;
-                do {
-                    if (error == 3)
-                        composerView.showError("The acceptance probability must be between 0 and 100. Please try again.");
-                    error = 3;
-                    acceptProbability = composerView.readAccept();
-                } while (!trialManager.checkProbability(acceptProbability));
+            } while (trialManager.checkLimitProbabilities(acceptProbability + revisionProbability));
 
-                error = 2;
-                do {
-                    if (error == 3)
-                        composerView.showError("The revision probability must be between 0 and 100. Please try again.");
-                    error = 3;
-                    revisionProbability = composerView.readRevision();
-                } while (!trialManager.checkProbability(revisionProbability));
-                error = 2;
-            } while (!trialManager.checkLimitProbabilities(acceptProbability + revisionProbability));
-
-            error = 1;
-            do {
-                if(error == 2)
-                    composerView.showError("The rejection probability must be between 0 and 100. Please try again.");
-                error = 2;
-                rejectProbability = composerView.readReject();
-            } while (!trialManager.checkProbability(rejectProbability));
+            rejectProbability = Integer.parseInt(getInput("reject"));
             error = 1;
         } while (!trialManager.checkSumProbabilities(acceptProbability + revisionProbability + rejectProbability));
         trialManager.addTrial(trialName, paperName, quartile, acceptProbability, revisionProbability, rejectProbability);

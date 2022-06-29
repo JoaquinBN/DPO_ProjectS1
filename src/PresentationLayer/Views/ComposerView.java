@@ -1,5 +1,6 @@
 package PresentationLayer.Views;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ComposerView {
@@ -40,19 +41,44 @@ public class ComposerView {
         return sc.nextLine();
     }
 
-    public int readAccept() {
-        System.out.print("Enter the acceptance probability: ");
-        return Integer.parseInt(sc.nextLine());
+    public String readAccept() {
+        while(true){
+            try{
+                System.out.print("Enter the acceptance probability: ");
+                return String.valueOf(sc.nextInt());
+            } catch (InputMismatchException exception) {
+                System.out.print("\nThe acceptance probability must be an integer between 0 and 100. Please try again.\n");
+            }finally {
+                sc.nextLine();
+            }
+        }
+
     }
 
-    public int readRevision() {
-        System.out.print("Enter the revision probability: ");
-        return Integer.parseInt(sc.nextLine());
+    public String readRevision() {
+        while(true){
+            try{
+                System.out.print("Enter the revision probability: ");
+                return String.valueOf(sc.nextInt());
+            } catch (InputMismatchException exception) {
+                System.out.print("\nThe acceptance probability must be an integer between 0 and 100. Please try again.\n");
+            }finally {
+                sc.nextLine();
+            }
+        }
     }
 
-    public int readReject() {
-        System.out.print("Enter the rejection probability: ");
-        return Integer.parseInt(sc.nextLine());
+    public String readReject() {
+        while(true){
+            try{
+                System.out.print("Enter the rejection probability: ");
+                return String.valueOf(sc.nextInt());
+            } catch (InputMismatchException exception) {
+                System.out.print("\nThe acceptance probability must be an integer between 0 and 100. Please try again.\n");
+            }finally {
+                sc.nextLine();
+            }
+        }
     }
 
     public void createTrialSuccess() {
@@ -143,7 +169,7 @@ public class ComposerView {
     }
 
     public void showError(String error) {
-        System.out.println("\n" + error + "\n");
+        System.out.println(error);
     }
 
     public void showMessage(String message) {
