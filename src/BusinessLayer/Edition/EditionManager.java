@@ -61,5 +61,8 @@ public class EditionManager {
         return numberOfTrials >= 3 && numberOfTrials <= 12;
     }
 
+    public ArrayList<Edition> getEditions() {
+        return editions;
+    }
 
 }

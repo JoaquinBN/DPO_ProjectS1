@@ -4,18 +4,23 @@ import BusinessLayer.Edition.EditionManager;
 import BusinessLayer.Trials.PaperSubmission;
 import BusinessLayer.Trials.TrialManager;
 import BusinessLayer.Trials.Trials;
+import PersistanceLayer.EditionFileManager;
 import PresentationLayer.Views.ComposerView;
+
+import java.io.IOException;
 
 public class ComposerController {
     private final EditionManager editionManager;
     private final TrialManager trialManager;
     private final ComposerView composerView;
+    private final EditionFileManager editionFileManager;
 
 
-    public ComposerController(EditionManager editionManager, TrialManager trialManager, ComposerView composerView) {
+    public ComposerController(EditionManager editionManager, TrialManager trialManager, ComposerView composerView, EditionFileManager editionFileManager) {
         this.editionManager = editionManager;
         this.trialManager = trialManager;
         this.composerView = composerView;
+        this.editionFileManager = editionFileManager;
     }
 
     public void managementMode(){
@@ -252,6 +257,11 @@ public class ComposerController {
     }
 
     private void exitProgram(){
+        try {
+            editionFileManager.writeEditions(editionManager.getEditions());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         composerView.exitProgram();
     }
 }
