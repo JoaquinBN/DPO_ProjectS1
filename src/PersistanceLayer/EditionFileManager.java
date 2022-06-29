@@ -1,8 +1,11 @@
 package PersistanceLayer;
 
 import BusinessLayer.Edition.Edition;
+import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvException;
 
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
@@ -11,7 +14,7 @@ public class EditionFileManager {
     public EditionFileManager() {
     }
 
-    private void writeEditions(ArrayList<Edition> Editions) throws IOException {
+    public void writeEditions(ArrayList<Edition> Editions) throws IOException {
         CSVWriter writer = new CSVWriter(new FileWriter("csv/Editions.csv", true),
                 CSVWriter.DEFAULT_SEPARATOR,
                 CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.NO_ESCAPE_CHARACTER, "\n");
@@ -22,8 +25,13 @@ public class EditionFileManager {
         writer.close();
     }
 
-    private void readEditions(){
-        
+    public void readEditions() throws IOException, CsvException {
+        CSVReader reader = new CSVReader(new FileReader("csv/Editions.csv"));
+        List<String[]> editions = reader.readAll();
+        for (String[] edition : editions) {
+            Edition e = new Edition(Integer.parseInt(edition[0]), Integer.parseInt(edition[1]), Arrays.asList(edition[2].split(",")));
+            Edition.Editions.add(e);
+        }
     }
 
 
