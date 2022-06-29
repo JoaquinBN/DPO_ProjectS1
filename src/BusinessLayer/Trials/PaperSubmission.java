@@ -67,4 +67,17 @@ public class PaperSubmission extends Trials {
         return  "Journal: " + publicationName + " (" + quartile + ")\n" +
                 "Chances: " + acceptProbability + "% acceptance, " + revisionProbability + "% revision, " + rejectProbability + "% rejection\n\n";
     }
+
+    @Override
+    public String[] getDataToWrite() {
+        String[] dataToWrite = new String[7];
+        dataToWrite[0] = getTrialName();
+        dataToWrite[1] = getTypeOfTrial();
+        dataToWrite[2] = publicationName;
+        dataToWrite[3] = quartile;
+        dataToWrite[4] = Integer.toString(acceptProbability);
+        dataToWrite[5] = Integer.toString(revisionProbability);
+        dataToWrite[6] = Integer.toString(rejectProbability);
+        return dataToWrite;
+    }
 }

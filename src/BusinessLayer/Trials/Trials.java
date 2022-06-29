@@ -43,4 +43,6 @@ public abstract class Trials{
 
     public abstract String getTrialInfo();
 
+    public abstract String[] getDataToWrite();
+
 }
