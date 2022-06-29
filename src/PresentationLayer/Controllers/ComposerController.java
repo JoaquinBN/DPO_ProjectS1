@@ -47,7 +47,7 @@ public class ComposerController {
         }
     }
 
-    private String getInput(String attributeType){
+    private String getTrialAttribute(String attributeType){
         String attribute = "";
         boolean condition = true, condition2 = true;
         boolean wrongInput = false;
@@ -94,9 +94,9 @@ public class ComposerController {
     private void createTrial(){
         String trialName, paperName, quartile;
         int acceptProbability, revisionProbability, rejectProbability, error;
-        trialName = getInput("name");
-        paperName = getInput("type");
-        quartile = getInput("quartile");
+        trialName = getTrialAttribute("name");
+        paperName = getTrialAttribute("type");
+        quartile = getTrialAttribute("quartile");
         error = 0;
         do {
             if(error == 1)
@@ -105,12 +105,12 @@ public class ComposerController {
             do {
                 if (error == 2)
                     composerView.showError("The sum of the acceptance and revision probabilities cannot be over 100. Please try again.");
-                acceptProbability = Integer.parseInt(getInput("accept"));
-                revisionProbability = Integer.parseInt(getInput("revision"));
+                acceptProbability = Integer.parseInt(getTrialAttribute("accept"));
+                revisionProbability = Integer.parseInt(getTrialAttribute("revision"));
                 error = 2;
             } while (trialManager.checkLimitProbabilities(acceptProbability + revisionProbability));
 
-            rejectProbability = Integer.parseInt(getInput("reject"));
+            rejectProbability = Integer.parseInt(getTrialAttribute("reject"));
             error = 1;
         } while (!trialManager.checkSumProbabilities(acceptProbability + revisionProbability + rejectProbability));
         trialManager.addTrial(trialName, paperName, quartile, acceptProbability, revisionProbability, rejectProbability);
@@ -164,17 +164,41 @@ public class ComposerController {
     }
 
     private void createEdition(){
-        int year, numberOfPlayers, numberOfTrials;
-        year = composerView.readEditionYear();
-        numberOfPlayers = composerView.readEditionPlayer();
-        numberOfTrials = composerView.readEditionTrials();
+        int year = 0, numberOfPlayers, numberOfTrials;
+        boolean errorDisplay = false;
+        do {
+            if(errorDisplay && !editionManager.checkUniqueYear(year))
+                composerView.showError("\nThis edition already exists. Please try again.");
+            else if(errorDisplay && !editionManager.checkValidYear(year))
+                composerView.showError("\nThe year of the edition must equal or greater than the current year (2022). Please try again.");
+            year = composerView.readEditionYear();
+            errorDisplay = true;
+        }while (!editionManager.checkUniqueYear(year) || !editionManager.checkValidYear(year));
+
+        errorDisplay = false;
+        do {
+            if(errorDisplay)
+                composerView.showError("\nThe number of players must be between 1 and 5. Please try again.");
+            numberOfPlayers = composerView.readEditionPlayer();
+            errorDisplay = true;
+        }while(!editionManager.checkPlayersRange(numberOfPlayers));
+
+        errorDisplay = false;
+        do {
+            if(errorDisplay)
+                composerView.showError("\nThe number of trials must be between 3 and 12. Please try again.");
+            numberOfTrials = composerView.readEditionTrials();
+            errorDisplay = true;
+        }while(!editionManager.checkTrialsRange(numberOfTrials));
         editionManager.addEdition(year, numberOfPlayers, numberOfTrials);
         composerView.showMessage("\n\t--- Trials ---\n");
         showAllTrials();
         composerView.showMessage("\n\n");
         int trialIndex;
         for(int j = 0; j < numberOfTrials; j++){
-            trialIndex = composerView.pickTrial(numberOfTrials, j + 1) - 1;
+            do{
+                trialIndex = composerView.pickTrial(numberOfTrials, j + 1) - 1;
+            }while(trialIndex < 0 || trialIndex >= trialManager.getNumberOfTrials());
             editionManager.addTrialToEdition(trialManager.getTrial(trialIndex), j);
         }
         composerView.createEditionSuccess();
