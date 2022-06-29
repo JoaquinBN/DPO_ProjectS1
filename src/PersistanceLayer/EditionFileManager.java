@@ -17,7 +17,7 @@ public class EditionFileManager {
 
     public void writeEditions(ArrayList<Edition> Editions) throws IOException {
 
-        CSVWriter writer = new CSVWriter(new FileWriter("Files/Editions.csv", true),
+        CSVWriter writer = new CSVWriter(new FileWriter("Files/Editions.csv", false),
                 CSVWriter.DEFAULT_SEPARATOR,
                 CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.NO_ESCAPE_CHARACTER, "\n");
 
