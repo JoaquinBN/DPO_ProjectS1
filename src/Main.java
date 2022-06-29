@@ -3,7 +3,11 @@ import BusinessLayer.Trials.TrialManager;
 import PersistenceLayer.EditionFileManager;
 import PersistenceLayer.TrialsFileManager;
 import PresentationLayer.Controllers.ComposerController;
+import PresentationLayer.Controllers.ConductorController;
+import PresentationLayer.Controllers.MainMenuController;
 import PresentationLayer.Views.ComposerView;
+import PresentationLayer.Views.ConductorView;
+import PresentationLayer.Views.MainMenuView;
 
 public class Main {
     public static void main(String[] args) {
@@ -11,8 +15,12 @@ public class Main {
         TrialsFileManager trialsFileManager = new TrialsFileManager();
         TrialManager trialManager = new TrialManager(trialsFileManager);
         EditionManager editionManager = new EditionManager(editionFileManager);
+        ConductorView conductorView = new ConductorView();
+        ConductorController conductorController = new ConductorController(editionManager, trialManager, conductorView);
         ComposerView composerView = new ComposerView();
         ComposerController composerController = new ComposerController(editionManager, trialManager, composerView);
-        composerController.managementMode();
+        MainMenuView mainMenuView = new MainMenuView();
+        MainMenuController mainMenuController = new MainMenuController(mainMenuView, composerController, conductorController);
+        mainMenuController.mainMenuDisplay();
     }
 }
