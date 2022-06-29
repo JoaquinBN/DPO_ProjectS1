@@ -222,7 +222,7 @@ public class ComposerController {
     }
 
     private void createEdition(){
-        int year, numberOfPlayers, numberOfTrials;
+        int year, numberOfPlayers = -1, numberOfTrials = 1;
         boolean errorDisplay = false;
 
         year = composerView.readEditionYear();
@@ -234,18 +234,20 @@ public class ComposerController {
             errorDisplay = true;
         }
 
-        numberOfPlayers = composerView.readEditionPlayer();
-
-        if(!editionManager.checkPlayersRange(numberOfPlayers) && !errorDisplay){
-            composerView.showError("\nThe number of players must be between 1 and 5.");
-            errorDisplay = true;
+        if(!errorDisplay) {
+            numberOfPlayers = composerView.readEditionPlayer();
+            if(!editionManager.checkPlayersRange(numberOfPlayers)){
+                composerView.showError("\nThe number of players must be between 1 and 5.");
+                errorDisplay = true;
+            }
         }
 
-        numberOfTrials = composerView.readEditionTrials();
-
-        if(!editionManager.checkTrialsRange(numberOfTrials) && !errorDisplay){
-            composerView.showError("\nThe number of trials must be between 1 and 5.");
-            errorDisplay = true;
+        if (!errorDisplay) {
+            numberOfTrials = composerView.readEditionTrials();
+            if(!editionManager.checkTrialsRange(numberOfTrials)){
+                composerView.showError("\nThe number of trials must be between 1 and 5.");
+                errorDisplay = true;
+            }
         }
 
         if(!errorDisplay) {

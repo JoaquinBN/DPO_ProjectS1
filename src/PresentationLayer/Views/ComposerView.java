@@ -82,7 +82,7 @@ public class ComposerView {
     }
 
     public int readEditionTrials() {
-        return checkForExceptions("\nEnter the number of trials: ", "\nThe number of trials must be an integer.\n");
+        return checkForExceptions("Enter the number of trials: ", "\nThe number of trials must be an integer.\n");
     }
 
     public int pickTrial(int totalTrials, int index){
