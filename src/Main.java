@@ -1,7 +1,6 @@
-import BusinessLayer.Edition.Edition;
 import BusinessLayer.Edition.EditionManager;
 import BusinessLayer.Trials.TrialManager;
-import PersistanceLayer.EditionFileManager;
+import PersistenceLayer.EditionFileManager;
 import PresentationLayer.Controllers.ComposerController;
 import PresentationLayer.Views.ComposerView;
 
