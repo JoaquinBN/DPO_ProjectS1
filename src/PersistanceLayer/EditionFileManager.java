@@ -1,6 +1,7 @@
 package PersistanceLayer;
 
 import BusinessLayer.Edition.Edition;
+import BusinessLayer.Trials.Trials;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
@@ -20,11 +21,18 @@ public class EditionFileManager {
                 CSVWriter.DEFAULT_SEPARATOR,
                 CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.NO_ESCAPE_CHARACTER, "\n");
 
-
-
         for (Edition edition : Editions) {
-            String[] data = {String.valueOf(edition.getYear()), String.valueOf(edition.getNumberOfPlayers()), String.valueOf(edition.getNumberOfTrials())};
-            writer.writeNext(data);
+            String[] line = new String[edition.getNumberOfTrials()];
+            int i = 0;
+            for(Trials trial : edition.getTrials()) {
+                line[i] = trial.getTrialName();
+                i++;
+            }
+            String[] data = {String.valueOf(edition.getYear()), String.valueOf(edition.getNumberOfPlayers())};
+            String[] all = new String[data.length + line.length];
+            System.arraycopy(data, 0, all, 0, data.length);
+            System.arraycopy(line, 0, all, data.length, line.length);
+            writer.writeNext(all);
         }
         writer.close();
     }
