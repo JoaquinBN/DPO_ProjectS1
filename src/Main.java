@@ -1,4 +1,6 @@
+import BusinessLayer.ConductorManager;
 import BusinessLayer.Edition.EditionManager;
+import BusinessLayer.Players.PlayerManager;
 import BusinessLayer.Trials.TrialManager;
 import PersistenceLayer.EditionFileManager;
 import PersistenceLayer.TrialsFileManager;
@@ -13,10 +15,12 @@ public class Main {
     public static void main(String[] args) {
         EditionFileManager editionFileManager = new EditionFileManager();
         TrialsFileManager trialsFileManager = new TrialsFileManager();
+        PlayerManager playerManager = new PlayerManager();
         TrialManager trialManager = new TrialManager(trialsFileManager);
         EditionManager editionManager = new EditionManager(editionFileManager);
         ConductorView conductorView = new ConductorView();
-        ConductorController conductorController = new ConductorController(editionManager, trialManager, conductorView);
+        ConductorManager conductorManager = new ConductorManager(playerManager, trialManager, editionManager);
+        ConductorController conductorController = new ConductorController(conductorManager);
         ComposerView composerView = new ComposerView();
         ComposerController composerController = new ComposerController(editionManager, trialManager, composerView);
         MainMenuView mainMenuView = new MainMenuView();

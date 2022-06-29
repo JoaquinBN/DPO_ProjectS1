@@ -236,14 +236,14 @@ public class ComposerController {
 
         numberOfPlayers = composerView.readEditionPlayer();
 
-        if(!editionManager.checkPlayersRange(numberOfPlayers)){
+        if(!editionManager.checkPlayersRange(numberOfPlayers) && !errorDisplay){
             composerView.showError("\nThe number of players must be between 1 and 5.");
             errorDisplay = true;
         }
 
         numberOfTrials = composerView.readEditionTrials();
 
-        if(!editionManager.checkTrialsRange(numberOfTrials)){
+        if(!editionManager.checkTrialsRange(numberOfTrials) && !errorDisplay){
             composerView.showError("\nThe number of trials must be between 1 and 5.");
             errorDisplay = true;
         }
@@ -255,9 +255,7 @@ public class ComposerController {
             composerView.showMessage("\n\n");
             int trialIndex;
             for(int j = 0; j < numberOfTrials; j++){
-                do{
-                    trialIndex = composerView.pickTrial(numberOfTrials, j + 1) - 1;
-                }while(trialIndex < 0 || trialIndex >= trialManager.getNumberOfTrials());
+                trialIndex = composerView.pickTrial(numberOfTrials, j + 1) - 1;
                 editionManager.addTrialToEdition(trialManager.getTrial(trialIndex).getTrialName(), j);
             }
             composerView.createEditionSuccess();

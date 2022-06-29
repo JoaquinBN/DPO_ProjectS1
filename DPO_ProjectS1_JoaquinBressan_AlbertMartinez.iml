@@ -10,7 +10,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../opencsv-5.6.jar!/" />
+          <root url="jar://$MODULE_DIR$/JARs/commons-lang3-3.12.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -19,7 +19,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../commons-lang3-3.12.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/JARs/opencsv-5.6.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
