@@ -16,6 +16,8 @@ public class TrialsFileManager {
                 CSVWriter.DEFAULT_SEPARATOR,
                 CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.NO_ESCAPE_CHARACTER, "\n");
 
-
+        for (Trials trial : trials){
+            writer.writeNext(trial.getDataToWrite());
+        }
     }
 }
