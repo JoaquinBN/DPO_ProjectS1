@@ -74,7 +74,7 @@ public class ComposerView {
     }
 
     public int readEditionYear() {
-        return checkForExceptions("Enter the edition's year: ", "\nThe edition's year must be a number.\n");
+        return checkForExceptions("\nEnter the edition's year: ", "\nThe edition's year must be a number.\n");
     }
 
     public int readEditionPlayer() {
