@@ -59,15 +59,15 @@ public class ComposerController {
         do{
             if(wrongInput){
                 if(attributeType.equals("name") && !condition)
-                    composerView.showError("\nThis trial name already exists. Please try again.");
+                    composerView.showError("\nThis trial name already exists. Please try again:");
                 else if(attributeType.equals("name") && !condition2)
-                    composerView.showError("\nThe name of the trial cannot be empty. Please try again.\n");
+                    composerView.showError("\nThe name of the trial cannot be empty. Please try again:");
                 switch (attributeType) {
-                    case "type" -> composerView.showError("\nThe type of the trial cannot be empty. Please try again.\n");
-                    case "quartile" -> composerView.showError("\nThe quartile of the publication must be one of the following values: Q1, Q2, Q3, Q4. Please try again.\n");
-                    case "accept" -> composerView.showError("\nThe acceptance probability must be between 0 and 100. Please try again.\n");
-                    case "revision" -> composerView.showError("\nThe revision probability must be between 0 and 100. Please try again.\n");
-                    case "reject" -> composerView.showError("\nThe rejection probability must be between 0 and 100. Please try again.\n");
+                    case "type" -> composerView.showError("\nThe type of the trial cannot be empty. Please try again:");
+                    case "quartile" -> composerView.showError("\nThe quartile of the publication must be one of the following values: Q1, Q2, Q3, Q4. Please try again:");
+                    case "accept" -> composerView.showError("\nThe acceptance probability must be between 0 and 100. Please try again:");
+                    case "revision" -> composerView.showError("\nThe revision probability must be between 0 and 100. Please try again:");
+                    case "reject" -> composerView.showError("\nThe rejection probability must be between 0 and 100. Please try again:");
                 }
 
             }
@@ -105,11 +105,11 @@ public class ComposerController {
         error = 0;
         do {
             if(error == 1)
-                composerView.showError("The probability of the paper publication must add up to 100. Please try again.");
+                composerView.showError("\nThe probability of the paper publication must add up to 100. Please try again:");
 
             do {
                 if (error == 2)
-                    composerView.showError("The sum of the acceptance and revision probabilities cannot be over 100. Please try again.");
+                    composerView.showError("\nThe sum of the acceptance and revision probabilities cannot be over 100. Please try again:");
                 acceptProbability = Integer.parseInt(getTrialAttribute("accept"));
                 revisionProbability = Integer.parseInt(getTrialAttribute("revision"));
                 error = 2;

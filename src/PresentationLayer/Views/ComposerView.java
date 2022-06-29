@@ -42,15 +42,15 @@ public class ComposerView {
     }
 
     public String readAccept() {
-        return checkInputMismatchException("Enter the acceptance probability: ", "The acceptance probability must be a number between 0 and 100. Please try again.");
+        return checkInputMismatchException("Enter the acceptance probability: ", "\nThe acceptance probability must be a number between 0 and 100. Please try again:\n");
     }
 
     public String readRevision() {
-        return checkInputMismatchException("Enter the revision probability: ", "The revision probability must be a number between 0 and 100. Please try again.");
+        return checkInputMismatchException("Enter the revision probability: ", "\nThe revision probability must be a number between 0 and 100. Please try again:\n");
     }
 
     public String readReject() {
-        return checkInputMismatchException("Enter the rejection probability: ", "The rejection probability must be a number between 0 and 100. Please try again.");
+        return checkInputMismatchException("Enter the rejection probability: ", "\nThe rejection probability must be a number between 0 and 100. Please try again:\n");
     }
 
     public void createTrialSuccess() {
@@ -82,28 +82,19 @@ public class ComposerView {
     }
 
     public int readEditionYear() {
-        while(true){
-            try{
-                System.out.print("Enter the edition's year: ");
-                return sc.nextInt();
-            } catch (NumberFormatException exception) {
-                System.out.print("\nThe edition's year must be an integer. Please try again.\n");
-            }finally {
-                sc.nextLine();
-            }
-        }
+        return checkFormatException("Enter the edition's year: ", "\nThe edition's year must be a number. Please try again:\n");
     }
 
     public int readEditionPlayer() {
-        return checkFormatException("Enter the initial number of players: ", "The number of players must be an integer. Please try again.");
+        return checkFormatException("Enter the initial number of players: ", "\nThe number of players must be an integer. Please try again:\n");
     }
 
     public int readEditionTrials() {
-        return checkFormatException("\nEnter the number of trials: ", "The number of trials must be an integer. Please try again.");
+        return checkFormatException("\nEnter the number of trials: ", "\nThe number of trials must be an integer. Please try again:\n");
     }
 
     public int pickTrial(int totalTrials, int index){
-        return checkFormatException("Pick a trial (" + index + "/" + totalTrials + "): ","\nThe number of the trial must be an integer. Please try again.\n");
+        return checkFormatException("Pick a trial (" + index + "/" + totalTrials + "): ","\nThe number of the trial must be an integer. Please try again:\n");
     }
 
     public int checkFormatException(String message, String errorMessage) {
@@ -145,11 +136,11 @@ public class ComposerView {
     }
 
     public int readNewEditionYear() {
-        return checkFormatException("Enter the new edition's year: ", "The edition's year must be an integer. Please try again.");
+        return checkFormatException("Enter the new edition's year: ", "\nThe edition's year must be an integer. Please try again:\n");
     }
 
     public int readNewEditionPlayer() {
-        return checkFormatException("Enter the new edition's initial number of players: ", "The number of players must be an integer. Please try again.");
+        return checkFormatException("Enter the new edition's initial number of players: ", "\nThe number of players must be an integer. Please try again:\n");
     }
 
     public void duplicateEditionSuccess() {
