@@ -7,6 +7,7 @@ import BusinessLayer.Trials.Trials;
 import PersistenceLayer.EditionFileManager;
 import PersistenceLayer.TrialsFileManager;
 import PresentationLayer.Views.ComposerView;
+import com.opencsv.exceptions.CsvException;
 
 import java.io.IOException;
 
@@ -24,6 +25,12 @@ public class ComposerController {
 
     public void managementMode(){
         String option;
+        try {
+            this.trialManager.readTrials();
+        } catch (IOException | CsvException e) {
+            composerView.showError("Error reading trials file");
+        }
+
         option = composerView.managementMenu();
         switch (option) {
             case "1" -> this.manageTrials();

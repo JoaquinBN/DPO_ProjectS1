@@ -1,9 +1,11 @@
 package BusinessLayer.Trials;
 
 import PersistenceLayer.TrialsFileManager;
+import com.opencsv.exceptions.CsvException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TrialManager {
     private ArrayList<Trials> trials;
@@ -65,7 +67,13 @@ public class TrialManager {
         trialsFileManager.writeTrials(trials);
     }
 
-    public void setTrialsArrayList(ArrayList<Trials> trials){
-        this.trials = trials;
+    public void readTrials() throws IOException, CsvException {
+        List<String[]> allTrials = trialsFileManager. readTrials();
+        for(String[] trial : allTrials){
+            switch(trial[1]){
+                case "PaperSubmission" -> trial[1] = "1";
+            }
+            addTrial(trial);
+        }
     }
 }

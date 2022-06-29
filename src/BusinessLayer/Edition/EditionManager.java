@@ -5,6 +5,7 @@ import PersistenceLayer.EditionFileManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class EditionManager {
     private ArrayList<Edition> editions;
@@ -44,6 +45,7 @@ public class EditionManager {
         editions.get(editions.size() - 1).addTrial(trial, indexTrial);
     }
 
+    public void addTrialByName()
     public boolean checkUniqueYear(int year) {
         for (Edition edition : editions) {
             if (edition.getYear() == year) {
@@ -69,8 +71,9 @@ public class EditionManager {
         editionFileManager.writeEditions(editions);
     }
 
-    public void setEditions(ArrayList<Edition> editions) {
-        this.editions = editions;
+    public void readEditions() {
+        List<String[]> editionsString = editionFileManager.readEditions();
+
     }
 
 }
