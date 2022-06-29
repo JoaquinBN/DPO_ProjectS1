@@ -123,7 +123,7 @@ public class ComposerView {
         while(true){
             try{
                 System.out.print(message);
-                return sc.nextLine();
+                return String.valueOf(sc.nextInt());
             } catch (InputMismatchException exception) {
                 System.out.print(errorMessage);
             }finally {
