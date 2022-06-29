@@ -9,8 +9,10 @@ public class TrialManager {
         trials = new ArrayList<Trials>();
     }
 
-    public void addTrial(String trialName, String paperName, String quartile, int acceptProbability, int revisionProbability, int rejectProbability) {
-        trials.add(new PaperSubmission(trialName, paperName, quartile, acceptProbability, revisionProbability, rejectProbability));
+    public void addTrial(int trialType, String trialName, String paperName, String quartile, int acceptProbability, int revisionProbability, int rejectProbability) {
+        switch(trialType) {
+            case 1 -> trials.add(new PaperSubmission(trialName, paperName, quartile, acceptProbability, revisionProbability, rejectProbability));
+        }
     }
 
     public void removeTrial(int index) {

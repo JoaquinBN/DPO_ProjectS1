@@ -31,7 +31,7 @@ public class ComposerController {
             case "2" -> this.manageEditions();
             case "3" -> this.exitProgram();
             default -> {
-                composerView.showError("Wrong option. Please try again.");
+                composerView.showError("\nWrong option. Please try again:");
                 managementMode();
             }
         }
@@ -46,7 +46,7 @@ public class ComposerController {
             case "c" -> this.deleteTrial();
             case "d" -> this.managementMode();
             default -> {
-                composerView.showError("Wrong option. Please try again.");
+                composerView.showError("\nWrong option. Please try again:");
                 manageTrials();
             }
         }
@@ -98,7 +98,9 @@ public class ComposerController {
 
     private void createTrial(){
         String trialName, paperName, quartile;
-        int acceptProbability, revisionProbability, rejectProbability, error;
+        int acceptProbability, revisionProbability, rejectProbability, error, trialType;
+        trialType = composerView.showTrialType();
+
         trialName = getTrialAttribute("name");
         paperName = getTrialAttribute("type");
         quartile = getTrialAttribute("quartile");
@@ -118,7 +120,7 @@ public class ComposerController {
             rejectProbability = Integer.parseInt(getTrialAttribute("reject"));
             error = 1;
         } while (!trialManager.checkSumProbabilities(acceptProbability + revisionProbability + rejectProbability));
-        trialManager.addTrial(trialName, paperName, quartile, acceptProbability, revisionProbability, rejectProbability);
+        trialManager.addTrial(trialType, trialName, paperName, quartile, acceptProbability, revisionProbability, rejectProbability);
         composerView.createTrialSuccess();
         manageTrials();
     }
@@ -162,7 +164,7 @@ public class ComposerController {
             case "d" -> this.deleteEdition();
             case "e" -> this.managementMode();
             default -> {
-                composerView.showError("Wrong option. Please try again.");
+                composerView.showError("\nWrong option. Please try again:");
                 manageEditions();
             }
         }
@@ -173,9 +175,9 @@ public class ComposerController {
         boolean errorDisplay = false;
         do {
             if(errorDisplay && !editionManager.checkUniqueYear(year))
-                composerView.showError("\nThis edition already exists. Please try again.");
+                composerView.showError("\nThis edition already exists. Please try again:");
             else if(errorDisplay && !editionManager.checkValidYear(year))
-                composerView.showError("\nThe year of the edition must equal or greater than the current year (2022). Please try again.");
+                composerView.showError("\nThe year of the edition must equal or greater than the current year (2022). Please try again:");
             year = composerView.readEditionYear();
             errorDisplay = true;
         }while (!editionManager.checkUniqueYear(year) || !editionManager.checkValidYear(year));
@@ -183,7 +185,7 @@ public class ComposerController {
         errorDisplay = false;
         do {
             if(errorDisplay)
-                composerView.showError("\nThe number of players must be between 1 and 5. Please try again.");
+                composerView.showError("\nThe number of players must be between 1 and 5. Please try again:");
             numberOfPlayers = composerView.readEditionPlayer();
             errorDisplay = true;
         }while(!editionManager.checkPlayersRange(numberOfPlayers));
@@ -191,7 +193,7 @@ public class ComposerController {
         errorDisplay = false;
         do {
             if(errorDisplay)
-                composerView.showError("\nThe number of trials must be between 3 and 12. Please try again.");
+                composerView.showError("\nThe number of trials must be between 3 and 12. Please try again:");
             numberOfTrials = composerView.readEditionTrials();
             errorDisplay = true;
         }while(!editionManager.checkTrialsRange(numberOfTrials));
