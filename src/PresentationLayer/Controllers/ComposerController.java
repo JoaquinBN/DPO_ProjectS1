@@ -99,11 +99,19 @@ public class ComposerController {
     private void createTrial(){
         String trialName, paperName, quartile;
         int acceptProbability, revisionProbability, rejectProbability, error, trialType;
-        trialType = composerView.showTrialType();
+        error = 0;
+        composerView.showTrialTypes();
+        do {
+            if(error == 1)
+                composerView.showError("\nThe trial has to be an existing type. Please try again:");
+            trialType = composerView.getTrialTypeInput();
+            error = 1;
+        } while (trialType != 1);
 
         trialName = getTrialAttribute("name");
         paperName = getTrialAttribute("type");
         quartile = getTrialAttribute("quartile");
+
         error = 0;
         do {
             if(error == 1)

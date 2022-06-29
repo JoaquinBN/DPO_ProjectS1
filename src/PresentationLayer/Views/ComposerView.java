@@ -167,9 +167,12 @@ public class ComposerView {
         System.out.print(message);
     }
 
-    public int showTrialType() {
+    public int getTrialTypeInput() {
+        return checkFormatException("\nEnter the trial's type: ", "\nThe trial's type must be an integer. Please try again:\n");
+    }
+
+    public void showTrialTypes() {
         System.out.println("\n\t--- Trial types ---");
         System.out.println("\n\t1) Paper publication");
-        return checkFormatException("\nEnter the trial's type: ", "\nThe trial's type must be an integer. Please try again:\n");
     }
 }
