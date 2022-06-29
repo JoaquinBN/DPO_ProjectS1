@@ -19,5 +19,6 @@ public class TrialsFileManager {
         for (Trials trial : trials){
             writer.writeNext(trial.getDataToWrite());
         }
+        writer.close();
     }
 }

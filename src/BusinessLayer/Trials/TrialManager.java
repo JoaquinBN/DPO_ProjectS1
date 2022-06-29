@@ -59,4 +59,8 @@ public class TrialManager {
     public ArrayList<Trials> getTrialsArrayList(){
         return trials;
     }
+
+    public void setTrialsArrayList(ArrayList<Trials> trials){
+        this.trials = trials;
+    }
 }
