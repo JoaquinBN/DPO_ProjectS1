@@ -12,7 +12,7 @@ public class TrialsFileManager {
     }
 
     public void writeTrials(ArrayList<Trials> trials) throws IOException {
-        CSVWriter writer = new CSVWriter(new FileWriter("Files/Trials.csv", false),
+        CSVWriter writer = new CSVWriter(new FileWriter("files/Trials.csv", false),
                 CSVWriter.DEFAULT_SEPARATOR,
                 CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.NO_ESCAPE_CHARACTER, "\n");
 

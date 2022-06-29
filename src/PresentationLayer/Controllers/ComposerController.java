@@ -5,6 +5,7 @@ import BusinessLayer.Trials.PaperSubmission;
 import BusinessLayer.Trials.TrialManager;
 import BusinessLayer.Trials.Trials;
 import PersistenceLayer.EditionFileManager;
+import PersistenceLayer.TrialsFileManager;
 import PresentationLayer.Views.ComposerView;
 
 import java.io.IOException;
@@ -14,13 +15,15 @@ public class ComposerController {
     private final TrialManager trialManager;
     private final ComposerView composerView;
     private final EditionFileManager editionFileManager;
+    private final TrialsFileManager trialsFileManager;
 
 
-    public ComposerController(EditionManager editionManager, TrialManager trialManager, ComposerView composerView, EditionFileManager editionFileManager) {
+    public ComposerController(EditionManager editionManager, TrialManager trialManager, ComposerView composerView, EditionFileManager editionFileManager, TrialsFileManager trialsFileManager) {
         this.editionManager = editionManager;
         this.trialManager = trialManager;
         this.composerView = composerView;
         this.editionFileManager = editionFileManager;
+        this.trialsFileManager = trialsFileManager;
     }
 
     public void managementMode(){
@@ -270,6 +273,12 @@ public class ComposerController {
         try {
             editionFileManager.writeEditions(editionManager.getEditions());
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            trialsFileManager.writeTrials(trialManager.getTrialsArrayList());
+        }catch (IOException e) {
             e.printStackTrace();
         }
         composerView.exitProgram();

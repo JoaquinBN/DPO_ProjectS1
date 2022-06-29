@@ -55,4 +55,8 @@ public class TrialManager {
     public boolean checkLimitProbabilities(int limitProbabilities) {
         return limitProbabilities > 100;
     }
+
+    public ArrayList<Trials> getTrialsArrayList(){
+        return trials;
+    }
 }
