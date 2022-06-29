@@ -224,81 +224,103 @@ public class ComposerController {
     private void createEdition(){
         int year = 0, numberOfPlayers, numberOfTrials;
         boolean errorDisplay = false;
-        do {
-            if(errorDisplay && !editionManager.checkUniqueYear(year))
-                composerView.showError("\nThis edition already exists.");
-            else if(errorDisplay && !editionManager.checkValidYear(year))
-                composerView.showError("\nThe year of the edition must equal or greater than the current year (2022).");
-            year = composerView.readEditionYear();
-            errorDisplay = true;
-        }while (!editionManager.checkUniqueYear(year) || !editionManager.checkValidYear(year));
 
-        errorDisplay = false;
-        do {
-            if(errorDisplay)
-                composerView.showError("\nThe number of players must be between 1 and 5.");
-            numberOfPlayers = composerView.readEditionPlayer();
+        year = composerView.readEditionYear();
+        if (!editionManager.checkUniqueYear(year)){
+            composerView.showError("\nThis edition already exists.");
             errorDisplay = true;
-        }while(!editionManager.checkPlayersRange(numberOfPlayers));
-
-        errorDisplay = false;
-        do {
-            if(errorDisplay)
-                composerView.showError("\nThe number of trials must be between 3 and 12.");
-            numberOfTrials = composerView.readEditionTrials();
+        }else if (!editionManager.checkValidYear(year)){
+            composerView.showError("\nThe year of the edition must equal or greater than the current year (2022).");
             errorDisplay = true;
-        }while(!editionManager.checkTrialsRange(numberOfTrials));
-        editionManager.addEdition(year, numberOfPlayers, numberOfTrials);
-        composerView.showMessage("\n\t--- Trials ---\n");
-        showAllTrials();
-        composerView.showMessage("\n\n");
-        int trialIndex;
-        for(int j = 0; j < numberOfTrials; j++){
-            do{
-                trialIndex = composerView.pickTrial(numberOfTrials, j + 1) - 1;
-            }while(trialIndex < 0 || trialIndex >= trialManager.getNumberOfTrials());
-            editionManager.addTrialToEdition(trialManager.getTrial(trialIndex).getTrialName(), j);
         }
-        composerView.createEditionSuccess();
+
+        numberOfPlayers = composerView.readEditionPlayer();
+
+        if(!editionManager.checkPlayersRange(numberOfPlayers)){
+            composerView.showError("\nThe number of players must be between 1 and 5.");
+            errorDisplay = true;
+        }
+
+        numberOfTrials = composerView.readEditionTrials();
+
+        if(!editionManager.checkTrialsRange(numberOfTrials)){
+            composerView.showError("\nThe number of trials must be between 1 and 5.");
+            errorDisplay = true;
+        }
+
+        if(!errorDisplay) {
+            editionManager.addEdition(year, numberOfPlayers, numberOfTrials);
+            composerView.showMessage("\n\t--- Trials ---\n");
+            showAllTrials();
+            composerView.showMessage("\n\n");
+            int trialIndex;
+            for(int j = 0; j < numberOfTrials; j++){
+                do{
+                    trialIndex = composerView.pickTrial(numberOfTrials, j + 1) - 1;
+                }while(trialIndex < 0 || trialIndex >= trialManager.getNumberOfTrials());
+                editionManager.addTrialToEdition(trialManager.getTrial(trialIndex).getTrialName(), j);
+            }
+            composerView.createEditionSuccess();
+        } else {
+            composerView.showMessage("\nRedirecting to previous menu...\n");
+        }
+
         manageEditions();
     }
 
     private void listEditions(){
-        int editionIndex, k;
-        composerView.showMessage("\nHere are the current editions, do you want to see more details or go back?\n\n");
-        editionIndex = showAllEditions();
-        if(editionIndex != editionManager.getNumberOfEditions()){
-            composerView.showEdition(editionManager.getEditionByIndex(editionIndex).getYear(), editionManager.getEditionByIndex(editionIndex).getNumberOfPlayers());
-            k = 1;
-            for(String trialName : editionManager.getEditionByIndex(editionIndex).getTrials()){
-                composerView.listEditionTrials(k, trialName, trialManager.getTrialTypeByName(trialName));
-                k++;
+        if (editionManager.getNumberOfEditions() == 0) {
+            composerView.showError("\nThere are no editions to display.");
+        } else {
+            int editionIndex, k;
+            composerView.showMessage("\nHere are the current editions, do you want to see more details or go back?\n\n");
+            editionIndex = showAllEditions();
+            if(editionIndex != editionManager.getNumberOfEditions()){
+                composerView.showEdition(editionManager.getEditionByIndex(editionIndex).getYear(), editionManager.getEditionByIndex(editionIndex).getNumberOfPlayers());
+                k = 1;
+                for(String trialName : editionManager.getEditionByIndex(editionIndex).getTrials()){
+                    composerView.listEditionTrials(k, trialName, trialManager.getTrialTypeByName(trialName));
+                    k++;
+                }
             }
         }
+        composerView.showMessage("\nRedirecting to previous menu...\n");
         manageEditions();
     }
 
     private void duplicateEdition(){
-        int editionIndex, year, numberOfPlayers;
-        composerView.showMessage("\nWhich edition do you want to clone?\n\n");
-        editionIndex = showAllEditions();
-        if(editionIndex != editionManager.getNumberOfEditions()) {
-            year = composerView.readNewEditionYear();
-            numberOfPlayers = composerView.readNewEditionPlayer();
-            editionManager.duplicateEditions(year, numberOfPlayers, editionIndex);
-            composerView.duplicateEditionSuccess();
+        if (editionManager.getNumberOfEditions() == 0) {
+            composerView.showError("\nThere are no editions to duplicate.");
+        } else {
+            int editionIndex, k;
+            composerView.showMessage("\nHere are the current editions, do you want to see more details or go back?\n\n");
+            editionIndex = showAllEditions();
+            if(editionIndex != editionManager.getNumberOfEditions()){
+                composerView.showEdition(editionManager.getEditionByIndex(editionIndex).getYear(), editionManager.getEditionByIndex(editionIndex).getNumberOfPlayers());
+                k = 1;
+                for(String trialName : editionManager.getEditionByIndex(editionIndex).getTrials()){
+                    composerView.listEditionTrials(k, trialName, trialManager.getTrialTypeByName(trialName));
+                    k++;
+                }
+            }
         }
+        composerView.showMessage("\nRedirecting to previous menu...\n");
         manageEditions();
     }
 
     private void deleteEdition(){
-        int editionIndex;
-        composerView.showMessage("\nWhich edition do you want to delete?\n\n");
-        editionIndex = showAllEditions();
-        if(editionIndex != editionManager.getNumberOfEditions()) {
-            editionManager.removeEdition(editionIndex);
-            composerView.deleteEditionSuccess();
+        if (editionManager.getNumberOfEditions() == 0) {
+            composerView.showError("\nThere are no editions to delete.");
+        } else {
+            int editionIndex;
+            composerView.showMessage("\nWhich edition do you want to delete?\n\n");
+            editionIndex = showAllEditions();
+            if(editionIndex != editionManager.getNumberOfEditions()) {
+                editionManager.removeEdition(editionIndex);
+                composerView.deleteEditionSuccess();
+            }
         }
+        composerView.showMessage("\nRedirecting to previous menu...\n");
         manageEditions();
     }
 
