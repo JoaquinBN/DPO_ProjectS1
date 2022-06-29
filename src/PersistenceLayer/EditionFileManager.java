@@ -2,8 +2,11 @@ package PersistenceLayer;
 
 import BusinessLayer.Edition.Edition;
 import BusinessLayer.Trials.Trials;
+import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvException;
 
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
@@ -34,5 +37,10 @@ public class EditionFileManager {
         writer.close();
     }
 
-
+    public List<String[]> readEditions() throws IOException, CsvException {
+        CSVReader reader = new CSVReader(new FileReader("files/Editions.csv"));
+        List<String[]> editions = reader.readAll();
+        reader.close();
+        return editions;
+    }
 }
