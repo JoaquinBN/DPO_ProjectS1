@@ -20,7 +20,7 @@ public class Main {
         EditionManager editionManager = new EditionManager(editionFileManager);
         ConductorView conductorView = new ConductorView();
         ConductorManager conductorManager = new ConductorManager(playerManager, trialManager, editionManager);
-        ConductorController conductorController = new ConductorController(conductorManager);
+        ConductorController conductorController = new ConductorController(conductorManager, conductorView);
         ComposerView composerView = new ComposerView();
         ComposerController composerController = new ComposerController(editionManager, trialManager, composerView);
         MainMenuView mainMenuView = new MainMenuView();

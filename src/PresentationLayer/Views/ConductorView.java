@@ -17,7 +17,7 @@ public class ConductorView {
         System.out.println(message);
     }
 
-    public String showPlayersInput(int index, int totalPlayers) {
+    public String askForPlayerName(int index, int totalPlayers) {
         System.out.print("Enter the player's name (" + index + "/" + totalPlayers + "): ");
         return sc.nextLine();
     }
@@ -37,5 +37,19 @@ public class ConductorView {
         }
     }
 
-
+    public void displayPlayerCondition(String name, int k, int result, int investigationPoints) {
+        System.out.print("\n" + name + "is submitting... ");
+        for(int i = 0; i < k; i++){
+            System.out.print("Revisions... ");
+        }
+        if(result < 0){
+            System.out.print("Rejected. PI count: ");
+        }else{
+            System.out.print("Accepted! PI count: ");
+        }
+        System.out.print(investigationPoints);
+        if(investigationPoints == 0){
+            System.out.println(" - Disqualified!");
+        }
+    }
 }

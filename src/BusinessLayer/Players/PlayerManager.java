@@ -30,6 +30,18 @@ public class PlayerManager {
         return players.size();
     }
 
+    public boolean playerIsDead(int index){
+        return players.get(index).getStatus();
+    }
+
+    public boolean allPlayersareDead(){
+        for(Player player: players){
+            if(!player.getStatus()){
+                return false;
+            }
+        }
+        return true;
+    }
 
 
 }
