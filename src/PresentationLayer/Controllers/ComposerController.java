@@ -1,5 +1,6 @@
 package PresentationLayer.Controllers;
 
+import BusinessLayer.Edition.Edition;
 import BusinessLayer.Edition.EditionManager;
 import BusinessLayer.Trials.PaperSubmission;
 import BusinessLayer.Trials.TrialManager;
@@ -155,7 +156,6 @@ public class ComposerController {
 
         if(trialManager.getNumberOfTrials() == 0){
             composerView.showError("\nThere are no trials to display.");
-            composerView.showMessage("\nRedirecting to previous menu...\n");
         }else {
             showAllTrials();
             composerView.showBack(trialManager.getNumberOfTrials() + 1);
@@ -169,6 +169,7 @@ public class ComposerController {
             if (trialIndex != trialManager.getNumberOfTrials() && !errorInput)
                 composerView.showMessage(trialManager.getTrial(trialIndex).displayTrialInfo());
         }
+        composerView.showMessage("\nRedirecting to previous menu...\n");
         manageTrials();
     }
 
@@ -178,7 +179,6 @@ public class ComposerController {
 
         if(trialManager.getNumberOfTrials() == 0) {
             composerView.showError("\nThere are no trials to delete.");
-            composerView.showMessage("\nRedirecting to previous menu...\n");
         }else {
             showAllTrials();
             composerView.showBack(trialManager.getNumberOfTrials() + 1);
@@ -194,6 +194,7 @@ public class ComposerController {
                 composerView.deleteTrialSuccess();
             }
         }
+        composerView.showMessage("\nRedirecting to previous menu...\n");
         manageTrials();
     }
 
@@ -260,22 +261,20 @@ public class ComposerController {
             showAllTrials();
             composerView.showMessage("\n\n");
             int trialIndex;
-            for(int j = 0; j < numberOfTrials; j++){
+            for (int j = 0; j < numberOfTrials; j++) {
                 trialIndex = composerView.pickTrial(trialManager.getNumberOfTrials(), j + 1, numberOfTrials) - 1;
                 editionManager.addTrialToEdition(trialManager.getTrial(trialIndex).getTrialName(), j);
             }
             composerView.createEditionSuccess();
-        } else {
-            composerView.showMessage("\nRedirecting to previous menu...\n");
         }
 
+        composerView.showMessage("\nRedirecting to previous menu...\n");
         manageEditions();
     }
 
     private void listEditions(){
         if (editionManager.getNumberOfEditions() == 0) {
             composerView.showError("\nThere are no editions to display.");
-            composerView.showMessage("\nRedirecting to previous menu...\n");
         } else {
             int editionIndex, k;
             composerView.showMessage("\nHere are the current editions, do you want to see more details or go back?\n\n");
@@ -289,33 +288,50 @@ public class ComposerController {
                 }
             }
         }
+
+        composerView.showMessage("\nRedirecting to previous menu...\n");
         manageEditions();
     }
 
     private void duplicateEdition(){
+        int editionIndex = -1, year = -1, numberOfPlayers = -1;
+        boolean errorDisplay = false;
         if (editionManager.getNumberOfEditions() == 0) {
             composerView.showError("\nThere are no editions to duplicate.");
-            composerView.showMessage("\nRedirecting to previous menu...\n");
         } else {
-            int editionIndex, k;
             composerView.showMessage("\nHere are the current editions, do you want to see more details or go back?\n\n");
+
             editionIndex = showAllEditions();
             if(editionIndex != editionManager.getNumberOfEditions()){
-                composerView.showEdition(editionManager.getEditionByIndex(editionIndex).getYear(), editionManager.getEditionByIndex(editionIndex).getNumberOfPlayers());
-                k = 1;
-                for(String trialName : editionManager.getEditionByIndex(editionIndex).getTrials()){
-                    composerView.listEditionTrials(k, trialName, trialManager.getTrialTypeByName(trialName));
-                    k++;
+                year = composerView.readNewEditionYear();
+                if (!editionManager.checkUniqueYear(year)){
+                    composerView.showError("\nThis edition already exists.");
+                    errorDisplay = true;
+                }else if (!editionManager.checkValidYear(year)){
+                    composerView.showError("\nThe year of the edition must equal or greater than the current year (2022).");
+                    errorDisplay = true;
+                }
+
+                if(!errorDisplay) {
+                    numberOfPlayers = composerView.readNewEditionPlayer();
+                    if(!editionManager.checkPlayersRange(numberOfPlayers)){
+                        composerView.showError("\nThe number of players must be between 1 and 5.");
+                        errorDisplay = true;
+                    }
                 }
             }
         }
+        if(!errorDisplay){
+            editionManager.duplicateEditions(year, numberOfPlayers, editionIndex);
+            composerView.duplicateEditionSuccess();
+        }
+        composerView.showMessage("\nRedirecting to previous menu...\n");
         manageEditions();
     }
 
     private void deleteEdition(){
         if (editionManager.getNumberOfEditions() == 0) {
             composerView.showError("\nThere are no editions to delete.");
-            composerView.showMessage("\nRedirecting to previous menu...\n");
         } else {
             int editionIndex;
             composerView.showMessage("\nWhich edition do you want to delete?\n\n");
@@ -325,6 +341,7 @@ public class ComposerController {
                 composerView.deleteEditionSuccess();
             }
         }
+        composerView.showMessage("\nRedirecting to previous menu...\n");
         manageEditions();
     }
 
