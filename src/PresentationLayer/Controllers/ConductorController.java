@@ -20,7 +20,7 @@ public class ConductorController {
     }
 
 
-    public void start(){
+    public void start() throws IOException, CsvException {
         try{
             conductorManager.loadDataForTrials();
             if(conductorManager.fileIsEmpty()){
@@ -39,7 +39,7 @@ public class ConductorController {
         executeEdition();
     }
 
-    public void executeEdition(){
+    public void executeEdition() throws IOException, CsvException {
         int i, k, result;
         for(i = 0; i < conductorManager.getNumTrials(); i++){
             conductorView.showMessage("\nTrial #" + (i + 1) + " - " + conductorManager.getCurrentEdition().getTrials()[i]);

@@ -60,7 +60,7 @@ public class PlayerManager {
         }
     }
 
-    public void saveData() {
+    public void saveData() throws IOException {
         players.removeIf(Player::getStatus);
         List<String[]> playersData = new ArrayList<>();
         for(Player player: players){

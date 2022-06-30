@@ -7,6 +7,7 @@ import PersistenceLayer.EditionFileManager;
 import PersistenceLayer.ExecutionFileManager;
 import PersistenceLayer.TrialsFileManager;
 import com.opencsv.exceptions.CsvException;
+import com.opencsv.exceptions.CsvValidationException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -84,11 +85,11 @@ public class ConductorManager {
         currentEdition = new Edition(2022, numberOfPlayers, trials.length);
     }
 
-    public boolean fileIsEmpty() throws IOException {
+    public boolean fileIsEmpty() throws IOException, CsvValidationException {
         return executionFileManager.fileIsEmpty();
     }
 
-    public void saveData(int trialIndex) {
+    public void saveData(int trialIndex) throws IOException, CsvException {
         String[] allTrialNames = new String[trials.length - trialIndex];
         for(int i = trialIndex; i < trials.length; i++) {
             allTrialNames[i-trialIndex] = trials[i].getTrialName();
