@@ -206,17 +206,21 @@ public class ComposerController {
     }
 
     private void manageEditions(){
-        String option;
-        option = composerView.manageEditionsMenu();
-        switch (option) {
-            case "a" -> this.createEdition();
-            case "b" -> this.listEditions();
-            case "c" -> this.duplicateEdition();
-            case "d" -> this.deleteEdition();
-            case "e" -> this.managementMode();
-            default -> {
-                composerView.showError("\nWrong option.");
-                manageEditions();
+        if (trialManager.getNumberOfTrials() == 0) {
+            composerView.showError("\nThere are no trials available.");
+            managementMode();
+        } else {
+            String option;
+            option = composerView.manageEditionsMenu();
+            switch (option) {
+                case "a" -> this.createEdition();
+                case "b" -> this.listEditions();
+                case "c" -> this.deleteEdition();
+                case "d" -> this.managementMode();
+                default -> {
+                    composerView.showError("\nWrong option. Please try again:");
+                    manageEditions();
+                }
             }
         }
     }
@@ -245,7 +249,7 @@ public class ComposerController {
         if (!errorDisplay) {
             numberOfTrials = composerView.readEditionTrials();
             if(!editionManager.checkTrialsRange(numberOfTrials)){
-                composerView.showError("\nThe number of trials must be between 1 and 5.");
+                composerView.showError("\nThe number of trials must be between 3 and 12.");
                 errorDisplay = true;
             }
         }
