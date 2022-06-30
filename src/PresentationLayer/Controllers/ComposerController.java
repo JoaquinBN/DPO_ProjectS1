@@ -16,9 +16,9 @@ public class ComposerController {
 
     /**
      * Constructor for the ComposerController.
-     * @param editionManager
-     * @param trialManager
-     * @param composerView
+     * @param editionManager - the edition manager
+     * @param trialManager - the trial manager
+     * @param composerView - the composer view
      */
     public ComposerController(EditionManager editionManager, TrialManager trialManager, ComposerView composerView) {
         this.editionManager = editionManager;
@@ -42,7 +42,7 @@ public class ComposerController {
     /**
      * Starts the management mode of the composer view.
      */
-    public void managementMode(){
+    private void managementMode(){
         String option;
         composerView.showMessage("\nEntering management mode...\n");
         option = composerView.managementMenu();

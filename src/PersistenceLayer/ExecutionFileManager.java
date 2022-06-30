@@ -17,7 +17,7 @@ public class ExecutionFileManager {
     /**
      * Write players data to the csv file.
      * @param playersData List of String arrays with players data.
-     * @throws IOException
+     * @throws IOException if the file could not be written.
      */
     public void writePlayersData(List<String[]> playersData) throws IOException {
         CSVWriter writer = new CSVWriter(new FileWriter("files/Execution.csv", true),

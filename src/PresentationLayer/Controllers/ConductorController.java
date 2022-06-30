@@ -60,7 +60,7 @@ public class ConductorController {
     /**
      * Executes the current edition.
      */
-    public void executeEdition() {
+    private void executeEdition() {
         int i, k, result;
         for (i = 0; i < conductorManager.getNumTrials(); i++) {
             conductorView.showMessage("\nTrial #" + (startIndex + 1) + " - " + conductorManager.getCurrentEdition().getTrials()[i] + "\n");

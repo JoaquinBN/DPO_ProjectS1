@@ -13,7 +13,7 @@ public class PlayerManager {
 
     /**
      * Constructor for PlayerManager
-     * @param executionFileManager the execution file manager
+     * @param executionFileManager the execution file man1ager
      */
     public PlayerManager(ExecutionFileManager executionFileManager) {
         players = new ArrayList<>();

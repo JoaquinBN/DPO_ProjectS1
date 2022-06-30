@@ -3,7 +3,7 @@ package PresentationLayer.Views;
 import java.util.Scanner;
 
 public class ConductorView {
-    private Scanner sc;
+    private final Scanner sc;
 
     /**
      * Constructor for the ConductorView class.
