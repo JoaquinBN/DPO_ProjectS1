@@ -259,7 +259,7 @@ public class ComposerController {
             editionManager.addEdition(year, numberOfPlayers, numberOfTrials);
             composerView.showMessage("\n\t--- Trials ---\n");
             showAllTrials();
-            composerView.showMessage("\n\n");
+            composerView.showMessage("\n");
             int trialIndex;
             for (int j = 0; j < numberOfTrials; j++) {
                 trialIndex = composerView.pickTrial(trialManager.getNumberOfTrials(), j + 1, numberOfTrials) - 1;
@@ -300,9 +300,14 @@ public class ComposerController {
             composerView.showError("\nThere are no editions to duplicate.");
         } else {
             composerView.showMessage("\nHere are the current editions, do you want to see more details or go back?\n\n");
-
             editionIndex = showAllEditions();
-            if(editionIndex != editionManager.getNumberOfEditions()){
+
+            if(editionIndex > editionManager.getNumberOfEditions()){
+                composerView.showError("\nThe index entered must be between 1 and " + editionManager.getNumberOfEditions() + ".");
+                errorDisplay = true;
+            }
+
+            if(editionIndex != editionManager.getNumberOfEditions() && !errorDisplay){
                 year = composerView.readNewEditionYear();
                 if (!editionManager.checkUniqueYear(year)){
                     composerView.showError("\nThis edition already exists.");
@@ -319,11 +324,12 @@ public class ComposerController {
                         errorDisplay = true;
                     }
                 }
+
+                if(!errorDisplay) {
+                    editionManager.duplicateEditions(year, numberOfPlayers, editionIndex);
+                    composerView.duplicateEditionSuccess();
+                }
             }
-        }
-        if(!errorDisplay){
-            editionManager.duplicateEditions(year, numberOfPlayers, editionIndex);
-            composerView.duplicateEditionSuccess();
         }
         composerView.showMessage("\nRedirecting to previous menu...\n");
         manageEditions();
@@ -346,10 +352,11 @@ public class ComposerController {
     }
 
     private int showAllEditions(){
-        for(int i = 0; i < editionManager.getNumberOfEditions(); i++){
+        int i;
+        for(i = 0; i < editionManager.getNumberOfEditions(); i++){
             composerView.listEditions(i + 1, editionManager.getEditionByIndex(i).getYear());
         }
-        composerView.showBack(trialManager.getNumberOfTrials() + 1);
+        composerView.showBack(i + 1);
         return composerView.getIndexInput();
     }
 
