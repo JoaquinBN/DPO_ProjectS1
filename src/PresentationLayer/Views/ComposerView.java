@@ -85,15 +85,15 @@ public class ComposerView {
         return checkForExceptions("Enter the number of trials: ", "\nThe number of trials must be an integer.\n");
     }
 
-    public int pickTrial(int totalTrials, int index){
+    public int pickTrial(int availableTrials, int index, int totalTrials){
         int trialIndex;
         trialIndex = checkForExceptions("Pick a trial (" + index + "/" + totalTrials + "): ","\nThe number of the trial must be an integer.\n");
-        if(trialIndex > 0 && trialIndex <= totalTrials){
+        if(trialIndex > 0 && trialIndex <= availableTrials){
             return trialIndex;
         }
         else{
-            System.out.println("\nThe number of the trial must be between 1 and " + totalTrials + ".\n");
-            return pickTrial(totalTrials, index);
+            System.out.println("\nThe number of the trial must be between 1 and " + availableTrials + ".\n");
+            return pickTrial(availableTrials, index, totalTrials);
         }
     }
 
