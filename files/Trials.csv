@@ -1,2 +1,5 @@
 PAED,PaperSubmission,Prog,Q2,80,16,4
 DPO,PaperSubmission,ASD,Q3,50,30,20
+TEST,PaperSubmission,Programming test,Q3,50,0,50
+TEST2,PaperSubmission,Programming testing,Q1,50,0,50
+TEST3,PaperSubmission,Programming testing,Q4,20,60,20

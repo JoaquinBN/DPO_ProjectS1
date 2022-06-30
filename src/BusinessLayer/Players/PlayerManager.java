@@ -1,6 +1,11 @@
 package BusinessLayer.Players;
 
+import PersistenceLayer.ExecutionFileManager;
+import com.opencsv.exceptions.CsvException;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerManager {
     private ArrayList<Player> players;
@@ -11,6 +16,10 @@ public class PlayerManager {
 
     public void addPlayer(String playerName) {
         players.add(new Player(playerName));
+    }
+
+    public void retrievePlayer(String playerName, int investigationPoints) {
+        players.add(new Player(playerName, investigationPoints));
     }
 
     public Player getPlayerByIndex(int index) {
@@ -44,4 +53,20 @@ public class PlayerManager {
     }
 
 
+    public void loadPlayersData() throws IOException, CsvException {
+        List<String[]> playersData = ExecutionFileManager.readPlayersData();
+        for (String[] playerData : playersData) {
+            retrievePlayer(playerData[0], Integer.parseInt(playerData[1]));
+        }
+    }
+
+    public void saveData() {
+        players.removeIf(Player::getStatus);
+        List<String[]> playersData = new ArrayList<>();
+        for(Player player: players){
+            playersData.add(player.getInfo());
+        }
+        ExecutionFileManager.writePlayersData(playersData);
+
+    }
 }

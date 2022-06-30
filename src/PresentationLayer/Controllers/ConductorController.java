@@ -1,11 +1,11 @@
 package PresentationLayer.Controllers;
 
 import BusinessLayer.ConductorManager;
-import BusinessLayer.Edition.EditionManager;
 import BusinessLayer.Players.PlayerManager;
-import BusinessLayer.Trials.TrialManager;
-import PresentationLayer.Views.ComposerView;
 import PresentationLayer.Views.ConductorView;
+import com.opencsv.exceptions.CsvException;
+
+import java.io.IOException;
 
 public class ConductorController {
     private final ConductorManager conductorManager;
@@ -20,20 +20,29 @@ public class ConductorController {
     }
 
 
-    public void saveInitialPlayers(){
-        for(int i = 0; i < playerManager.getTotalPlayers(); i++){
-            playerManager.addPlayer(conductorView.askForPlayerName(i+1, conductorManager.getCurrentEdition().getNumberOfPlayers()));
+    public void start(){
+        try{
+            conductorManager.loadDataForTrials();
+            if(conductorManager.fileIsEmpty()){
+                conductorManager.loadDataForCurrentEdition();
+                for(int i = 0; i < conductorManager.getTotalPlayer(); i++){
+                    playerManager.addPlayer(conductorView.askForPlayerName(i+1, conductorManager.getCurrentEdition().getNumberOfPlayers()));
+                }
+            }else{
+                conductorManager.loadDataForExecution();
+                playerManager.loadPlayersData();
+                conductorManager.initializeEditionData(playerManager.getTotalPlayers());
+            }
+        } catch (IOException | CsvException e) {
+            conductorView.showError("\nError reading files.\n");
         }
-    }
-
-    public void trialDisplay(int trialIndex){
-
+        executeEdition();
     }
 
     public void executeEdition(){
         int i, k, result;
-        for(i = startIndex; i < conductorManager.getNumTrials(); i++){
-            conductorView.showMessage("\nTrial #" + (i + 1) + " - " + conductorManager.getCurrentEdition().getTrials()[i] + "\n");
+        for(i = 0; i < conductorManager.getNumTrials(); i++){
+            conductorView.showMessage("\nTrial #" + (i + 1) + " - " + conductorManager.getCurrentEdition().getTrials()[i]);
             for(int j = 0; j < playerManager.getTotalPlayers(); j++){
                 if(!playerManager.playerIsDead(j)) {
                     k = -1;
@@ -47,16 +56,20 @@ public class ConductorController {
             }
             if(playerManager.allPlayersareDead())
                 break;
-            else if(!conductorView.showContinueMessage())
+            else if(i != conductorManager.getNumTrials() - 1 && !conductorView.showContinueMessage())
+                i++;
                 break;
         }
 
         if(playerManager.allPlayersareDead())
-            conductorView.showMessage("\nTHE TRIALS " + conductorManager.getCurrentEdition().getYear() + " HAVE ENDED - PLAYERS LOST \n\n");
+            conductorView.showMessage("\n\nTHE TRIALS " + conductorManager.getCurrentEdition().getYear() + " HAVE ENDED - PLAYERS LOST \n");
         else if(i == conductorManager.getNumTrials())
-            conductorView.showMessage("\nTHE TRIALS " + conductorManager.getCurrentEdition().getYear() + " HAVE ENDED - PLAYERS WON \n\n");
-        else
-            conductorView.showMessage("\n\nSaving & ");
+            conductorView.showMessage("\n\nTHE TRIALS " + conductorManager.getCurrentEdition().getYear() + " HAVE ENDED - PLAYERS WON \n");
+        else {
+            conductorView.showMessage("\nSaving & ");
+            conductorManager.saveData(i);
+            playerManager.saveData();
+        }
 
         conductorView.showMessage("Shutting down...");
     }

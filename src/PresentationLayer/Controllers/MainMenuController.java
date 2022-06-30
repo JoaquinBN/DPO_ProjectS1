@@ -19,7 +19,7 @@ public class MainMenuController {
                 composerController.managementMode();
                 break;
             case 'B':
-                //conductorController.conductorMenu();
+                conductorController.start();
                 break;
             default:
                 mainMenuView.showError("\nInvalid role. Choose A or B.\n");

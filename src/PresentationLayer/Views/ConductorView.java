@@ -25,7 +25,7 @@ public class ConductorView {
     public boolean showContinueMessage(){
         String answer;
         while(true){
-            System.out.print("\nContinue the execution? [yes/no]: ");
+            System.out.print("\n\nContinue the execution? [yes/no]: ");
             answer = sc.nextLine();
             if(answer.equals("yes")){
                 return true;
@@ -38,7 +38,7 @@ public class ConductorView {
     }
 
     public void displayPlayerCondition(String name, int k, int result, int investigationPoints) {
-        System.out.print("\n" + name + "is submitting... ");
+        System.out.print("\n\t" + name + " is submitting... ");
         for(int i = 0; i < k; i++){
             System.out.print("Revisions... ");
         }
@@ -49,7 +49,7 @@ public class ConductorView {
         }
         System.out.print(investigationPoints);
         if(investigationPoints == 0){
-            System.out.println(" - Disqualified!");
+            System.out.print(" - Disqualified!");
         }
     }
 }
