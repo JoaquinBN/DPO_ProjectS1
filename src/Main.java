@@ -17,9 +17,9 @@ public class Main {
         ExecutionFileManager executionFileManager = new ExecutionFileManager();
         EditionFileManager editionFileManager = new EditionFileManager();
         TrialsFileManager trialsFileManager = new TrialsFileManager();
-        PlayerManager playerManager = new PlayerManager();
+        PlayerManager playerManager = new PlayerManager(executionFileManager);
         TrialManager trialManager = new TrialManager(trialsFileManager);
-        EditionManager editionManager = new EditionManager(editionFileManager);
+        EditionManager editionManager = new EditionManager(editionFileManager, executionFileManager);
         ConductorView conductorView = new ConductorView();
         ConductorManager conductorManager = new ConductorManager(trialManager, editionFileManager, trialsFileManager, executionFileManager);
         ConductorController conductorController = new ConductorController(conductorManager, conductorView, playerManager);

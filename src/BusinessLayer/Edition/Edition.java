@@ -25,6 +25,7 @@ public class Edition {
     public int getNumberOfTrials() {
         return trials.length;
     }
+
     public String[] getTrials() {
         return trials;
     }

@@ -4,7 +4,8 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ComposerView {
-    Scanner sc;
+    private Scanner sc;
+
     public ComposerView() {
         sc = new Scanner(System.in);
     }
@@ -43,14 +44,6 @@ public class ComposerView {
 
     public String readProbability(String probability) {
         return String.valueOf(checkForExceptions("Enter the "+ probability + " probability: ", "\nThe "+ probability + " probability must be an integer between 0 and 100. Please try again:\n"));
-    }
-
-    public void createTrialSuccess() {
-        System.out.println("\nThe trial was created successfully!");
-    }
-
-    public void deleteTrialSuccess() {
-        System.out.println("\nThe trial was deleted successfully!");
     }
 
     public void listTrials(int i, String trialName) {
@@ -109,8 +102,8 @@ public class ComposerView {
         return -1;
     }
 
-    public void createEditionSuccess() {
-        System.out.println("\nThe edition was created successfully!");
+    public void createSuccess(String type) {
+        System.out.println("\nThe " + type + " was created successfully!");
     }
 
     public void showEdition(int year, int numberOfPlayers) {
@@ -123,19 +116,19 @@ public class ComposerView {
     }
 
     public int readNewEditionYear() {
-        return checkForExceptions("Enter the new edition's year: ", "\nThe edition's year must be an integer. Please try again:\n");
+        return checkForExceptions("Enter the new edition's year: ", "\nThe edition's year must be an integer.\n");
     }
 
     public int readNewEditionPlayer() {
-        return checkForExceptions("Enter the new edition's initial number of players: ", "\nThe number of players must be an integer. Please try again:\n");
+        return checkForExceptions("Enter the new edition's initial number of players: ", "\nThe number of players must be an integer.\n");
     }
 
     public void duplicateEditionSuccess() {
         System.out.println("\nThe edition was cloned successfully!");
     }
 
-    public void deleteEditionSuccess() {
-        System.out.println("\nThe edition was deleted successfully!");
+    public void deleteSuccess(String type) {
+        System.out.println("\nThe " + type + " was successfully deleted.");
     }
 
     public void listEditions(int i, int year) {
@@ -143,7 +136,7 @@ public class ComposerView {
     }
 
     public void exitProgram() {
-        System.out.println("\n\nShutting down...\n");
+        System.out.println("\nShutting down...");
     }
 
     public void showError(String error) {
@@ -161,5 +154,18 @@ public class ComposerView {
     public void showTrialTypes() {
         System.out.println("\n\t--- Trial types ---");
         System.out.println("\n\t1) Paper publication\n");
+    }
+
+    public String showDeletionConfirmation(String s) {
+        System.out.print("\nEnter the " + s + " for confirmation (type 'cancel' to avoid deletion): ");
+        return sc.nextLine();
+    }
+
+    public void showList(String type) {
+        System.out.println("\nHere are the current " + type + ", do you want to see more details or go back?\n");
+    }
+
+    public void showDelete(String type) {
+        System.out.println("\nWhich " + type + " do you want to delete?\n\n");
     }
 }

@@ -11,7 +11,7 @@ public class PaperSubmission extends Trials {
 
     //Name of the trial, which can’t be empty and must be unique across all trials
     public PaperSubmission(String trialName, String paperName, String quartile, int acceptProbability, int revisionProbability, int rejectProbability) {
-        super(trialName, "PaperSubmission");
+        super(trialName, "Paper publication");
         this.publicationName = paperName;
         this.quartile = quartile;
         this.setRewardIP(calculateRewardIP());

@@ -14,7 +14,7 @@ public class ConductorView {
     }
 
     public void showMessage(String message) {
-        System.out.println(message);
+        System.out.print(message);
     }
 
     public String askForPlayerName(int index, int totalPlayers) {

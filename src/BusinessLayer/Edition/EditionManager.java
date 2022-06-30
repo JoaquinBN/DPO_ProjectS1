@@ -1,20 +1,23 @@
 package BusinessLayer.Edition;
 
-import BusinessLayer.Trials.Trials;
 import PersistenceLayer.EditionFileManager;
+import PersistenceLayer.ExecutionFileManager;
 import com.opencsv.exceptions.CsvException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class EditionManager {
-    private ArrayList<Edition> editions;
-    private EditionFileManager editionFileManager;
+    private final ArrayList<Edition> editions;
+    private final EditionFileManager editionFileManager;
+    private final ExecutionFileManager executionFileManager;
 
-    public EditionManager(EditionFileManager editionFileManager) {
+    public EditionManager(EditionFileManager editionFileManager, ExecutionFileManager executionFileManager) {
         editions = new ArrayList<>();
         this.editionFileManager = editionFileManager;
+        this.executionFileManager = executionFileManager;
     }
 
     public void addEdition(int year, int numberOfPlayers, int numberOfTrials) {
@@ -49,18 +52,26 @@ public class EditionManager {
     public boolean checkUniqueYear(int year) {
         for (Edition edition : editions) {
             if (edition.getYear() == year) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
+    public boolean trialIsUsed(String trialName){
+        for(Edition edition : editions){
+            if(Arrays.asList(edition.getTrials()).contains(trialName)){
+                return true;
+            }
+        }
+        return false;
+    }
     public boolean checkValidYear(int year) {
-        return year >= 2022;
+        return year < 2022;
     }
 
     public boolean checkPlayersRange(int numberOfPlayers) {
-        return numberOfPlayers >= 1 && numberOfPlayers <= 5;
+        return numberOfPlayers < 1 || numberOfPlayers > 5;
     }
 
     public boolean checkTrialsRange(int numberOfTrials) {
@@ -75,10 +86,15 @@ public class EditionManager {
         List<String[]> editionsString = editionFileManager.readEditions();
         for (String[] edition : editionsString) {
             editions.add(new Edition(Integer.parseInt(edition[0]), Integer.parseInt(edition[1]), edition.length-2));
-            for(int i = 3; i < edition.length; i++) {
-                editions.get(editions.size() - 1).addTrial(edition[i], i-3);
+            for(int i = 2; i < edition.length; i++) {
+                editions.get(editions.size() - 1).addTrial(edition[i], i-2);
             }
         }
+    }
+
+    public void deleteStoredState(boolean isCurrentYear) throws IOException {
+        if(isCurrentYear)
+            executionFileManager.deleteFile();
     }
 
 }

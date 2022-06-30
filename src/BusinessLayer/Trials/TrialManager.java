@@ -89,7 +89,7 @@ public class TrialManager {
         List<String[]> allTrials = trialsFileManager. readTrials();
         for(String[] trial : allTrials){
             switch(trial[1]){
-                case "PaperSubmission" -> trial[1] = "1";
+                case "Paper publication" -> trial[1] = "1";
             }
             addTrial(trial);
         }

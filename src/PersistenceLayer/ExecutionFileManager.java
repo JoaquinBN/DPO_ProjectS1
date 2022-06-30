@@ -5,7 +5,6 @@ import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvValidationException;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,8 +14,8 @@ public class ExecutionFileManager {
     
     public ExecutionFileManager(){ }
     
-    public static void writePlayersData(List<String[]> playersData) throws IOException {
-        CSVWriter writer = new CSVWriter(new FileWriter("files/Execution.csv", false),
+    public void writePlayersData(List<String[]> playersData) throws IOException {
+        CSVWriter writer = new CSVWriter(new FileWriter("files/Execution.csv", true),
                 CSVWriter.DEFAULT_SEPARATOR,
                 CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.NO_ESCAPE_CHARACTER, "\n");
         for(String[] playerData : playersData){
@@ -33,7 +32,7 @@ public class ExecutionFileManager {
         writer.close();
     }
 
-    public static List<String[]> readPlayersData() throws IOException, CsvException {
+    public List<String[]> readPlayersData() throws IOException, CsvException {
         CSVReader reader = new CSVReader(new FileReader("files/Execution.csv"));
         List<String[]> playersData = reader.readAll();
         reader.close();
@@ -51,5 +50,12 @@ public class ExecutionFileManager {
         CSVReader reader = new CSVReader(new FileReader("files/Execution.csv"));
         String[] allTrials = reader.readNext();
         return allTrials == null;
+    }
+
+    public void deleteFile() throws IOException {
+        CSVWriter writer = new CSVWriter(new FileWriter("files/Execution.csv", false),
+                CSVWriter.DEFAULT_SEPARATOR,
+                CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.NO_ESCAPE_CHARACTER, "\n");
+        writer.close();
     }
 }

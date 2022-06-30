@@ -3,28 +3,24 @@ package PresentationLayer.Controllers;
 import PresentationLayer.Views.MainMenuView;
 
 public class MainMenuController {
-    private MainMenuView mainMenuView;
-    private ComposerController composerController;
-    private ConductorController conductorController;
+    private final MainMenuView mainMenuView;
+    private final ComposerController composerController;
+    private final ConductorController conductorController;
 
     public MainMenuController(MainMenuView mainMenuView, ComposerController composerController, ConductorController conductorController) {
-        this.mainMenuView = new MainMenuView();
+        this.mainMenuView = mainMenuView;
         this.composerController = composerController;
         this.conductorController = conductorController;
     }
 
     public void mainMenuDisplay() {
         switch (mainMenuView.mainMenuDisplay()) {
-            case 'A':
-                composerController.managementMode();
-                break;
-            case 'B':
-                conductorController.start();
-                break;
-            default:
+            case 'A' -> composerController.start();
+            case 'B' -> conductorController.start();
+            default -> {
                 mainMenuView.showError("\nInvalid role. Choose A or B.\n");
                 mainMenuDisplay();
-                break;
+            }
         }
 
 

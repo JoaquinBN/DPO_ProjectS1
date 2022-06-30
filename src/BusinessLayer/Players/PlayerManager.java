@@ -8,10 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerManager {
-    private ArrayList<Player> players;
+    private final ArrayList<Player> players;
+    private final ExecutionFileManager executionFileManager;
 
-    public PlayerManager() {
+    public PlayerManager(ExecutionFileManager executionFileManager) {
         players = new ArrayList<>();
+        this.executionFileManager = executionFileManager;
     }
 
     public void addPlayer(String playerName) {
@@ -54,7 +56,7 @@ public class PlayerManager {
 
 
     public void loadPlayersData() throws IOException, CsvException {
-        List<String[]> playersData = ExecutionFileManager.readPlayersData();
+        List<String[]> playersData = executionFileManager.readPlayersData().subList(1, executionFileManager.readPlayersData().size());
         for (String[] playerData : playersData) {
             retrievePlayer(playerData[0], Integer.parseInt(playerData[1]));
         }
@@ -66,7 +68,7 @@ public class PlayerManager {
         for(Player player: players){
             playersData.add(player.getInfo());
         }
-        ExecutionFileManager.writePlayersData(playersData);
+        executionFileManager.writePlayersData(playersData);
 
     }
 }

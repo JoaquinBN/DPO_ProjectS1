@@ -10,7 +10,6 @@ import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvValidationException;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ConductorManager {
@@ -54,13 +53,14 @@ public class ConductorManager {
         List<String[]> allTrials = trialsFileManager. readTrials();
         for(String[] trial : allTrials){
             switch(trial[1]){
-                case "PaperSubmission" -> trial[1] = "1";
+                case "Paper publication" -> trial[1] = "1";
             }
             trialManager.addTrial(trial);
         }
     }
 
-    public void loadDataForCurrentEdition() throws IOException, CsvException{
+    public boolean loadDataForCurrentEdition() throws IOException, CsvException{
+        boolean currentEditionExists = false;
         List<String[]> editionsString = editionFileManager.readEditions();
         for(String[] executionInfo: editionsString) {
             if(executionInfo[0].equals("2022")) {
@@ -70,30 +70,42 @@ public class ConductorManager {
                     currentEdition.addTrial(executionInfo[i], i-2);
                     trials[i-2] = trialManager.getTrialByName(executionInfo[i]);
                 }
+                currentEditionExists = true;
             }
         }
+        return currentEditionExists;
     }
 
-    public void loadDataForExecution() throws IOException, CsvException{
+    public int loadDataForExecution() throws IOException, CsvException{
         String[] allTrials = executionFileManager.readTrials();
-        for(int i = 0; i < allTrials.length; i++) {
+        trials = new Trials[allTrials.length - 1];
+        for(int i = 0; i < allTrials.length - 1; i++) {
             trials[i] = trialManager.getTrialByName(allTrials[i]);
         }
+        return Integer.parseInt(allTrials[allTrials.length - 1]);
     }
 
     public void initializeEditionData(int numberOfPlayers) {
         currentEdition = new Edition(2022, numberOfPlayers, trials.length);
+        for(int i = 0; i < trials.length; i++) {
+            currentEdition.addTrial(trials[i].getTrialName(), i);
+        }
     }
 
     public boolean fileIsEmpty() throws IOException, CsvValidationException {
         return executionFileManager.fileIsEmpty();
     }
 
-    public void saveData(int trialIndex) throws IOException, CsvException {
-        String[] allTrialNames = new String[trials.length - trialIndex];
+    public void saveData(int trialIndex, int startIndex) throws IOException, CsvException {
+        String[] allTrialNames = new String[trials.length - trialIndex + 1];
         for(int i = trialIndex; i < trials.length; i++) {
             allTrialNames[i-trialIndex] = trials[i].getTrialName();
         }
+        allTrialNames[allTrialNames.length-1] = String.valueOf(startIndex);
         executionFileManager.writeTrials(allTrialNames);
+    }
+
+    public void eraseInformationExecutionFile() throws IOException {
+        executionFileManager.deleteFile();
     }
 }
