@@ -14,12 +14,21 @@ public class ComposerController {
     private final TrialManager trialManager;
     private final ComposerView composerView;
 
+    /**
+     * Constructor for the ComposerController.
+     * @param editionManager
+     * @param trialManager
+     * @param composerView
+     */
     public ComposerController(EditionManager editionManager, TrialManager trialManager, ComposerView composerView) {
         this.editionManager = editionManager;
         this.trialManager = trialManager;
         this.composerView = composerView;
     }
 
+    /**
+     * Starts the composer view.
+     */
     public void start(){
         try {
             editionManager.readEditions();
@@ -29,6 +38,10 @@ public class ComposerController {
         }
         managementMode();
     }
+
+    /**
+     * Starts the management mode of the composer view.
+     */
     public void managementMode(){
         String option;
         composerView.showMessage("\nEntering management mode...\n");
@@ -44,6 +57,9 @@ public class ComposerController {
         }
     }
 
+    /**
+     * Starts the trials management mode of the composer view.
+     */
     private void manageTrials(){
         String option;
         option = composerView.manageTrialsMenu();
@@ -59,6 +75,12 @@ public class ComposerController {
         }
     }
 
+    /**
+     * Get the trials attributes depending on the type.
+     *
+     * @param attributeType the attribute type to be used in the edition management.
+     * @return the attribute type.
+     */
     private String getTrialAttribute(int attributeType){
         String probability, attribute;
 
@@ -113,6 +135,9 @@ public class ComposerController {
         return attribute;
     }
 
+    /**
+     * Creates a trial.
+     */
     private void createTrial(){
         String[] attributes = new String[7];
         boolean errorInput = false;
@@ -141,6 +166,9 @@ public class ComposerController {
         manageTrials();
     }
 
+    /**
+     * Lists the trials.
+     */
     private void listTrials(){
         int trialIndex;
         boolean errorInput = false;
@@ -165,6 +193,9 @@ public class ComposerController {
         manageTrials();
     }
 
+    /**
+     * Deletes a trial.
+     */
     private void deleteTrial(){
         int trialIndex;
         boolean errorInput = false;
@@ -202,6 +233,9 @@ public class ComposerController {
         manageTrials();
     }
 
+    /**
+     * Shows all trials.
+     */
     private void showAllTrials(){
         for(int i = 0; i < trialManager.getNumberOfTrials(); i++){
             composerView.listTrials(i + 1, trialManager.getTrial(i).getTrialName());
@@ -209,6 +243,9 @@ public class ComposerController {
         composerView.showMessage("\n");
     }
 
+    /**
+     * Starts the editions management mode of the composer view.
+     */
     private void manageEditions(){
         if (trialManager.getNumberOfTrials() == 0) {
             composerView.showError("\nThere are no trials available.");
@@ -230,6 +267,9 @@ public class ComposerController {
         }
     }
 
+    /**
+     * Creates an edition.
+     */
     private void createEdition(){
         int year, numberOfPlayers = -1, numberOfTrials = 1;
         boolean errorDisplay = false;
@@ -276,6 +316,9 @@ public class ComposerController {
         manageEditions();
     }
 
+    /**
+     * Lists the editions.
+     */
     private void listEditions(){
         boolean errorDisplay = false;
         int editionIndex, k;
@@ -303,6 +346,9 @@ public class ComposerController {
         manageEditions();
     }
 
+    /**
+     * Duplicates an edition by copyings its trials into a new edition.
+     */
     private void duplicateEdition(){
         int editionIndex = -1, year = -1, numberOfPlayers = -1;
         boolean errorDisplay = false;
@@ -344,6 +390,9 @@ public class ComposerController {
         manageEditions();
     }
 
+    /**
+     * Deletes an edition.
+     */
     private void deleteEdition(){
         boolean errorDisplay = false;
         String deletionConfirmation;
@@ -378,6 +427,10 @@ public class ComposerController {
         manageEditions();
     }
 
+    /**
+     * Shows the edition's menu.
+     * @return Index of the edition selected.
+     */
     private int showAllEditions(){
         for(int i = 0; i < editionManager.getNumberOfEditions(); i++){
             composerView.listEditions(i + 1, editionManager.getEditionByIndex(i).getYear());
@@ -386,6 +439,9 @@ public class ComposerController {
         return composerView.getIndexInput();
     }
 
+    /**
+     * Shows the main menu.
+     */
     private void exitProgram(){
         try {
             trialManager.writeTrials();

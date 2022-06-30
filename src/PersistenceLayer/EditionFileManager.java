@@ -15,6 +15,12 @@ public class EditionFileManager {
     public EditionFileManager() {
     }
 
+    /**
+     * Writes the editions to the csv file.
+     *
+     * @param Editions the editions to write.
+     * @throws IOException if the file could not be written.
+     */
     public void writeEditions(ArrayList<Edition> Editions) throws IOException {
 
         CSVWriter writer = new CSVWriter(new FileWriter("files/Editions.csv", false),
@@ -37,6 +43,13 @@ public class EditionFileManager {
         writer.close();
     }
 
+    /**
+     * Reads the editions from the csv file.
+     *
+     * @return the editions read.
+     * @throws IOException if the file could not be read.
+     * @throws CsvException if the file is not in the correct format.
+     */
     public List<String[]> readEditions() throws IOException, CsvException {
         CSVReader reader = new CSVReader(new FileReader("files/Editions.csv"));
         List<String[]> editions = reader.readAll();

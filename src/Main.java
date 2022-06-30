@@ -13,6 +13,10 @@ import PresentationLayer.Views.ConductorView;
 import PresentationLayer.Views.MainMenuView;
 
 public class Main {
+    /**
+     * Main function of the program
+     * @param args command line arguments
+     */
     public static void main(String[] args) {
         ExecutionFileManager executionFileManager = new ExecutionFileManager();
         EditionFileManager editionFileManager = new EditionFileManager();

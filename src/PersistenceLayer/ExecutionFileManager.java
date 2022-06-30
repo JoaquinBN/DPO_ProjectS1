@@ -13,7 +13,12 @@ import java.util.List;
 public class ExecutionFileManager {
     
     public ExecutionFileManager(){ }
-    
+
+    /**
+     * Write players data to the csv file.
+     * @param playersData List of String arrays with players data.
+     * @throws IOException
+     */
     public void writePlayersData(List<String[]> playersData) throws IOException {
         CSVWriter writer = new CSVWriter(new FileWriter("files/Execution.csv", true),
                 CSVWriter.DEFAULT_SEPARATOR,
@@ -24,6 +29,12 @@ public class ExecutionFileManager {
         writer.close();
     }
 
+    /**
+     * Reads the players data from the csv file.
+     * @param allTrials the trials to write.
+     * @throws IOException if the file could not be written.
+     * @throws CsvException if the file is not in the correct format.
+     */
     public void writeTrials(String[] allTrials) throws IOException, CsvException {
         CSVWriter writer = new CSVWriter(new FileWriter("files/Execution.csv", false),
                 CSVWriter.DEFAULT_SEPARATOR,
@@ -32,6 +43,12 @@ public class ExecutionFileManager {
         writer.close();
     }
 
+    /**
+     * Reads the players data from the csv file.
+     * @return playersData the data read.
+     * @throws IOException if the file could not be read.
+     * @throws CsvException if the file is not in the correct format.
+     */
     public List<String[]> readPlayersData() throws IOException, CsvException {
         CSVReader reader = new CSVReader(new FileReader("files/Execution.csv"));
         List<String[]> playersData = reader.readAll();
@@ -39,6 +56,12 @@ public class ExecutionFileManager {
         return playersData;
     }
 
+    /**
+     * Reads the trials from the csv file.
+     * @return the trials read.
+     * @throws IOException if the file could not be read.
+     * @throws CsvException if the file is not in the correct format.
+     */
     public String[] readTrials() throws IOException, CsvException {
         CSVReader reader = new CSVReader(new FileReader("files/Execution.csv"));
         String[] allTrials = reader.readNext();
@@ -46,12 +69,21 @@ public class ExecutionFileManager {
         return allTrials;
     }
 
+    /**
+     * Checks if the file is empty.
+     * @return if the file is empty or not.
+     * @throws IOException if the file could not be written.
+     */
     public boolean fileIsEmpty() throws IOException, CsvValidationException {
         CSVReader reader = new CSVReader(new FileReader("files/Execution.csv"));
         String[] allTrials = reader.readNext();
         return allTrials == null;
     }
 
+    /**
+     * Clears the file.
+     * @throws IOException if the file could not be cleared.
+     */
     public void deleteFile() throws IOException {
         CSVWriter writer = new CSVWriter(new FileWriter("files/Execution.csv", false),
                 CSVWriter.DEFAULT_SEPARATOR,

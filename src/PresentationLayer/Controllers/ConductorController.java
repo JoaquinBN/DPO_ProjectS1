@@ -13,6 +13,12 @@ public class ConductorController {
     private final PlayerManager playerManager;
     private int startIndex;
 
+    /**
+     * Constructor for the ConductorController.
+     * @param conductorManager
+     * @param conductorView
+     * @param playerManager
+     */
     public ConductorController(ConductorManager conductorManager, ConductorView conductorView, PlayerManager playerManager) {
         this.conductorManager = conductorManager;
         this.conductorView = conductorView;
@@ -20,6 +26,9 @@ public class ConductorController {
     }
 
 
+    /**
+     * Starts the conductor.
+     */
     public void start() {
         try{
             conductorView.showMessage("\nEntering execution mode...\n");
@@ -48,6 +57,9 @@ public class ConductorController {
         conductorView.showMessage("Shutting down...\n");
     }
 
+    /**
+     * Executes the current edition.
+     */
     public void executeEdition() {
         int i, k, result;
         for (i = 0; i < conductorManager.getNumTrials(); i++) {

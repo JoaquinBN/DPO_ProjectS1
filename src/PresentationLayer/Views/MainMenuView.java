@@ -4,6 +4,10 @@ import java.util.Scanner;
 
 public class MainMenuView {
 
+    /**
+     * Display main menu
+     * @return The menu choice.
+     */
     public char mainMenuDisplay(){
         Scanner input = new Scanner(System.in);
         char option;
@@ -25,6 +29,10 @@ public class MainMenuView {
         return option;
     }
 
+    /**
+     * Display error message.
+     * @param error The error message.
+     */
     public void showError(String error) {
         System.out.println(error);
     }
