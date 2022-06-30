@@ -155,6 +155,7 @@ public class ComposerController {
 
         if(trialManager.getNumberOfTrials() == 0){
             composerView.showError("\nThere are no trials to display.");
+            composerView.showMessage("\nRedirecting to previous menu...\n");
         }else {
             showAllTrials();
             composerView.showBack(trialManager.getNumberOfTrials() + 1);
@@ -168,8 +169,6 @@ public class ComposerController {
             if (trialIndex != trialManager.getNumberOfTrials() && !errorInput)
                 composerView.showMessage(trialManager.getTrial(trialIndex).displayTrialInfo());
         }
-
-        composerView.showMessage("\nRedirecting to previous menu...\n");
         manageTrials();
     }
 
@@ -179,6 +178,7 @@ public class ComposerController {
 
         if(trialManager.getNumberOfTrials() == 0) {
             composerView.showError("\nThere are no trials to delete.");
+            composerView.showMessage("\nRedirecting to previous menu...\n");
         }else {
             showAllTrials();
             composerView.showBack(trialManager.getNumberOfTrials() + 1);
@@ -194,7 +194,6 @@ public class ComposerController {
                 composerView.deleteTrialSuccess();
             }
         }
-        composerView.showMessage("\nRedirecting to previous menu...\n");
         manageTrials();
     }
 
@@ -206,17 +205,22 @@ public class ComposerController {
     }
 
     private void manageEditions(){
-        String option;
-        option = composerView.manageEditionsMenu();
-        switch (option) {
-            case "a" -> this.createEdition();
-            case "b" -> this.listEditions();
-            case "c" -> this.duplicateEdition();
-            case "d" -> this.deleteEdition();
-            case "e" -> this.managementMode();
-            default -> {
-                composerView.showError("\nWrong option.");
-                manageEditions();
+        if (trialManager.getNumberOfTrials() == 0) {
+            composerView.showError("\nThere are no trials available.");
+            managementMode();
+        } else {
+            String option;
+            option = composerView.manageEditionsMenu();
+            switch (option) {
+                case "a" -> this.createEdition();
+                case "b" -> this.listEditions();
+                case "c" -> this.duplicateEdition();
+                case "d" -> this.deleteEdition();
+                case "e" -> this.managementMode();
+                default -> {
+                    composerView.showError("\nWrong option. Please try again:");
+                    manageEditions();
+                }
             }
         }
     }
@@ -245,7 +249,7 @@ public class ComposerController {
         if (!errorDisplay) {
             numberOfTrials = composerView.readEditionTrials();
             if(!editionManager.checkTrialsRange(numberOfTrials)){
-                composerView.showError("\nThe number of trials must be between 1 and 5.");
+                composerView.showError("\nThe number of trials must be between 3 and 12.");
                 errorDisplay = true;
             }
         }
@@ -257,7 +261,7 @@ public class ComposerController {
             composerView.showMessage("\n\n");
             int trialIndex;
             for(int j = 0; j < numberOfTrials; j++){
-                trialIndex = composerView.pickTrial(numberOfTrials, j + 1) - 1;
+                trialIndex = composerView.pickTrial(trialManager.getNumberOfTrials(), j + 1, numberOfTrials) - 1;
                 editionManager.addTrialToEdition(trialManager.getTrial(trialIndex).getTrialName(), j);
             }
             composerView.createEditionSuccess();
@@ -271,6 +275,7 @@ public class ComposerController {
     private void listEditions(){
         if (editionManager.getNumberOfEditions() == 0) {
             composerView.showError("\nThere are no editions to display.");
+            composerView.showMessage("\nRedirecting to previous menu...\n");
         } else {
             int editionIndex, k;
             composerView.showMessage("\nHere are the current editions, do you want to see more details or go back?\n\n");
@@ -284,13 +289,13 @@ public class ComposerController {
                 }
             }
         }
-        composerView.showMessage("\nRedirecting to previous menu...\n");
         manageEditions();
     }
 
     private void duplicateEdition(){
         if (editionManager.getNumberOfEditions() == 0) {
             composerView.showError("\nThere are no editions to duplicate.");
+            composerView.showMessage("\nRedirecting to previous menu...\n");
         } else {
             int editionIndex, k;
             composerView.showMessage("\nHere are the current editions, do you want to see more details or go back?\n\n");
@@ -304,13 +309,13 @@ public class ComposerController {
                 }
             }
         }
-        composerView.showMessage("\nRedirecting to previous menu...\n");
         manageEditions();
     }
 
     private void deleteEdition(){
         if (editionManager.getNumberOfEditions() == 0) {
             composerView.showError("\nThere are no editions to delete.");
+            composerView.showMessage("\nRedirecting to previous menu...\n");
         } else {
             int editionIndex;
             composerView.showMessage("\nWhich edition do you want to delete?\n\n");
@@ -320,7 +325,6 @@ public class ComposerController {
                 composerView.deleteEditionSuccess();
             }
         }
-        composerView.showMessage("\nRedirecting to previous menu...\n");
         manageEditions();
     }
 
