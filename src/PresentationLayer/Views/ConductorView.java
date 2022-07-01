@@ -58,24 +58,8 @@ public class ConductorView {
         }
     }
 
-    /**
-     * Show message of the end of the execution with player status
-     * @param name The name of the player.
-     * @param k The index of the player.
-     * @param result The result of the player.
-     * @param investigationPoints The number of investigation points.
-     */
-    public void displayPlayerCondition(String name, int k, int result, int investigationPoints) {
-        System.out.print("\n\t" + name + " is submitting... ");
-        for(int i = 0; i < k; i++){
-            System.out.print("Revisions... ");
-        }
-        if(result < 0){
-            System.out.print("Rejected. PI count: ");
-        }else{
-            System.out.print("Accepted! PI count: ");
-        }
-        System.out.print(investigationPoints);
+    public void displayIPCount(int investigationPoints) {
+        System.out.print(" PI count: " + investigationPoints);
         if(investigationPoints == 0){
             System.out.print(" - Disqualified!");
         }

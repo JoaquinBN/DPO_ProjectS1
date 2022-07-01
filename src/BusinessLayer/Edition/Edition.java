@@ -3,9 +3,9 @@ package BusinessLayer.Edition;
 import BusinessLayer.Trials.Trials;
 
 public class Edition {
-    private int year;
-    private int numberOfPlayers;
-    private String[] trials;
+    private final int year;
+    private final int numberOfPlayers;
+    private final String[] trials;
 
     /**
      * Constructor for Edition
@@ -51,21 +51,6 @@ public class Edition {
         return trials;
     }
 
-    /**
-     * Set the year of the edition
-     * @param year the year of the edition
-     */
-    public void setYear(int year) {
-        this.year = year;
-    }
-
-    /**
-     * Set the number of players in the edition
-     * @param numberOfPlayers the number of players in the edition
-     */
-    public void setNumberOfPlayers(int numberOfPlayers) {
-        this.numberOfPlayers = numberOfPlayers;
-    }
 
     /**
      * Set the trials in the edition

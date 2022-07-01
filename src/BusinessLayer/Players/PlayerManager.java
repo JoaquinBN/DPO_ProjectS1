@@ -37,6 +37,9 @@ public class PlayerManager {
         players.add(new Player(playerName, investigationPoints));
     }
 
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
     /**
      * Get index of player in the list of players
      * @param index the index of the player
@@ -74,7 +77,7 @@ public class PlayerManager {
      * @return true if the player is dead, false otherwise
      */
     public boolean playerIsDead(int index){
-        return players.get(index).getStatus();
+        return players.get(index).isDead();
     }
 
     /**
@@ -83,7 +86,7 @@ public class PlayerManager {
      */
     public boolean allPlayersareDead(){
         for(Player player: players){
-            if(!player.getStatus()){
+            if(!player.isDead()){
                 return false;
             }
         }
@@ -107,7 +110,7 @@ public class PlayerManager {
      * @throws IOException if there is an error writing to the file
      */
     public void saveData() throws IOException {
-        players.removeIf(Player::getStatus);
+        players.removeIf(Player::isDead);
         List<String[]> playersData = new ArrayList<>();
         for(Player player: players){
             playersData.add(player.getInfo());

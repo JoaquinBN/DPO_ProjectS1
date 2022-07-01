@@ -104,14 +104,14 @@ public class ComposerController {
                 if (!trialManager.checkUniqueName(attribute)) {
                     composerView.showError("\nTrial name already exists.");
                     attribute = "";
-                } else if (!trialManager.checkEmptyString(attribute)) {
+                } else if (trialManager.checkEmptyString(attribute)) {
                     composerView.showError("\nTrial name cannot be empty.");
                     attribute = "";
                 }
             }
             case 2 -> {
                 attribute = composerView.readPaperName();
-                if (!trialManager.checkEmptyString(attribute)) {
+                if (trialManager.checkEmptyString(attribute)) {
                     composerView.showError("\nName of the publication cannot be empty.");
                     attribute = "";
                 }
@@ -215,9 +215,9 @@ public class ComposerController {
             }
 
             if (trialIndex != trialManager.getNumberOfTrials() && !errorInput) {
-                if(!editionManager.trialIsUsed(trialManager.getTrial(trialIndex).getTrialName())) {
+                if(!editionManager.trialIsUsed(trialManager.getTrialNameByIndex(trialIndex))) {
                     deletionConfirmation = composerView.showDeletionConfirmation("trial's name");
-                    if(trialManager.getTrial(trialIndex).getTrialName().equals(deletionConfirmation)) {
+                    if(trialManager.getTrialNameByIndex(trialIndex).equals(deletionConfirmation)) {
                         trialManager.removeTrial(trialIndex);
                         composerView.deleteSuccess("trial");
                     }else if(deletionConfirmation.equals("cancel"))
@@ -238,13 +238,13 @@ public class ComposerController {
      */
     private void showAllTrials(){
         for(int i = 0; i < trialManager.getNumberOfTrials(); i++){
-            composerView.listTrials(i + 1, trialManager.getTrial(i).getTrialName());
+            composerView.listTrials(i + 1, trialManager.getTrialNameByIndex(i));
         }
         composerView.showMessage("\n");
     }
 
     /**
-     * Starts the editions management mode of the composer view.
+     * Starts the editions' management mode of the composer view.
      */
     private void manageEditions(){
         if (trialManager.getNumberOfTrials() == 0) {
@@ -307,7 +307,7 @@ public class ComposerController {
             int trialIndex;
             for (int j = 0; j < numberOfTrials; j++) {
                 trialIndex = composerView.pickTrial(trialManager.getNumberOfTrials(), j + 1, numberOfTrials) - 1;
-                editionManager.addTrialToEdition(trialManager.getTrial(trialIndex).getTrialName(), j);
+                editionManager.addTrialToEdition(trialManager.getTrialNameByIndex(trialIndex), j);
             }
             composerView.createSuccess("edition");
         }
@@ -333,9 +333,9 @@ public class ComposerController {
                 errorDisplay = true;
             }
             if(editionIndex != editionManager.getNumberOfEditions() && !errorDisplay) {
-                composerView.showEdition(editionManager.getEditionByIndex(editionIndex).getYear(), editionManager.getEditionByIndex(editionIndex).getNumberOfPlayers());
+                composerView.showEdition(editionManager.getEditionYear(editionIndex), editionManager.getEditionNumberOfPlayers(editionIndex));
                 k = 1;
-                for(String trialName : editionManager.getEditionByIndex(editionIndex).getTrials()){
+                for(String trialName : editionManager.getEditionTrials(editionIndex)){
                     composerView.listEditionTrials(k, trialName, trialManager.getTrialTypeByName(trialName));
                     k++;
                 }
@@ -347,7 +347,7 @@ public class ComposerController {
     }
 
     /**
-     * Duplicates an edition by copyings its trials into a new edition.
+     * Duplicates an edition by copying its trials into a new edition.
      */
     private void duplicateEdition(){
         int editionIndex = -1, year = -1, numberOfPlayers = -1;
@@ -409,8 +409,9 @@ public class ComposerController {
             }
             if(editionIndex != editionManager.getNumberOfEditions() && !errorDisplay) {
                 deletionConfirmation = composerView.showDeletionConfirmation("edition's year");
-                if(String.valueOf(editionManager.getEditionByIndex(editionIndex).getYear()).equals(deletionConfirmation)) {
+                if(String.valueOf(editionManager.getEditionYear(editionIndex)).equals(deletionConfirmation)) {
                     editionManager.removeEdition(editionIndex);
+                    //TODO try catch exception pass to manager
                     try {
                         editionManager.deleteStoredState(editionIndex == 2022);
                     } catch (IOException e) {
@@ -433,7 +434,7 @@ public class ComposerController {
      */
     private int showAllEditions(){
         for(int i = 0; i < editionManager.getNumberOfEditions(); i++){
-            composerView.listEditions(i + 1, editionManager.getEditionByIndex(i).getYear());
+            composerView.listEditions(i + 1, editionManager.getEditionYear(i));
         }
         composerView.showBack(editionManager.getNumberOfEditions() + 1);
         return composerView.getIndexInput();
@@ -443,6 +444,7 @@ public class ComposerController {
      * Shows the main menu.
      */
     private void exitProgram(){
+        //TODO try catch exception pass to manager
         try {
             trialManager.writeTrials();
             editionManager.writeEditions();

@@ -37,24 +37,22 @@ public class ConductorManager {
     /**
      * Increment the investigation points of a player
      * @param indexTrial the index of the trial
-     * @return
+     * @return the amount of investigation points to add to the player
      */
     public int incrementInvestigationPoints(int indexTrial){
-        int investigationPoints = 0;
-        switch(trials[indexTrial].hasWonTrial()) {
-            case 0 -> investigationPoints = trials[indexTrial].getPenalizationIP();
-            case 1 -> investigationPoints =  trials[indexTrial].getRewardIP();
-            case 2 -> investigationPoints = -1;
-        }
-        return investigationPoints;
+        if(trials[indexTrial].getPassed())
+            return trials[indexTrial].getRewardIP();
+        else
+            return trials[indexTrial].getPenalizationIP();
     }
 
     /**
-     * Get the current edition
-     * @return the current edition
+     * Get the index's corresponding trial type
+     * @param index the index of the trial
+     * @return the specified trial type
      */
-    public Edition getCurrentEdition(){
-        return currentEdition;
+    public String getTrialName(int index){
+        return trials[index].getTrialName();
     }
 
     /**
@@ -73,6 +71,10 @@ public class ConductorManager {
         return currentEdition.getNumberOfPlayers();
     }
 
+    public String getTrialPrintOutput(int index, String playerName){
+        return this.trials[index].printTrialOutput(playerName);
+    }
+
     /**
      * Load data for the trials
      * @throws IOException if the file is not found
@@ -81,9 +83,6 @@ public class ConductorManager {
     public void loadDataForTrials() throws IOException, CsvException {
         List<String[]> allTrials = trialsFileManager. readTrials();
         for(String[] trial : allTrials){
-            switch(trial[1]){
-                case "Paper publication" -> trial[1] = "1";
-            }
             trialManager.addTrial(trial);
         }
     }

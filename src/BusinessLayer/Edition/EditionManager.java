@@ -56,6 +56,18 @@ public class EditionManager {
         return editions.size();
     }
 
+
+    public int getEditionYear(int index){
+        return editions.get(index).getYear();
+    }
+
+    public int getEditionNumberOfPlayers(int index){
+        return editions.get(index).getNumberOfPlayers();
+    }
+
+    public String[] getEditionTrials(int index){
+        return editions.get(index).getTrials();
+    }
     /**
      * Duplicate an edition by copying its trials
      * @param year the year of the edition to duplicate

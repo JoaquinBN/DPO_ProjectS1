@@ -1,6 +1,7 @@
 package PresentationLayer.Controllers;
 
 import BusinessLayer.ConductorManager;
+import BusinessLayer.Players.Player;
 import BusinessLayer.Players.PlayerManager;
 import PresentationLayer.Views.ConductorView;
 import com.opencsv.exceptions.CsvException;
@@ -15,9 +16,9 @@ public class ConductorController {
 
     /**
      * Constructor for the ConductorController.
-     * @param conductorManager
-     * @param conductorView
-     * @param playerManager
+     * @param conductorManager the conductor manager
+     * @param conductorView the conductor view
+     * @param playerManager the player manager
      */
     public ConductorController(ConductorManager conductorManager, ConductorView conductorView, PlayerManager playerManager) {
         this.conductorManager = conductorManager;
@@ -37,7 +38,7 @@ public class ConductorController {
                 if(conductorManager.loadDataForCurrentEdition()){
                     conductorView.showMessage("\n---The Trials 2022---\n\n");
                     for(int i = 0; i < conductorManager.getTotalPlayer(); i++){
-                        playerManager.addPlayer(conductorView.askForPlayerName(i+1, conductorManager.getCurrentEdition().getNumberOfPlayers()));
+                        playerManager.addPlayer(conductorView.askForPlayerName(i+1, conductorManager.getTotalPlayer()));
                     }
                     startIndex = 0;
                     executeEdition();
@@ -61,18 +62,14 @@ public class ConductorController {
      * Executes the current edition.
      */
     private void executeEdition() {
-        int i, k, result;
+        int i;
         for (i = 0; i < conductorManager.getNumTrials(); i++) {
-            conductorView.showMessage("\nTrial #" + (startIndex + 1) + " - " + conductorManager.getCurrentEdition().getTrials()[i] + "\n");
-            for (int j = 0; j < playerManager.getTotalPlayers(); j++) {
-                if (!playerManager.playerIsDead(j)) {
-                    k = -1;
-                    do {
-                        result = conductorManager.incrementInvestigationPoints(i);
-                        k++;
-                    } while (result == -1);
-                    playerManager.getPlayerByIndex(j).addInvestigationPoints(result);
-                    conductorView.displayPlayerCondition(playerManager.getPlayerByIndex(j).getName(), k, result, playerManager.getPlayerByIndex(j).getInvestigationPoints());
+            conductorView.showMessage("\nTrial #" + (startIndex + 1) + " - " + conductorManager.getTrialName(i) + "\n");
+            for (Player player: playerManager.getPlayers()) {
+                if (!player.isDead()) {
+                    conductorView.showMessage(conductorManager.getTrialPrintOutput(i, player.getName()));
+                    player.addInvestigationPoints(conductorManager.incrementInvestigationPoints(i));
+                    conductorView.displayIPCount(player.getInvestigationPoints());
                 }
             }
             startIndex++;
@@ -84,15 +81,16 @@ public class ConductorController {
             }
         }
 
+        //TODO - remove try catch
         if (playerManager.allPlayersareDead()) {
-            conductorView.showMessage("\n\nTHE TRIALS " + conductorManager.getCurrentEdition().getYear() + " HAVE ENDED - PLAYERS LOST \n\n");
+            conductorView.showMessage("\n\nTHE TRIALS 2022 HAVE ENDED - PLAYERS LOST \n\n");
             try{
                 conductorManager.eraseInformationExecutionFile();
             } catch (IOException e) {
                 conductorView.showError("\nError erasing data.\n");
             }
         } else if (i == conductorManager.getNumTrials()){
-            conductorView.showMessage("\n\nTHE TRIALS " + conductorManager.getCurrentEdition().getYear() + " HAVE ENDED - PLAYERS WON \n\n");
+            conductorView.showMessage("\n\nTHE TRIALS 2022 HAVE ENDED - PLAYERS WON \n\n");
             try{
                 conductorManager.eraseInformationExecutionFile();
             } catch (IOException e) {

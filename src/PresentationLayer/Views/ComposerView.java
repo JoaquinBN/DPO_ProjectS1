@@ -4,7 +4,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ComposerView {
-    private Scanner sc;
+    private final Scanner sc;
 
     /**
      * Constructor for the ComposerView class.

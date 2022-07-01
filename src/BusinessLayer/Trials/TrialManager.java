@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TrialManager {
-    private ArrayList<Trials> trials;
-    private TrialsFileManager trialsFileManager;
+    private final ArrayList<Trials> trials;
+    private final TrialsFileManager trialsFileManager;
 
     /**
      * Constructor for TrialManager
@@ -25,9 +25,7 @@ public class TrialManager {
      * @param trialInfo the trial info
      */
     public void addTrial(String[] trialInfo){
-        switch(trialInfo[1]) {
-            case "1" -> trials.add(new PaperSubmission(trialInfo[0], trialInfo[2], trialInfo[3], Integer.parseInt(trialInfo[4]), Integer.parseInt(trialInfo[5]), Integer.parseInt(trialInfo[6])));
-        }
+        trials.add(new PaperSubmission(trialInfo[0], trialInfo[2], trialInfo[3], Integer.parseInt(trialInfo[4]), Integer.parseInt(trialInfo[5]), Integer.parseInt(trialInfo[6])));
     }
 
     /**
@@ -68,6 +66,9 @@ public class TrialManager {
         }
         return null;
     }
+    public String getTrialNameByIndex(int index){
+        return trials.get(index).getTrialName();
+    }
 
     /**
      * Get the trial type by the name of the trial
@@ -103,7 +104,7 @@ public class TrialManager {
      * @return true if the string is empty, false otherwise
      */
     public boolean checkEmptyString(String trialType) {
-        return !trialType.equals("");
+        return trialType.equals("");
     }
 
     /**

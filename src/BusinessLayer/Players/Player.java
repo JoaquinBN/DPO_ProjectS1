@@ -1,7 +1,7 @@
 package BusinessLayer.Players;
 
 public class Player {
-    private String name;
+    private final String name;
     private int investigationPoints;
     private boolean isDead;
 
@@ -58,12 +58,12 @@ public class Player {
      * Check if the player is dead
      * @return true if the player is dead, false otherwise
      */
-    public boolean getStatus(){
+    public boolean isDead(){
         return isDead;
     }
 
     /**
-     * Get informartion from the player
+     * Get information from the player
      * @return the information of the player
      */
     public String[] getInfo(){
