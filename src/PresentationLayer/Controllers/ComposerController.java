@@ -44,7 +44,7 @@ public class ComposerController {
      * @param isEditionManager - true if the exception is from the edition manager, false otherwise
      * @return true if the program should shut down, false otherwise
      */
-    public boolean printExceptionMessage(boolean isException, boolean isEditionManager){
+    private boolean printExceptionMessage(boolean isException, boolean isEditionManager){
         if(!isException){
             composerView.showError("\n" + (isEditionManager?editionManager.getErrorMessage():trialManager.getErrorMessage()) + "\n");
             return true;

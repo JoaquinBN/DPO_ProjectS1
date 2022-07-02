@@ -75,6 +75,10 @@ public class ConductorManager {
         return currentEdition.getNumberOfPlayers();
     }
 
+    /**
+     * Get the trial needed to input
+     * @return the trial needed to input
+     */
     public String getTrialPrintOutput(int index, String playerName){
         return this.trials[index].printTrialOutput(playerName);
     }
@@ -209,6 +213,10 @@ public class ConductorManager {
         return errorMessage;
     }
 
+    /**
+     * Get the start index
+     * @return the start index
+     */
     public int getStartIndex() {
         return startIndex;
     }

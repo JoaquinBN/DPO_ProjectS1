@@ -72,6 +72,11 @@ public class TrialManager {
         }
         return null;
     }
+
+    /**
+     * Get trial name by its index
+     * @return the trial name
+     */
     public String getTrialNameByIndex(int index){
         return trials.get(index).getTrialName();
     }
