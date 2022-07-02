@@ -7,6 +7,9 @@ import PresentationLayer.Views.ComposerView;
 import java.util.Arrays;
 import java.util.Collections;
 
+/**
+ * This class is responsible for the composer view.
+ */
 public class ComposerController {
     private final EditionManager editionManager;
     private final TrialManager trialManager;
@@ -35,6 +38,12 @@ public class ComposerController {
             managementMode();
     }
 
+    /**
+     * Prints the exception message.
+     * @param isException - the exception message
+     * @param isEditionManager - true if the exception is from the edition manager, false otherwise
+     * @return true if the program should shut down, false otherwise
+     */
     public boolean printExceptionMessage(boolean isException, boolean isEditionManager){
         if(!isException){
             composerView.showError("\n" + (isEditionManager?editionManager.getErrorMessage():trialManager.getErrorMessage()) + "\n");

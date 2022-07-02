@@ -13,7 +13,10 @@ import java.util.List;
 
 public class TrialsFileManager {
 
-
+    /**
+     * TrialsFileManager is a class that manages the trials file to be able to read and write the editions in a csv file so the
+     * data can be stored and used again.
+     */
     public TrialsFileManager() {
     }
 

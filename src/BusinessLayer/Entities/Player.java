@@ -1,5 +1,8 @@
 package BusinessLayer.Entities;
 
+/**
+ * Player class sets the information of a player.
+ */
 public class Player {
     private final String name;
     private int investigationPoints;

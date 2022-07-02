@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * EditionManager is a class in charge of the logic behind the editions information.
+ */
 public class EditionManager {
     private final ArrayList<Edition> editions;
     private final EditionFileManager editionFileManager;
@@ -49,15 +52,29 @@ public class EditionManager {
         return editions.size();
     }
 
-
+    /**
+     * Get the edition at the specified index
+     * @param index the index of the edition
+     * @return the year of the edition
+     */
     public int getEditionYear(int index){
         return editions.get(index).getYear();
     }
 
+    /**
+     * Get the number of players in the edition at the specified index
+     * @param index the index of the edition
+     * @return the number of players in the edition
+     */
     public int getEditionNumberOfPlayers(int index){
         return editions.get(index).getNumberOfPlayers();
     }
 
+    /**
+     * Get the trials in the edition at the specified index
+     * @param index
+     * @return the trials in the edition
+     */
     public String[] getEditionTrials(int index){
         return editions.get(index).getTrials();
     }

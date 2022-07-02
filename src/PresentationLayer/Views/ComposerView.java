@@ -3,6 +3,9 @@ package PresentationLayer.Views;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * This class displays the menus and messages for the composer
+ */
 public class ComposerView {
     private final Scanner sc;
 

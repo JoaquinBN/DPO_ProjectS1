@@ -1,5 +1,8 @@
 package BusinessLayer.Entities;
 
+/**
+ * Trial class sets the information of a trial.
+ */
 public abstract class Trials{
     private final String trialName;
     private final String typeOfTrial;
@@ -63,13 +66,26 @@ public abstract class Trials{
      */
     public abstract String[] getDataToWrite();
 
+    /**
+     * Set the passed status of the trial
+     * @param passed the passed status of the trial
+     */
     public void setPassed(boolean passed) {
         this.passed = passed;
     }
 
+    /**
+     * Get the passed status of the trial
+     * @return true if the trial was passed, false otherwise
+     */
     public boolean getPassed() {
         return passed;
     }
 
+    /**
+     * Get the data to write in the trial
+     * @param playerName the name of the player
+     * @return the data to write in the trial
+     */
     public abstract String printTrialOutput(String playerName);
 }

@@ -1,5 +1,8 @@
 package BusinessLayer.Entities;
 
+/**
+ * Edition class sets the information of an edition.
+ */
 public class Edition {
     private final int year;
     private final int numberOfPlayers;

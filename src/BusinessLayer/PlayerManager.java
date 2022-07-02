@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * PlayerManager is a class in charge of the logic behind the players information.
+ */
 public class PlayerManager {
     private final ArrayList<Player> players;
     private final ExecutionFileManager executionFileManager;
@@ -39,6 +42,10 @@ public class PlayerManager {
         players.add(new Player(playerName, investigationPoints));
     }
 
+    /**
+     * Get the players list
+     * @return the players list
+     */
     public ArrayList<Player> getPlayers() {
         return players;
     }

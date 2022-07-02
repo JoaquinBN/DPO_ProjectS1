@@ -2,6 +2,9 @@ package PresentationLayer.Views;
 
 import java.util.Scanner;
 
+/**
+ * This class displays the menus and messages for the conductor.
+ */
 public class ConductorView {
     private final Scanner sc;
 

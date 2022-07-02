@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * TrialManager is a class in charge of the logic behind the trials information.
+ */
 public class TrialManager {
     private final ArrayList<Trials> trials;
     private final TrialsFileManager trialsFileManager;

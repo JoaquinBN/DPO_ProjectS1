@@ -5,6 +5,9 @@ import BusinessLayer.Entities.Player;
 import BusinessLayer.PlayerManager;
 import PresentationLayer.Views.ConductorView;
 
+/**
+ * This class is responsible of the ConductorView
+ */
 public class ConductorController {
     private final ConductorManager conductorManager;
     private final ConductorView conductorView;

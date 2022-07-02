@@ -2,6 +2,9 @@ package PresentationLayer.Controllers;
 
 import PresentationLayer.Views.MainMenuView;
 
+/**
+ * This class is responsible of the MainMenuView
+ */
 public class MainMenuController {
     private final MainMenuView mainMenuView;
     private final ComposerController composerController;

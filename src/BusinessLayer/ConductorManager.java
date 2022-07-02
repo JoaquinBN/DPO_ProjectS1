@@ -11,6 +11,9 @@ import com.opencsv.exceptions.CsvValidationException;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * ConductorManager is a class that runs the trials of the current edition.
+ */
 public class ConductorManager {
     private Edition currentEdition;
     private Trials[] trials;

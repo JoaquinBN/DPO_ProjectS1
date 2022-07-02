@@ -10,6 +10,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * ExecutionFileManager is a class that manages the execution file to be able to keep track of the execution saving
+ * the corresponding data such as the trials and the players.
+ */
 public class ExecutionFileManager {
     
     public ExecutionFileManager(){ }

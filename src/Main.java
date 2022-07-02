@@ -17,7 +17,7 @@ import java.io.IOException;
 
 public class Main {
     /**
-     * Main function of c1the program
+     * Main function of the program
      * @param args command line arguments
      */
     public static void main(String[] args) {

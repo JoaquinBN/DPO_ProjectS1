@@ -2,6 +2,9 @@ package BusinessLayer.Entities;
 
 import java.util.Random;
 
+/**
+ * PaperSubmission class sets the information of a paper submission trial.
+ */
 public class PaperSubmission extends Trials {
     private final String publicationName;
     private final String quartile;

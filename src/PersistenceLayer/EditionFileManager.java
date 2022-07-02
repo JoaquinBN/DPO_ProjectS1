@@ -10,6 +10,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * EditionFileManager is a class that manages the edition file to be able to read and write the editions in a csv file
+ * so the data can be stored and used again.
+ */
 public class EditionFileManager {
     public EditionFileManager() {
     }
