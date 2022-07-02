@@ -1,5 +1,7 @@
-package BusinessLayer.Trials;
+package BusinessLayer;
 
+import BusinessLayer.Entities.PaperSubmission;
+import BusinessLayer.Entities.Trials;
 import PersistenceLayer.TrialsFileManager;
 import com.opencsv.exceptions.CsvException;
 
@@ -159,9 +161,6 @@ public class TrialManager {
     public void readTrials() throws IOException, CsvException {
         List<String[]> allTrials = trialsFileManager. readTrials();
         for(String[] trial : allTrials){
-            switch(trial[1]){
-                case "Paper publication" -> trial[1] = "1";
-            }
             addTrial(trial);
         }
     }

@@ -1,6 +1,4 @@
-package BusinessLayer.Edition;
-
-import BusinessLayer.Trials.Trials;
+package BusinessLayer.Entities;
 
 public class Edition {
     private final int year;

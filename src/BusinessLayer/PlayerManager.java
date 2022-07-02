@@ -1,5 +1,6 @@
-package BusinessLayer.Players;
+package BusinessLayer;
 
+import BusinessLayer.Entities.Player;
 import PersistenceLayer.ExecutionFileManager;
 import com.opencsv.exceptions.CsvException;
 
@@ -40,28 +41,6 @@ public class PlayerManager {
     public ArrayList<Player> getPlayers() {
         return players;
     }
-    /**
-     * Get index of player in the list of players
-     * @param index the index of the player
-     * @return the player at the given index
-     */
-    public Player getPlayerByIndex(int index) {
-        return players.get(index);
-    }
-
-    /**
-     * Get player by the name of the player.
-     * @param playerName the name of the player
-     * @return the player with the given name
-     */
-    public Player getPlayerByName(String playerName) {
-        for (Player player : players) {
-            if (player.getName().equals(playerName)) {
-                return player;
-            }
-        }
-        return null;
-    }
 
     /**
      * Get the number of players in the system
@@ -69,15 +48,6 @@ public class PlayerManager {
      */
     public int getTotalPlayers() {
         return players.size();
-    }
-
-    /**
-     * Check if player is dead
-     * @param index the index of the player
-     * @return true if the player is dead, false otherwise
-     */
-    public boolean playerIsDead(int index){
-        return players.get(index).isDead();
     }
 
     /**

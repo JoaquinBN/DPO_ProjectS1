@@ -1,7 +1,7 @@
 import BusinessLayer.ConductorManager;
-import BusinessLayer.Edition.EditionManager;
-import BusinessLayer.Players.PlayerManager;
-import BusinessLayer.Trials.TrialManager;
+import BusinessLayer.EditionManager;
+import BusinessLayer.PlayerManager;
+import BusinessLayer.TrialManager;
 import PersistenceLayer.EditionFileManager;
 import PersistenceLayer.ExecutionFileManager;
 import PersistenceLayer.TrialsFileManager;
@@ -14,7 +14,7 @@ import PresentationLayer.Views.MainMenuView;
 
 public class Main {
     /**
-     * Main function of the program
+     * Main function of c1the program
      * @param args command line arguments
      */
     public static void main(String[] args) {

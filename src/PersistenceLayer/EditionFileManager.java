@@ -1,7 +1,6 @@
 package PersistenceLayer;
 
-import BusinessLayer.Edition.Edition;
-import BusinessLayer.Trials.Trials;
+import BusinessLayer.Entities.Edition;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;

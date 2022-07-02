@@ -85,7 +85,7 @@ public class ComposerView {
 
     /**
      * Displays the option to go to previous menu.
-     * @param index
+     * @param index The index of the back option.
      */
     public void showBack(int index) {
         System.out.print("\n\t" + index + ") Back\n");
@@ -140,7 +140,7 @@ public class ComposerView {
      * @param availableTrials The number of trials in the edition.
      * @param index The index of the trial.
      * @param totalTrials The total number of trials desired in the edition.
-     * @return
+     * @return the trial index.
      */
     public int pickTrial(int availableTrials, int index, int totalTrials){
         int trialIndex;

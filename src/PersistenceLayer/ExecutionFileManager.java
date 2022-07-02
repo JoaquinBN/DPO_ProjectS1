@@ -33,9 +33,8 @@ public class ExecutionFileManager {
      * Reads the players data from the csv file.
      * @param allTrials the trials to write.
      * @throws IOException if the file could not be written.
-     * @throws CsvException if the file is not in the correct format.
      */
-    public void writeTrials(String[] allTrials) throws IOException, CsvException {
+    public void writeTrials(String[] allTrials) throws IOException {
         CSVWriter writer = new CSVWriter(new FileWriter("files/Execution.csv", false),
                 CSVWriter.DEFAULT_SEPARATOR,
                 CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.NO_ESCAPE_CHARACTER, "\n");

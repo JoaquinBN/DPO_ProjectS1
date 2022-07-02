@@ -1,5 +1,6 @@
-package BusinessLayer.Edition;
+package BusinessLayer;
 
+import BusinessLayer.Entities.Edition;
 import PersistenceLayer.EditionFileManager;
 import PersistenceLayer.ExecutionFileManager;
 import com.opencsv.exceptions.CsvException;
@@ -37,15 +38,6 @@ public class EditionManager {
      */
     public void removeEdition(int indexEdition) {
         editions.remove(indexEdition);
-    }
-
-    /**
-     * Get the edition at the given index
-     * @param index the index of the edition
-     * @return the edition at the given index
-     */
-    public Edition getEditionByIndex(int index) {
-        return editions.get(index);
     }
 
     /**

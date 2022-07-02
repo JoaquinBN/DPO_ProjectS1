@@ -1,4 +1,4 @@
-package BusinessLayer.Trials;
+package BusinessLayer.Entities;
 
 public abstract class Trials{
     private final String trialName;

@@ -1,4 +1,4 @@
-package BusinessLayer.Trials;
+package BusinessLayer.Entities;
 
 import java.util.Random;
 
@@ -104,18 +104,18 @@ public class PaperSubmission extends Trials {
     @Override
     public String printTrialOutput(String playerName) {
         int result = checkIfPassed();
-        String output = ("\n\t" + playerName + " is submitting... ");
+        StringBuilder output = new StringBuilder(("\n\t" + playerName + " is submitting... "));
         while(result == 2) {
-            output += "Revisions... ";
+            output.append("Revisions... ");
             result = checkIfPassed();
         }
         if(result == 0){
-            output += "Rejected.";
+            output.append("Rejected.");
             setPassed(false);
         }else{
-            output += "Accepted!";
+            output.append("Accepted!");
             setPassed(true);
         }
-        return output;
+        return output.toString();
     }
 }

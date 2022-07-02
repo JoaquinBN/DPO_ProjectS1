@@ -9,9 +9,9 @@ public class MainMenuController {
 
     /**
      * Constructor for the MainMenuController.
-     * @param mainMenuView
-     * @param composerController
-     * @param conductorController
+     * @param mainMenuView the main menu view
+     * @param composerController the composer controller
+     * @param conductorController the conductor controller
      */
     public MainMenuController(MainMenuView mainMenuView, ComposerController composerController, ConductorController conductorController) {
         this.mainMenuView = mainMenuView;

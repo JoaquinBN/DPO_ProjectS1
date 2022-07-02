@@ -1,4 +1,4 @@
-package BusinessLayer.Players;
+package BusinessLayer.Entities;
 
 public class Player {
     private final String name;

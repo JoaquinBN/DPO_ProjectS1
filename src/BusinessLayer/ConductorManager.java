@@ -1,13 +1,11 @@
 package BusinessLayer;
 
-import BusinessLayer.Edition.Edition;
-import BusinessLayer.Trials.TrialManager;
-import BusinessLayer.Trials.Trials;
+import BusinessLayer.Entities.Edition;
+import BusinessLayer.Entities.Trials;
 import PersistenceLayer.EditionFileManager;
 import PersistenceLayer.ExecutionFileManager;
 import PersistenceLayer.TrialsFileManager;
 import com.opencsv.exceptions.CsvException;
-import com.opencsv.exceptions.CsvValidationException;
 
 import java.io.IOException;
 import java.util.List;
@@ -77,10 +75,8 @@ public class ConductorManager {
 
     /**
      * Load data for the trials
-     * @throws IOException if the file is not found
-     * @throws CsvException if the file is not valid
      */
-    public void loadDataForTrials() throws IOException, CsvException {
+    public void loadDataForTrials(){
         List<String[]> allTrials = trialsFileManager. readTrials();
         for(String[] trial : allTrials){
             trialManager.addTrial(trial);
@@ -90,10 +86,8 @@ public class ConductorManager {
     /**
      * Load data for the edition
      * @return true if the edition exists, false otherwise
-     * @throws IOException
-     * @throws CsvException
      */
-    public boolean loadDataForCurrentEdition() throws IOException, CsvException{
+    public boolean loadDataForCurrentEdition(){
         boolean currentEditionExists = false;
         List<String[]> editionsString = editionFileManager.readEditions();
         for(String[] executionInfo: editionsString) {
@@ -113,10 +107,8 @@ public class ConductorManager {
     /**
      * Load data for the execution
      * @return Trials length
-     * @throws IOException if the file is not found
-     * @throws CsvException if the file is not valid
      */
-    public int loadDataForExecution() throws IOException, CsvException{
+    public int loadDataForExecution(){
         String[] allTrials = executionFileManager.readTrials();
         trials = new Trials[allTrials.length - 1];
         for(int i = 0; i < allTrials.length - 1; i++) {
@@ -139,10 +131,8 @@ public class ConductorManager {
     /**
      * Check if the file is empty
      * @return true if the file is empty, false otherwise
-     * @throws IOException if the file is not found
-     * @throws CsvValidationException if the file is not valid
      */
-    public boolean fileIsEmpty() throws IOException, CsvValidationException {
+    public boolean fileIsEmpty(){
         return executionFileManager.fileIsEmpty();
     }
 

@@ -1,7 +1,7 @@
 package PresentationLayer.Controllers;
 
-import BusinessLayer.Edition.EditionManager;
-import BusinessLayer.Trials.TrialManager;
+import BusinessLayer.EditionManager;
+import BusinessLayer.TrialManager;
 import PresentationLayer.Views.ComposerView;
 import com.opencsv.exceptions.CsvException;
 
@@ -119,7 +119,7 @@ public class ComposerController {
             case 3 -> {
                 attribute = composerView.readQuartile();
                 if (!trialManager.checkQuartile(attribute)) {
-                    composerView.showError("\nWrong quartile.");
+                    composerView.showError("\nThe quartile must be one of the following values: Q1, Q2, Q3, Q4.");
                     attribute = "";
                 }
             }

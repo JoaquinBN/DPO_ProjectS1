@@ -1,8 +1,8 @@
 package PresentationLayer.Controllers;
 
 import BusinessLayer.ConductorManager;
-import BusinessLayer.Players.Player;
-import BusinessLayer.Players.PlayerManager;
+import BusinessLayer.Entities.Player;
+import BusinessLayer.PlayerManager;
 import PresentationLayer.Views.ConductorView;
 import com.opencsv.exceptions.CsvException;
 
