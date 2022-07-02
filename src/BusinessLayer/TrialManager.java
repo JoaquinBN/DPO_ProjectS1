@@ -75,6 +75,7 @@ public class TrialManager {
 
     /**
      * Get trial name by its index
+     * @param index the index of the trial
      * @return the trial name
      */
     public String getTrialNameByIndex(int index){
@@ -156,6 +157,7 @@ public class TrialManager {
 
     /**
      * Write the trials to the file
+     * @return true if the trials were written to the file, false otherwise
      */
     public boolean writeTrials(){
         try {
@@ -169,6 +171,7 @@ public class TrialManager {
 
     /**
      * Read the trials from the file
+     * @return true if the trials were read, false otherwise
      */
     public boolean readTrials(){
         List<String[]> allTrials;

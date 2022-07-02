@@ -15,6 +15,10 @@ import java.util.*;
  * so the data can be stored and used again.
  */
 public class EditionFileManager {
+
+    /**
+     * Constructor for EditionFileManager
+     */
     public EditionFileManager() {
     }
 

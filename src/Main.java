@@ -15,6 +15,9 @@ import PresentationLayer.Views.MainMenuView;
 
 import java.io.IOException;
 
+/**
+ * Main is the class making the java program executable.
+ */
 public class Main {
     /**
      * Main function of the program

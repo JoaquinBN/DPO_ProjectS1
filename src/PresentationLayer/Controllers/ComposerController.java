@@ -71,7 +71,7 @@ public class ComposerController {
     }
 
     /**
-     * Starts the trials management mode of the composer view.
+     * Starts the trials' management mode of the composer view.
      */
     private void manageTrials(){
         String option;
@@ -89,10 +89,9 @@ public class ComposerController {
     }
 
     /**
-     * Get the trials attributes depending on the type.
-     *
-     * @param attributeType the attribute type to be used in the edition management.
-     * @return the attribute type.
+     * Get the trial's attribute depending on the index attributeType.
+     * @param attributeType the attribute type to be asked to the user.
+     * @return the attribute.
      */
     private String getTrialAttribute(int attributeType){
         String probability, attribute;
@@ -257,7 +256,7 @@ public class ComposerController {
     }
 
     /**
-     * Starts the editions' management mode of the composer view.
+     * Starts the editions' management mode of the composer.
      */
     private void manageEditions(){
         if (trialManager.getNumberOfTrials() == 0) {

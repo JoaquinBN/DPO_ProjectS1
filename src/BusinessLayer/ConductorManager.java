@@ -77,6 +77,8 @@ public class ConductorManager {
 
     /**
      * Get the trial needed to input
+     * @param index the index of the trial
+     * @param playerName the name of the player
      * @return the trial needed to input
      */
     public String getTrialPrintOutput(int index, String playerName){
@@ -85,6 +87,7 @@ public class ConductorManager {
 
     /**
      * Load data for the trials
+     * @return true if the data was loaded successfully, false otherwise
      */
     public boolean loadDataForTrials(){
         List<String[]> allTrials;
@@ -101,8 +104,8 @@ public class ConductorManager {
     }
 
     /**
-     * Load data for the edition
-     * @return true if the edition exists, false otherwise
+     * Load data for the edition 2022
+     * @return true if the edition 2022 exists, false otherwise
      */
     public boolean loadDataForCurrentEdition(){
         boolean currentEditionExists = false;
@@ -141,7 +144,7 @@ public class ConductorManager {
 
     /**
      * Load data for the execution
-     * @return Trials length
+     * @return true if the data was loaded successfully, false otherwise
      */
     public boolean loadDataForExecution(){
         String[] allTrials;
@@ -161,7 +164,7 @@ public class ConductorManager {
 
     /**
      * Check if the file is empty
-     * @return true if the file is empty, false otherwise
+     * @return 1 if the file is empty, 0 otherwise, and 2 if an exception was caught
      */
     public int fileIsEmpty(){
         try {
@@ -176,6 +179,7 @@ public class ConductorManager {
      * Save the current edition data
      * @param trialIndex the index of the trial
      * @param startIndex the index of the start player
+     * @return true if the data was saved successfully, false otherwise
      */
     public boolean saveData(int trialIndex, int startIndex){
         String[] allTrialNames = new String[trials.length - trialIndex + 1];
@@ -194,6 +198,7 @@ public class ConductorManager {
 
     /**
      * Delete information for the execution files
+     * @return true if the data was deleted successfully, false otherwise
      */
     public boolean eraseInformationExecutionFile() {
         try {

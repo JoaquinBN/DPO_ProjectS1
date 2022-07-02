@@ -15,7 +15,10 @@ import java.util.List;
  * the corresponding data such as the trials and the players.
  */
 public class ExecutionFileManager {
-    
+
+    /**
+     * Constructor for ExecutionFileManager
+     */
     public ExecutionFileManager(){ }
 
     /**
@@ -76,6 +79,7 @@ public class ExecutionFileManager {
      * Checks if the file is empty.
      * @return if the file is empty or not.
      * @throws IOException if the file could not be written.
+     * @throws CsvValidationException if the file is not in the correct format.
      */
     public boolean fileIsEmpty() throws IOException, CsvValidationException {
         CSVReader reader = new CSVReader(new FileReader("files/Execution.csv"));

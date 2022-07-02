@@ -30,10 +30,6 @@ public class PaperSubmission extends Trials {
         this.rejectProbability = rejectProbability;
     }
 
-    /**
-     * Calculate the reward IP
-     * @return the reward IP
-     */
     @Override
     public int getRewardIP() {
         return switch (quartile) {
@@ -46,10 +42,6 @@ public class PaperSubmission extends Trials {
 
     }
 
-    /**
-     * Calculate the penalization IP
-     * @return the penalization IP
-     */
     @Override
     public int getPenalizationIP() {
         return switch (quartile) {
@@ -61,20 +53,12 @@ public class PaperSubmission extends Trials {
         };
     }
 
-    /**
-     * Get trial information
-     * @return the trial information
-     */
     @Override
     public String getTrialInfo() {
         return  "Journal: " + publicationName + " (" + quartile + ")\n" +
                 "Chances: " + acceptProbability + "% acceptance, " + revisionProbability + "% revision, " + rejectProbability + "% rejection\n\n";
     }
 
-    /**
-     * Get the data to write to the file
-     * @return the data to write to the file
-     */
     @Override
     public String[] getDataToWrite() {
         String[] dataToWrite = new String[7];
@@ -89,7 +73,7 @@ public class PaperSubmission extends Trials {
     }
 
     /**
-     * Calculate if the trial has been won
+     * Calculate if the trial has been passed
      * @return 2 if the trial is in revision, 1 if the trial has been accepted, 0 if the trial has been rejected
      */
     private int checkIfPassed() {

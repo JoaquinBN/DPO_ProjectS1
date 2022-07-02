@@ -73,6 +73,7 @@ public class PlayerManager {
 
     /**
      * Load data from the player system
+     * @return true if the players' data was loaded, false otherwise
      */
     public boolean loadPlayersData(){
         List<String[]> playersData;
@@ -90,6 +91,7 @@ public class PlayerManager {
 
     /**
      * Save data to the player system
+     * @return true if the data was saved, false otherwise
      */
     public boolean saveData(){
         players.removeIf(Player::isDead);

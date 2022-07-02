@@ -61,6 +61,10 @@ public class ConductorView {
         }
     }
 
+    /**
+     * displays the investigation points of the player
+     * @param investigationPoints  the number of investigation points of the player
+     */
     public void displayIPCount(int investigationPoints) {
         System.out.print(" PI count: " + investigationPoints);
         if(investigationPoints == 0){

@@ -8,11 +8,16 @@ import java.nio.file.Files;
  * FileManager is a class that check if the needed directory and file exist and create if it is needed.
  */
 public class FileManager {
+
+    /**
+     * Constructor for FileManager
+     */
     public FileManager() {
     }
 
     /**
      * Check if the directory exists and creates if it doesn't.
+     * @return true if the directory exists, false if it doesn't
      */
     public boolean checkIfDirectoryExists() {
         File file = new File("files");
@@ -21,7 +26,7 @@ public class FileManager {
 
     /**
      * Check if the execution file exists and creates it it doesn't.
-     * @throws IOException
+     * @throws IOException if the file could not be created.
      */
 
     public void createExecutionFileIfNecessary() throws IOException {
@@ -32,7 +37,7 @@ public class FileManager {
 
     /**
      * Check if the trial file exists and creates it it doesn't.
-     * @throws IOException
+     * @throws IOException if the file could not be created.
      */
     public void createTrialsFileIfNecessary() throws IOException {
         File file = new File("files/Trials.csv");
@@ -42,7 +47,7 @@ public class FileManager {
 
     /**
      * Check if the edition file exists and creates it it doesn't.
-     * @throws IOException
+     * @throws IOException if the file could not be created.
      */
     public void createEditionsFileIfNecessary() throws IOException {
         File file = new File("files/Editions.csv");

@@ -32,6 +32,9 @@ public class EditionManager {
 
     /**
      * Add a new edition to the list of editions
+     * @param year the year of the edition
+     * @param numberOfPlayers the number of players in the edition
+     * @param numberOfTrials the number of trials in the edition
      */
     public void addEdition(int year, int numberOfPlayers, int numberOfTrials) {
         editions.add(new Edition(year, numberOfPlayers, numberOfTrials));
@@ -39,6 +42,7 @@ public class EditionManager {
 
     /**
      * Remove edition from the list of editions
+     * @param indexEdition the index of the edition
      */
     public void removeEdition(int indexEdition) {
         editions.remove(indexEdition);
@@ -72,7 +76,7 @@ public class EditionManager {
 
     /**
      * Get the trials in the edition at the specified index
-     * @param index
+     * @param index the index of the edition
      * @return the trials in the edition
      */
     public String[] getEditionTrials(int index){
@@ -159,6 +163,7 @@ public class EditionManager {
 
     /**
      * Write new editions to the file
+     * @return true if the editions were successfully written to the file, false otherwise
      */
     public boolean writeEditions(){
         try {
@@ -172,6 +177,7 @@ public class EditionManager {
 
     /**
      * Read editions from the file
+     * @return true if editions were read, false otherwise
      */
     public boolean readEditions(){
         List<String[]> editionsString;
@@ -193,6 +199,7 @@ public class EditionManager {
     /**
      * Delete already in progress executions
      * @param isCurrentYear true if the current year is being deleted, false otherwise
+     * @return true if the execution file's information was deleted, false otherwise
      */
     public boolean deleteStoredState(boolean isCurrentYear){
         if(isCurrentYear) {

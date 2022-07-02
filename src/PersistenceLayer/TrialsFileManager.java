@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * TrialsFileManager is a class that manages the trials file to be able to keep track of the trials saving in csv format
+ */
 public class TrialsFileManager {
 
     /**

@@ -285,6 +285,8 @@ public class ComposerView {
 
     /**
      * Display message for deletion confirmation.
+     * @param s edition or trial.
+     * @return the input of the user
      */
     public String showDeletionConfirmation(String s) {
         System.out.print("\nEnter the " + s + " for confirmation (type 'cancel' to avoid deletion): ");
