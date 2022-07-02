@@ -12,6 +12,7 @@ import java.util.List;
 public class TrialManager {
     private final ArrayList<Trials> trials;
     private final TrialsFileManager trialsFileManager;
+    private String errorMessage;
 
     /**
      * Constructor for TrialManager
@@ -137,9 +138,9 @@ public class TrialManager {
     }
 
     /**
-     * Chrck if the probabilites is over 100.
-     * @param limitProbabilities probabilty inputed by user
-     * @return true if the probabilites is over 100, false otherwise
+     * Check if the probabilities is over 100.
+     * @param limitProbabilities probability inputted by user
+     * @return true if the sum of probabilities is over 100, false otherwise
      */
     public boolean checkLimitProbabilities(int limitProbabilities) {
         return limitProbabilities > 100;
@@ -147,21 +148,39 @@ public class TrialManager {
 
     /**
      * Write the trials to the file
-     * @throws IOException if the file cannot be written
      */
-    public void writeTrials() throws IOException {
-        trialsFileManager.writeTrials(trials);
+    public boolean writeTrials(){
+        try {
+            trialsFileManager.writeTrials(trials);
+            return true;
+        } catch (IOException e) {
+            errorMessage = "Error writing trials to file";
+            return false;
+        }
     }
 
     /**
      * Read the trials from the file
-     * @throws IOException if the file cannot be read
-     * @throws CsvException if the file is not in the correct format
      */
-    public void readTrials() throws IOException, CsvException {
-        List<String[]> allTrials = trialsFileManager. readTrials();
-        for(String[] trial : allTrials){
-            addTrial(trial);
+    public boolean readTrials(){
+        List<String[]> allTrials;
+        try {
+            allTrials = trialsFileManager. readTrials();
+            for(String[] trial : allTrials){
+                addTrial(trial);
+            }
+            return true;
+        } catch (IOException | CsvException e) {
+            errorMessage = "Error reading trials from file";
+            return false;
         }
+    }
+
+    /**
+     * Get the error message
+     * @return the error message
+     */
+    public String getErrorMessage() {
+        return errorMessage;
     }
 }

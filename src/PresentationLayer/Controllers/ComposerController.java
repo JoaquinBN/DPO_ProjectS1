@@ -3,9 +3,7 @@ package PresentationLayer.Controllers;
 import BusinessLayer.EditionManager;
 import BusinessLayer.TrialManager;
 import PresentationLayer.Views.ComposerView;
-import com.opencsv.exceptions.CsvException;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -30,13 +28,19 @@ public class ComposerController {
      * Starts the composer view.
      */
     public void start(){
-        try {
-            editionManager.readEditions();
-            trialManager.readTrials();
-        } catch (IOException | CsvException e) {
-            composerView.showError("Error reading trials file");
+        boolean shutDown = printExceptionMessage(editionManager.readEditions(), true);
+        if(printExceptionMessage(trialManager.readTrials(), false))
+            shutDown = true;
+        if(!shutDown)
+            managementMode();
+    }
+
+    public boolean printExceptionMessage(boolean isException, boolean isEditionManager){
+        if(!isException){
+            composerView.showError("\n" + (isEditionManager?editionManager.getErrorMessage():trialManager.getErrorMessage()) + "\n");
+            return true;
         }
-        managementMode();
+        return false;
     }
 
     /**
@@ -152,7 +156,7 @@ public class ComposerController {
                 composerView.showError("\nThe acceptance and revision probabilities sum cannot be greater than 100.");
                 errorInput = true;
             }else if(i == 6 && !trialManager.checkSumProbabilities(Integer.parseInt(attributes[4])  + Integer.parseInt(attributes[5])  + Integer.parseInt(attributes[6]))) {
-                composerView.showError("\nThe acceptance, revision and rejection probabilities sum cannot be greater than 100.");
+                composerView.showError("\nThe acceptance, revision and rejection probabilities sum must be equal to 100.");
                 errorInput = true;
             }
             i++;
@@ -350,7 +354,7 @@ public class ComposerController {
      * Duplicates an edition by copying its trials into a new edition.
      */
     private void duplicateEdition(){
-        int editionIndex = -1, year = -1, numberOfPlayers = -1;
+        int editionIndex, year, numberOfPlayers = -1;
         boolean errorDisplay = false;
         if (editionManager.getNumberOfEditions() == 0) {
             composerView.showError("\nThere are no editions to duplicate.");
@@ -380,11 +384,12 @@ public class ComposerController {
                         errorDisplay = true;
                     }
                 }
+
+                if(!errorDisplay){
+                    editionManager.duplicateEditions(year, numberOfPlayers, editionIndex);
+                    composerView.duplicateEditionSuccess();
+                }
             }
-        }
-        if(!errorDisplay){
-            editionManager.duplicateEditions(year, numberOfPlayers, editionIndex);
-            composerView.duplicateEditionSuccess();
         }
         composerView.showMessage("\nRedirecting to previous menu...\n");
         manageEditions();
@@ -411,12 +416,7 @@ public class ComposerController {
                 deletionConfirmation = composerView.showDeletionConfirmation("edition's year");
                 if(String.valueOf(editionManager.getEditionYear(editionIndex)).equals(deletionConfirmation)) {
                     editionManager.removeEdition(editionIndex);
-                    //TODO try catch exception pass to manager
-                    try {
-                        editionManager.deleteStoredState(editionIndex == 2022);
-                    } catch (IOException e) {
-                        composerView.showError("\nError deleting the stored state of the selected edition.\n");
-                    }
+                    printExceptionMessage(editionManager.deleteStoredState(editionManager.getEditionYear(editionIndex) == 2022), true);
                     composerView.deleteSuccess("edition");
                 }else if(deletionConfirmation.equals("cancel"))
                     composerView.showMessage("\nOperation cancelled.\n");
@@ -444,13 +444,8 @@ public class ComposerController {
      * Shows the main menu.
      */
     private void exitProgram(){
-        //TODO try catch exception pass to manager
-        try {
-            trialManager.writeTrials();
-            editionManager.writeEditions();
-        }catch(IOException e){
-            composerView.showError("\nError writing data to file.");
-        }
+        printExceptionMessage(trialManager.writeTrials(), false);
+        printExceptionMessage(editionManager.writeEditions(), true);
         composerView.exitProgram();
     }
 }

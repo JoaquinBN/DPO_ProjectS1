@@ -83,7 +83,7 @@ public class ExecutionFileManager {
      * Clears the file.
      * @throws IOException if the file could not be cleared.
      */
-    public void deleteFile() throws IOException {
+    public void eraseFile() throws IOException {
         CSVWriter writer = new CSVWriter(new FileWriter("files/Execution.csv", false),
                 CSVWriter.DEFAULT_SEPARATOR,
                 CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.NO_ESCAPE_CHARACTER, "\n");

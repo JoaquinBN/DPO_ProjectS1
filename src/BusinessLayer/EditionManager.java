@@ -14,6 +14,7 @@ public class EditionManager {
     private final ArrayList<Edition> editions;
     private final EditionFileManager editionFileManager;
     private final ExecutionFileManager executionFileManager;
+    private String errorMessage;
 
     /**
      * Constructor for EditionManager
@@ -141,35 +142,60 @@ public class EditionManager {
 
     /**
      * Write new editions to the file
-     * @throws IOException if file cannot be written
      */
-    public void writeEditions() throws IOException {
-        editionFileManager.writeEditions(editions);
+    public boolean writeEditions(){
+        try {
+            editionFileManager.writeEditions(editions);
+            return true;
+        } catch (IOException e) {
+            errorMessage = "Error writing editions to file";
+            return false;
+        }
     }
 
     /**
      * Read editions from the file
-     * @throws IOException if file cannot be read
-     * @throws CsvException if file is not in the correct format
      */
-    public void readEditions() throws IOException, CsvException {
-        List<String[]> editionsString = editionFileManager.readEditions();
-        for (String[] edition : editionsString) {
-            editions.add(new Edition(Integer.parseInt(edition[0]), Integer.parseInt(edition[1]), edition.length-2));
-            for(int i = 2; i < edition.length; i++) {
-                editions.get(editions.size() - 1).addTrial(edition[i], i-2);
+    public boolean readEditions(){
+        List<String[]> editionsString;
+        try {
+            editionsString = editionFileManager.readEditions();
+            for (String[] edition : editionsString) {
+                editions.add(new Edition(Integer.parseInt(edition[0]), Integer.parseInt(edition[1]), edition.length-2));
+                for(int i = 2; i < edition.length; i++) {
+                    editions.get(editions.size() - 1).addTrial(edition[i], i-2);
+                }
             }
+            return true;
+        } catch (IOException | CsvException e) {
+            errorMessage = "Error reading editions' file";
+            return false;
         }
     }
 
     /**
      * Delete already in progress executions
      * @param isCurrentYear true if the current year is being deleted, false otherwise
-     * @throws IOException if file cannot be deleted
      */
-    public void deleteStoredState(boolean isCurrentYear) throws IOException {
-        if(isCurrentYear)
-            executionFileManager.deleteFile();
+    public boolean deleteStoredState(boolean isCurrentYear){
+        if(isCurrentYear) {
+            try {
+                executionFileManager.eraseFile();
+                return true;
+            } catch (IOException e) {
+                errorMessage = "Error erasing execution file's data for the current edition";
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Get the error message
+     * @return the error message
+     */
+    public String getErrorMessage() {
+        return errorMessage;
     }
 
 }
