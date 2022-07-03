@@ -27,8 +27,8 @@ public class MainMenuController {
      */
     public void mainMenuDisplay() {
         switch (mainMenuView.mainMenuDisplay()) {
-            case 'A' -> composerController.start();
-            case 'B' -> conductorController.start();
+            case "A" -> composerController.start();
+            case "B" -> conductorController.start();
             default -> {
                 mainMenuView.showError("\nInvalid role. Choose A or B.\n");
                 mainMenuDisplay();

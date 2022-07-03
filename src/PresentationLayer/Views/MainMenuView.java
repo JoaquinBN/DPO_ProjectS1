@@ -19,8 +19,8 @@ public class MainMenuView {
      * Display main menu
      * @return The menu choice.
      */
-    public char mainMenuDisplay(){
-        char option;
+    public String mainMenuDisplay(){
+        String option;
         System.out.println("""
                  _____ _            _____      _       _
                 /__   \\ |__   ___  /__   \\_ __(_) __ _| |___
@@ -34,7 +34,7 @@ public class MainMenuView {
                     B) This year’s Conductor
                 """);
         System.out.print("Enter a role: ");
-        option = sc.next().charAt(0);
+        option = sc.next();
 
         return option;
     }
