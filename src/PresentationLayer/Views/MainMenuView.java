@@ -6,13 +6,20 @@ import java.util.Scanner;
  * This class displays the menus and messages for the main menu.
  */
 public class MainMenuView {
+    private final Scanner sc;
+
+    /**
+     * Constructor for the MainMenuView class.
+     */
+    public MainMenuView() {
+        sc = new Scanner(System.in);
+    }
 
     /**
      * Display main menu
      * @return The menu choice.
      */
     public char mainMenuDisplay(){
-        Scanner input = new Scanner(System.in);
         char option;
         System.out.println("""
                  _____ _            _____      _       _
@@ -27,7 +34,7 @@ public class MainMenuView {
                     B) This year’s Conductor
                 """);
         System.out.print("Enter a role: ");
-        option = input.next().charAt(0);
+        option = sc.next().charAt(0);
 
         return option;
     }
